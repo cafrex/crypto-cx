@@ -1,1 +1,376 @@
+body {
+	font-family: Verdana;
+}
+
+h1 {
+	color: #336699;
+}
+
+#chartErrorContainer {
+	width: 90%;
+	color: #8e1302;
+	border: solid 2pt #8e1302;
+	background: #ea7d6e;
+	padding: 10px;
+	display: none;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	margin-left: 0px;
+	margin-right: auto;
+}
+
+.chartDataContainer {
+	float: left;
+	width: 65%;
+}
+
+.userDataContainer {
+	float: left;
+	width: 35%;
+}
+
+.chart-container {
+	position: relative; 
+	width: 60vw;
+	margin-top: 20px;
+	margin-left: 10px;
+	margin-right: auto;
+}
+
+.pie-chart-container {
+	position: relative; 
+	width: 40vw;
+	margin-top: 20px;
+	margin-left: 10px;
+	margin-right: auto;
+}
+
+.coinsContainer {
+	float: left;
+	background: transparent;
+	margin-bottom: 15px;
+	overflow: auto;
+	width: 350px;
+}
+
+.buttonCoin {
+	float: left;
+	width: 70px;
+	padding: 5px;
+	margin-right: 3px;
+	text-align: center;
+}
+
+.buttonCoin_selected {
+	border: 1pt solid #336699;
+	background: transparent;
+	color: #000000;
+	cursor: auto;
+}
+
+.buttonCoin_deselected {
+	background: transparent;
+	color: #000000;
+	cursor: pointer;
+}
+
+.buttonCoin_deselected:hover {
+	color: #336699;
+}
+
+.controlsContainer {
+	background: transparent;
+	padding: 2px;
+	margin-bottom: 20px;
+	margin-top: 10px;
+}
+
+.frequencyContainer {
+	background: #336699;
+	padding: 2px;
+	margin-bottom: 15px;
+	overflow: auto;
+	width: 600px;
+}
+
+.buttonFrequency {
+	float: left;
+	width: 50px;
+	padding: 5px;
+	margin-right: 3px;
+	text-align: center;
+}
+
+.buttonFrequency_selected {
+	background: #a0a0a0;
+	color: #ffffff;
+	cursor: auto;
+}
+
+.buttonFrequency_deselected {
+	background: transparent;
+	color: #3dbdc6;
+	cursor: pointer;
+}
+
+.buttonFrequency_deselected:hover {
+	color: #fff;
+}
+
+.pricesDataContainer {
+	overflow: auto;
+}
+
+.currentPrice {
+	float: left;
+	border: solid 1px #336699;
+	color: #336699;
+	padding: 5px;
+	font-size: 20pt;
+	font-weight: normal;
+	min-width: 150px;
+	text-align: center;
+}
+
+.variationPrice {
+	margin-left: 30px;
+	float: left;
+	border: solid 1px #336699;
+	padding: 5px;
+	min-width: 100px;
+}
+
+.variationPrice_value {
+	float: left;
+	font-size: 15pt;
+	font-weight: normal;
+}
+
+.variationPercent {
+	margin-left: 30px;
+	float: left;
+	border: solid 1px #336699;
+	padding: 5px;
+	min-width: 100px;
+}
+
+.variationPercent_value {
+	float: left;
+	font-size: 15pt;
+	font-weight: normal;
+}
+
+.upDownArrow {
+	float: right;
+	margin-right: 10px;
+	margin-left: 5px;
+	font-family: Arial;
+	font-weight: bold;
+	font-size: 20pt;
+}
+
+.valueDown {
+	color: #ce210e;
+}
+
+.valueUp {
+	color: #07820f;
+}
+
+.currentVolumeTotalEur {
+	border: solid 1px #336699;
+	background: #f4f5f7;
+	color: #336699;
+	padding: 15px;
+	min-width: 150px;
+	text-align: center;
+	font-weight: bold;
+} 
+
+.currentVolumeTotalEur .title {
+	font-size: 13pt;
+}
+
+.currentVolumeTotalEur .value {
+	font-size: 17pt;
+}
+
+.currentVolumeCoin {
+	border: solid 1px #336699;
+	color: #336699;
+	padding: 5px;
+	min-width: 150px;
+	text-align: center;
+	margin-top: 10px;
+} 
+
+.currentVolumeCoin .title {
+	font-size: 20pt;
+	margin-bottom: 5px;
+}
+
+.currentVolumeCoin .valueEur {
+	font-size: 15pt;
+}
+
+.currentVolumeCoin .valueCoin {
+	font-size: 10pt;
+}
+
+.currentVolumeCoin .title .price {
+	background: #f4f5f7;
+	padding: 5px;
+	font-size: 12pt;
+	color: #336699;
+	display: inline;
+	vertical-align: middle;
+}
+
+.currentVolumeEur {
+	border: solid 1px #336699;
+	color: #336699;
+	padding: 5px;
+	min-width: 150px;
+	text-align: center;
+	margin-top: 10px;
+} 
+
+.currentVolumeEur .title {
+	font-size: 20pt;
+	margin-bottom: 5px;
+}
+
+.currentVolumeEur .valueEur {
+	font-size: 15pt;
+}
+
+.buttonCoin {
+	display: inline;
+	margin-right: 5px;
+}
+
+.buttonCoin .icon {
+	width: 25px;
+	height: 25px;
+	display: inline;
+	vertical-align: middle;
+}
+
+.buttonCoin .title {
+	display: inline;
+	vertical-align: middle;
+}
+
+.iconCoin {
+	width: 30px;
+	display: inline;
+	vertical-align: middle;
+}
+
+.currentVolumeCoin .title .coin {
+	display: inline;
+	vertical-align: middle;
+}
+
+.buttonShowVolume {
+	font-size: 10pt;
+	display: inline;
+}
+
+#buttonRefresh {
+	cursor: pointer;
+	font-size: 10pt;
+	background: #336699;
+	color: #ffffff;
+	display: inline;
+	padding: 3px 10px 3px 10px;
+}
+
+#buttonRefresh:hover {
+	color: #336699;
+	background: #cecece;
+}
+
+.userProfitabilityContainer {
+	width: 95%;
+	border: solid 1pt #336699;
+	font-size: 10pt;
+	color: #336699;
+	padding: 10px;
+}
+
+.userProfitabilityContainer div {
+	padding: 5px;
+}
+
+.userProfitabilityContainer .title {
+	font-weight: bold;
+	
+}
+
+.userProfitability_profit {
+	font-size: 15pt;
+	padding: 12pt;
+	background: #cecece;
+}
+
+.userAccountMovementsContainer {
+	margin-top: 20px;
+}
+
+.userAccountMovementsTableContainer {
+	float: left;
+	width: 50%;
+	font-size: 10pt;
+}
+
+.userAccountMovementsTableContainer table {
+	width: 90%;
+}
+
+.userAccountMovementsTableContainer table th,td {
+	padding: 3px;
+}
+
+.userAccountMovementsTableContainer table th {
+	font-weight: bold;
+}
+
+.userAccountMovementsTableContainer table td:nth-child(1) {
+     text-align: center;
+}
+
+.userAccountMovementsTableContainer table td:nth-child(2) {
+     text-align: right;
+}
+
+.userAccountMovementsTableContainer table caption {
+	color: #ffffff;
+	padding: 5px;
+	font-weight: bold;
+}
+
+.userAccountMovementsTableContainer table tr:nth-child(even) {
+     background-color: #eee;
+}
+
+.userAccountMovementsTableContainer table tr:nth-child(odd) {
+     background-color: #dadada;
+}
+
+.userAccountMovementsTableContainer table.inputs caption {
+	background: #ff8040;
+}
+
+.userAccountMovementsTableContainer table.outputs caption {
+	background: #0a7668;
+}
+
+.userAccountMovementsTableContainer table.inputs th {
+	background: #ffbe9f;
+}
+
+.userAccountMovementsTableContainer table.outputs th {
+	background: #0d8e7e;
+}
 
