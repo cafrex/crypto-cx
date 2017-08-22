@@ -267,10 +267,15 @@ h1 {
 	border-color: #336699;
 	cursor: pointer;
 	width: 100%;
+	box-shadow: none;
 }
 
 .btn-refresh:hover {
 	background-color: #5386b9;
+}
+
+.btn-refresh:focus {
+	box-shadow: none;
 }
 
 #buttonRefreshTimer {
@@ -314,13 +319,15 @@ h1 {
 }
 
 .userAccountMovementsTableContainer {
-	float: left;
-	width: 50%;
 	font-size: 10pt;
 }
 
 .userAccountMovementsTableContainer table {
-	width: 90%;
+	width: 100%;
+}
+
+.userAccountMovementsTableContainer table th {
+	color: #fff;
 }
 
 .userAccountMovementsTableContainer table th,td {
