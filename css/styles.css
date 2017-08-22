@@ -357,6 +357,7 @@ h1 {
 	padding: 5px;
 	font-weight: bold;
 	caption-side: top;
+	text-align: center;
 }
 
 .userAccountMovementsTableContainer th:nth-child(1) {
@@ -376,7 +377,7 @@ h1 {
 }
 
 .userAccountMovementsTableContainer table.inputs caption {
-	background: #ff8040;
+	background: #9b2909;
 }
 
 .userAccountMovementsTableContainer table.outputs caption {
@@ -384,7 +385,7 @@ h1 {
 }
 
 .userAccountMovementsTableContainer table.inputs th {
-	background: #ffbe9f;
+	background: #c97c66;
 }
 
 .userAccountMovementsTableContainer table.outputs th {
