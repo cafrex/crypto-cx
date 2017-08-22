@@ -1,16 +1,29 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="ISO-8859-1">
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+<meta name="author" content="">
+
+<link rel="icon" href="img/favicon.ico">
+
 <title>Crypto CX</title>
 
 <script src="js/vendor/Chart.min.js"></script>
 <script src="js/vendor/jquery.min.js"></script>
+<!--<script src="js/vendor/popper.min.js"></script>-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" crossorigin="anonymous"></script>
+<script src="js/vendor/bootstrap.min.js"></script>
 
 <script src="js/user-data.js"></script>
 <script src="js/crypto.js"></script>
 
+<link href="css/vendor/bootstrap/bootstrap.min.css" rel="stylesheet" type="text/css">
+
 <link href="css/styles.css" rel="stylesheet" type="text/css">
+<link href="css/styles-bootstrap.css" rel="stylesheet" type="text/css">
 
 <script>
 /**
@@ -88,172 +101,245 @@ $(document).ready(function() {
 </head>
 <body>
 
-<h1>Crypto CX</h1>
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-blue"> <!-- class="bg-dark" -->
+	<a class="navbar-brand" href="#">Crypto CX</a>
+   	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+		<span class="navbar-toggler-icon"></span>
+	</button>
 
-<div class="chartDataContainer">
-	
-	<div class="coinsContainer">
-		<div id="buttonCoin_BTC" class="buttonCoin">
-			<img src="img/btc.png" class="icon"/>
-			<span class="title">BTC</span>
-		</div>
-		<div id="buttonCoin_ETH" class="buttonCoin">
-			<img src="img/eth.png" class="icon"/>
-			<span class="title">ETH</span>
-		</div>
-		<div id="buttonCoin_LTC" class="buttonCoin">
-			<img src="img/ltc.png" class="icon"/>
-			<span class="title">LTC</span>
-		</div>
-		<div id="buttonCoin_XRP" class="buttonCoin">
-			<img src="img/xrp.png" class="icon"/>
-			<span class="title">XRP</span>
-		</div>
+	<div class="collapse navbar-collapse" id="navbarsExampleDefault">
+    	<ul class="navbar-nav mr-auto">
+        	<li class="nav-item active">
+            	<a class="nav-link" href="#">Inicio <span class="sr-only">(current)</span></a>
+          	</li>
+			<li class="nav-item">
+            	<a class="nav-link" href="#">Link</a>
+          	</li>
+        </ul>
 	</div>
-	
-	<div class="controlsContainer">
-		<div class="buttonShowVolume">
-			<input type="checkbox" id="chkShowVolume">Mostrar volumen
-		</div>
-		<div id="buttonRefresh">
-			Actualizar datos
-		</div>
-	</div>
-	
-	<div class="frequencyContainer">
-		<div id="buttonFrequency_1H" class="buttonFrequency">1H</div>
-		<div id="buttonFrequency_24H" class="buttonFrequency">24H</div>
-		<div id="buttonFrequency_1D" class="buttonFrequency">1D</div>
-		<div id="buttonFrequency_1S" class="buttonFrequency">1S</div>
-		<div id="buttonFrequency_1M" class="buttonFrequency">1M</div>
-		<div id="buttonFrequency_3M" class="buttonFrequency">3M</div>
-		<div id="buttonFrequency_6M" class="buttonFrequency">6M</div>
-		<div id="buttonFrequency_1A" class="buttonFrequency">1A</div>
-	</div>
-	
-	<div class="pricesDataContainer">
-		<div id="currentPrice" class="currentPrice">---</div>
-		
-		<div id="variationPrice" class="variationPrice">
-			<div id="variationPrice_value" class="variationPrice_value">---</div>
-			<div id="variationPrice_upDownArrow" class="upDownArrow"></div>
-		</div>
-		
-		<div id="variationPercent" class="variationPercent">
-			<div id="variationPercent_value" class="variationPercent_value">---</div>
-			<div id="variationPercent_upDownArrow" class="upDownArrow"></div>
-		</div>
-	</div>
-	
-	<div id="chartContainer" class="chart-container">
-	    <canvas id="chart"></canvas>
-	</div>
-	<div id="chartErrorContainer"></div>
-	
-	<div class="userProfitabilityContainer">
-		<div class="userProfitability_profit">
-			<span class="title">Beneficio</span>
-			<span id="userProfitability_profit" class="value">---</span>
-		</div>
-		<div class="userProfitability_input">
-			<span class="title">Invertido</span>
-			<span id="userProfitability_input" class="value">---</span>
-		</div>
-		<div class="userProfitability_output">
-			<span class="title">Retirado</span>
-			<span id="userProfitability_output" class="value">---</span>
-		</div>
-		<div class="userProfitability_currentInput">
-			<span class="title">Invertido actual</span>
-			<span id="userProfitability_currentInput" class="value">---</span>
-		</div>
-	</div>
-	
-	<div class="userAccountMovementsContainer">
-		
-		<div class="userAccountMovementsTableContainer">
-		    <table id="userAccountMovements_inputs" class="inputs">
-		    	<caption>Ingresos</caption>
-		    	<tbody>
-		    		<tr>
-		    			<th>Fecha</th>
-		    			<th>Cantidad</th>
-		    		</tr>
-		    	</tbody>
-		    </table>
-		</div>
-	    
-	    <div class="userAccountMovementsTableContainer">
-		    <table id="userAccountMovements_outputs" class="outputs">
-		    	<caption>Salidas</caption>
-		    	<tbody>
-		    		<tr>
-		    			<th>Fecha</th>
-		    			<th>Cantidad</th>
-		    		</tr>
-		    	</tbody>
-		    </table>
-		</div>
-		
-	</div>
-	
-	<!-- 
-	<div class="pie-chart-container">
-	    <canvas id="pieChart"></canvas>
-	</div>
-	-->
-</div>
+</nav>
 
-<div class="userDataContainer">
-	<div class="currentVolumeTotalEur">
-		<div id="currentVolumeTotalEur_title" class="title">Total EUR</div>
-		<div id="currentVolumeTotalEur_value" class="value">---</div>
-	</div>
-	<div class="currentVolumeEur">
-		<div class="title">EUR</div>
-		<div id="currentVolumeEur_value" class="valueEur">---</div>
-	</div>
-	<div class="currentVolumeCoin">
-		<div class="title">
-			<img src="img/btc.png" class="iconCoin"/>
-			<span class="coin">BTC</span>
-			<span id="currentPrice_BTC_EUR" class="price">---</span>
-			<span id="currentPrice_BTC_USD" class="price">---</span>
+<div class="container mainContainer">
+	
+	<div class="row">
+		<div class="col-12">
+			<div class="buttonRefreshContainer">
+				<div id="buttonRefresh" class="btn btn-lg btn-primary btn-refresh">
+					Actualizar datos
+				</div>
+			</div>
 		</div>
-		<div id="currentVolumeEur_BTC_value" class="valueEur">---</div>
-		<div id="currentVolumeCoin_BTC_value" class="valueCoin">---</div>
 	</div>
-	<div class="currentVolumeCoin">
-		<div class="title">
-			<img src="img/eth.png" class="iconCoin"/>
-			<span class="coin">ETH</span>
-			<span id="currentPrice_ETH_EUR" class="price">---</span>
-			<span id="currentPrice_ETH_USD" class="price">---</span>
+	
+	<div class="row">
+		<div class="col-12">
+			<div class="userProfitabilityContainer sectionContainer">
+				<div class="userProfitability_profit">
+					<span class="title">Beneficio</span>
+					<span id="userProfitability_profit" class="value">---</span>
+				</div>
+				<div class="userProfitability_input">
+					<span class="title">Invertido</span>
+					<span id="userProfitability_input" class="value">---</span>
+				</div>
+				<div class="userProfitability_output">
+					<span class="title">Retirado</span>
+					<span id="userProfitability_output" class="value">---</span>
+				</div>
+				<div class="userProfitability_currentInput">
+					<span class="title">Invertido actual</span>
+					<span id="userProfitability_currentInput" class="value">---</span>
+				</div>
+				
+				<div class="userAccountMovementsContainer">
+					<div class="userAccountMovementsTableContainer">
+					    <table id="userAccountMovements_inputs" class="inputs">
+					    	<caption>Ingresos</caption>
+					    	<tbody>
+					    		<tr>
+					    			<th>Fecha</th>
+					    			<th>Cantidad</th>
+					    		</tr>
+					    	</tbody>
+					    </table>
+					</div>
+				    
+				    <div class="userAccountMovementsTableContainer">
+					    <table id="userAccountMovements_outputs" class="outputs">
+					    	<caption>Salidas</caption>
+					    	<tbody>
+					    		<tr>
+					    			<th>Fecha</th>
+					    			<th>Cantidad</th>
+					    		</tr>
+					    	</tbody>
+					    </table>
+					</div>
+				</div>
+			</div>
 		</div>
-		<div id="currentVolumeEur_ETH_value" class="valueEur">---</div>
-		<div id="currentVolumeCoin_ETH_value" class="valueCoin">---</div>
 	</div>
-	<div class="currentVolumeCoin">
-		<div class="title">
-			<img src="img/ltc.png" class="iconCoin"/>
-			<span class="coin">LTC</span>
-			<span id="currentPrice_LTC_EUR" class="price">---</span>
-			<span id="currentPrice_LTC_USD" class="price">---</span>
+	
+	<div class="row">
+		<div class="col-md-4 col-sm-12">
+			<div class="userDataContainer">
+				<div class="currentVolumeTotalEur sectionContainer">
+					<div id="currentVolumeTotalEur_title" class="title">Total EUR</div>
+					<div id="currentVolumeTotalEur_value" class="value">---</div>
+				</div>
+				<div class="currentVolumeCoin sectionContainer">
+					<div class="container">
+						<div class="row">
+							<div class="col-4">
+								<img src="img/btc.png" class="iconCoin"/>
+								<span class="coin">BTC</span>
+							</div>
+							<div class="col-4">
+								<span id="currentVolumeEur_BTC_value" class="valueEur">---</span>
+							</div>
+							<div class="col-4">
+								<span id="currentVolumeCoin_BTC_value" class="valueCoin">---</span>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-6">
+								<span id="currentPrice_BTC_EUR" class="price">---</span>
+							</div>
+							<div class="col-6">
+								<span id="currentPrice_BTC_USD" class="price">---</span>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-6">
+								<span id="variationPrice_BTC_EUR" class="price">54.1125 €</span>
+							</div>
+							<div class="col-6">
+								<span id="variationPercent_BTC" class="price">-25.12 % v</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="currentVolumeCoin sectionContainer">
+					<div class="title">
+						<img src="img/eth.png" class="iconCoin"/>
+						<span class="coin">ETH</span>
+						<span id="currentPrice_ETH_EUR" class="price">---</span>
+						<span id="currentPrice_ETH_USD" class="price">---</span>
+					</div>
+					<div id="currentVolumeEur_ETH_value" class="valueEur">---</div>
+					<div id="currentVolumeCoin_ETH_value" class="valueCoin">---</div>
+				</div>
+				<div class="currentVolumeCoin sectionContainer">
+					<div class="title">
+						<img src="img/ltc.png" class="iconCoin"/>
+						<span class="coin">LTC</span>
+						<span id="currentPrice_LTC_EUR" class="price">---</span>
+						<span id="currentPrice_LTC_USD" class="price">---</span>
+					</div>
+					<div id="currentVolumeEur_LTC_value" class="valueEur">---</div>
+					<div id="currentVolumeCoin_LTC_value" class="valueCoin">---</div>
+				</div>
+				<div class="currentVolumeCoin sectionContainer">
+					<div class="title">
+						<img src="img/xrp.png" class="iconCoin"/>
+						<span class="coin">XRP</span>
+						<span id="currentPrice_XRP_EUR" class="price">---</span>
+						<span id="currentPrice_XRP_USD" class="price">---</span>
+					</div>
+					<div id="currentVolumeEur_XRP_value" class="valueEur">---</div>
+					<div id="currentVolumeCoin_XRP_value" class="valueCoin">---</div>
+				</div>
+				<div class="currentVolumeEur sectionContainer">
+					<div class="title">EUR</div>
+					<div id="currentVolumeEur_value" class="valueEur">---</div>
+				</div>
+			</div> <!-- /userDataContainer -->     
 		</div>
-		<div id="currentVolumeEur_LTC_value" class="valueEur">---</div>
-		<div id="currentVolumeCoin_LTC_value" class="valueCoin">---</div>
-	</div>
-	<div class="currentVolumeCoin">
-		<div class="title">
-			<img src="img/xrp.png" class="iconCoin"/>
-			<span class="coin">XRP</span>
-			<span id="currentPrice_XRP_EUR" class="price">---</span>
-			<span id="currentPrice_XRP_USD" class="price">---</span>
+		<div class="col-md-8 col-sm-12">
+			<div class="chartDataContainer sectionContainer container">
+				<div class="row">
+					<div class="col-md-7 col-sm-12">
+						<div class="coinsContainer">
+							<div id="buttonCoin_BTC" class="buttonCoin">
+								<img src="img/btc.png" class="icon"/>
+								<span class="title">BTC</span>
+							</div>
+							<div id="buttonCoin_ETH" class="buttonCoin">
+								<img src="img/eth.png" class="icon"/>
+								<span class="title">ETH</span>
+							</div>
+							<div id="buttonCoin_LTC" class="buttonCoin">
+								<img src="img/ltc.png" class="icon"/>
+								<span class="title">LTC</span>
+							</div>
+							<div id="buttonCoin_XRP" class="buttonCoin">
+								<img src="img/xrp.png" class="icon"/>
+								<span class="title">XRP</span>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-5 col-sm-12">
+						<div class="controlsContainer">
+							<!--
+							<div class="buttonShowVolume">
+								<input type="checkbox" id="chkShowVolume">&nbsp;Mostrar volumen
+							</div>
+							-->
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-12">
+						<div class="frequencyContainer">
+							<div id="buttonFrequency_1H" class="buttonFrequency">1H</div>
+							<div id="buttonFrequency_24H" class="buttonFrequency">24H</div>
+							<div id="buttonFrequency_1D" class="buttonFrequency">1D</div>
+							<div id="buttonFrequency_1S" class="buttonFrequency">1S</div>
+							<div id="buttonFrequency_1M" class="buttonFrequency">1M</div>
+							<div id="buttonFrequency_3M" class="buttonFrequency">3M</div>
+							<div id="buttonFrequency_6M" class="buttonFrequency">6M</div>
+							<div id="buttonFrequency_1A" class="buttonFrequency">1A</div>
+						</div>
+					</div>
+					<div class="col-12">
+						<div class="pricesDataContainer">
+							<div id="currentPrice" class="currentPrice">---</div>
+							
+							<div id="variationPrice" class="variationPrice">
+								<div id="variationPrice_value" class="variationPrice_value">---</div>
+								<div id="variationPrice_upDownArrow" class="upDownArrow"></div>
+							</div>
+							
+							<div id="variationPercent" class="variationPercent">
+								<div id="variationPercent_value" class="variationPercent_value">---</div>
+								<div id="variationPercent_upDownArrow" class="upDownArrow"></div>
+							</div>
+						</div>
+					</div>
+					<div class="col-12">
+						<div id="chartContainer" class="chart-container">
+						    <canvas id="chart"></canvas>
+						</div>
+						<div id="chartErrorContainer"></div>
+					</div>
+				</div>
+			</div> <!-- /chartDataContainer -->
 		</div>
-		<div id="currentVolumeEur_XRP_value" class="valueEur">---</div>
-		<div id="currentVolumeCoin_XRP_value" class="valueCoin">---</div>
+		
 	</div>
-</div>
+		
+
+	<hr class="footerLine">
+
+    <footer>
+		<p>&copy; Cafrex 2017</p>
+	</footer>
+
+</div> <!-- /container -->
+
+
+
 
 </body>
 </html>
+
