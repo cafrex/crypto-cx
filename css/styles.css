@@ -6,35 +6,28 @@ h1 {
 	color: #336699;
 }
 
-#chartErrorContainer {
-	width: 90%;
-	color: #8e1302;
-	border: solid 2pt #8e1302;
-	background: #ea7d6e;
-	padding: 10px;
-	display: none;
-	margin-top: 20px;
-	margin-bottom: 20px;
-	margin-left: 0px;
-	margin-right: auto;
+.bg-blue {
+	background-color: #336699;
+}
+
+.mainContainer {
+	margin-top: 50px;
+}
+
+.buttonRefreshContainer {
+	padding: 20px;
 }
 
 .chartDataContainer {
-	float: left;
-	width: 65%;
+	margin-top: 20px;
 }
 
 .userDataContainer {
-	float: left;
-	width: 35%;
+	margin-top: 20px;
 }
 
 .chart-container {
-	position: relative; 
-	width: 60vw;
 	margin-top: 20px;
-	margin-left: 10px;
-	margin-right: auto;
 }
 
 .pie-chart-container {
@@ -90,7 +83,7 @@ h1 {
 	padding: 2px;
 	margin-bottom: 15px;
 	overflow: auto;
-	width: 600px;
+	width: 100%;
 }
 
 .buttonFrequency {
@@ -118,7 +111,6 @@ h1 {
 }
 
 .pricesDataContainer {
-	overflow: auto;
 }
 
 .currentPrice {
@@ -178,10 +170,8 @@ h1 {
 }
 
 .currentVolumeTotalEur {
-	border: solid 1px #336699;
 	background: #f4f5f7;
 	color: #336699;
-	padding: 15px;
 	min-width: 150px;
 	text-align: center;
 	font-weight: bold;
@@ -196,44 +186,38 @@ h1 {
 }
 
 .currentVolumeCoin {
-	border: solid 1px #336699;
 	color: #336699;
-	padding: 5px;
-	min-width: 150px;
 	text-align: center;
 	margin-top: 10px;
 } 
 
-.currentVolumeCoin .title {
-	font-size: 20pt;
-	margin-bottom: 5px;
+.currentVolumeCoin .coin {
+	font-size: 15pt;
 }
 
 .currentVolumeCoin .valueEur {
 	font-size: 15pt;
+	color: #224568;
+	margin-bottom: 5px;
 }
 
 .currentVolumeCoin .valueCoin {
 	font-size: 10pt;
 }
 
-.currentVolumeCoin .title .price {
+.currentVolumeCoin .price {
 	background: #f4f5f7;
-	padding: 5px;
 	font-size: 12pt;
+	padding: 5px;
 	color: #336699;
-	display: inline;
-	vertical-align: middle;
 }
 
 .currentVolumeEur {
-	border: solid 1px #336699;
 	color: #336699;
-	padding: 5px;
 	min-width: 150px;
 	text-align: center;
 	margin-top: 10px;
-} 
+}
 
 .currentVolumeEur .title {
 	font-size: 20pt;
@@ -242,6 +226,7 @@ h1 {
 
 .currentVolumeEur .valueEur {
 	font-size: 15pt;
+	color: #224568;
 }
 
 .buttonCoin {
@@ -277,26 +262,36 @@ h1 {
 	display: inline;
 }
 
-#buttonRefresh {
+.btn-refresh {
+	background-color: #336699;
+	border-color: #336699;
 	cursor: pointer;
-	font-size: 10pt;
-	background: #336699;
-	color: #ffffff;
-	display: inline;
-	padding: 3px 10px 3px 10px;
+	width: 100%;
 }
 
-#buttonRefresh:hover {
-	color: #336699;
-	background: #cecece;
+.btn-refresh:hover {
+	background-color: #5386b9;
+}
+
+#buttonRefreshTimer {
+	display: inline;
+	background: transparent;
+	width: 40px;
+	overflow: visible;
+}
+
+#buttonRefreshTimer:hover {
+	
+}
+
+.sectionContainer {
+	border: solid 1pt #336699;
+	padding: 10px;
 }
 
 .userProfitabilityContainer {
-	width: 95%;
-	border: solid 1pt #336699;
-	font-size: 10pt;
 	color: #336699;
-	padding: 10px;
+	font-size: 10pt;
 }
 
 .userProfitabilityContainer div {
@@ -315,7 +310,7 @@ h1 {
 }
 
 .userAccountMovementsContainer {
-	margin-top: 20px;
+	overflow: auto;
 }
 
 .userAccountMovementsTableContainer {
@@ -348,6 +343,15 @@ h1 {
 	color: #ffffff;
 	padding: 5px;
 	font-weight: bold;
+	caption-side: top;
+}
+
+.userAccountMovementsTableContainer th:nth-child(1) {
+	text-align: center;
+}
+
+.userAccountMovementsTableContainer th:nth-child(2) {
+	text-align: right;
 }
 
 .userAccountMovementsTableContainer table tr:nth-child(even) {
@@ -372,5 +376,14 @@ h1 {
 
 .userAccountMovementsTableContainer table.outputs th {
 	background: #0d8e7e;
+}
+
+.footerLine {
+	margin-top: 40px;
+}
+
+footer {
+	color: #aeaeae;
+	font-size: 10pt;
 }
 
