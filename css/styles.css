@@ -308,6 +308,12 @@ h1 {
 	
 }
 
+.userProfitability_total {
+	font-size: 15pt;
+	padding: 12pt;
+	background: #cecece;
+}
+
 .userProfitability_profit {
 	font-size: 15pt;
 	padding: 12pt;
