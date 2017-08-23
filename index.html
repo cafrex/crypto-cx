@@ -103,10 +103,11 @@ $(document).ready(function() {
 
 <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-blue"> <!-- class="bg-dark" -->
 	<a class="navbar-brand" href="#">Crypto CX</a>
+	<img id="buttonRefresh" class="btn-refresh" src="img/button-refresh.png" />
    	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
 		<span class="navbar-toggler-icon"></span>
 	</button>
-
+	<!-- 
 	<div class="collapse navbar-collapse" id="navbarsExampleDefault">
     	<ul class="navbar-nav mr-auto">
         	<li class="nav-item active">
@@ -117,23 +118,14 @@ $(document).ready(function() {
           	</li>
         </ul>
 	</div>
+	-->
 </nav>
 
 <div class="container mainContainer">
 	
 	<div class="row">
 		<div class="col-12">
-			<div class="buttonRefreshContainer">
-				<div id="buttonRefresh" class="btn btn-lg btn-primary btn-refresh">
-					Actualizar datos
-				</div>
-			</div>
-		</div>
-	</div>
-	
-	<div class="row">
-		<div class="col-12">
-			<div class="userProfitabilityContainer sectionContainer">
+			<div class="userProfitabilityContainer">
 				<div class="userProfitability_total">
 					<span class="title">Total</span>
 					<span id="currentVolumeTotalEur_value" class="value">---</span>
@@ -261,7 +253,7 @@ $(document).ready(function() {
 			</div> <!-- /userDataContainer -->     
 		</div>
 		<div class="col-md-8 col-sm-12">
-			<div class="chartDataContainer sectionContainer container">
+			<div class="chartDataContainer container no-padding-lr">
 				<div class="row">
 					<div class="col-md-7 col-sm-12">
 						<div class="coinsContainer">
@@ -283,15 +275,15 @@ $(document).ready(function() {
 							</div>
 						</div>
 					</div>
+					<!--
 					<div class="col-md-5 col-sm-12">
 						<div class="controlsContainer">
-							<!--
 							<div class="buttonShowVolume">
 								<input type="checkbox" id="chkShowVolume">&nbsp;Mostrar volumen
 							</div>
-							-->
 						</div>
 					</div>
+					-->
 				</div>
 				<div class="row">
 					<div class="col-12">
