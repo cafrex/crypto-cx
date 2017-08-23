@@ -1,4 +1,3 @@
-
 var coinSelected;
 var frequencySelected;
 var showVolumeSelected;
@@ -14,6 +13,8 @@ var pieCoinChart;
  */
 function buildChart(chartId, labels, fullData, showVolume) {
 
+	var labelBlanks = "    ";
+	
 	var chartOptions = {
 			type: 'line',
 			data: {
@@ -22,9 +23,19 @@ function buildChart(chartId, labels, fullData, showVolume) {
 			},
 			options: {
 		        scales: {
+		        	xAxes: [{
+		        		ticks: {
+		        			callback: function(value, index, values) {
+		        				return labelBlanks + value + labelBlanks;
+		        			},
+		                    autoSkip: true,
+		                    maxRotation: 0,
+		                    minRotation: 0
+		        		}
+		        	}],
 		            yAxes: [{
 	                    position: "left",
-	                    "id": "y-axis-price",
+	                    id: "y-axis-price",
 		                ticks: {
 		                    beginAtZero: false
 		                }
@@ -34,7 +45,7 @@ function buildChart(chartId, labels, fullData, showVolume) {
 		            display: true
 		        },
 		        tooltips: {
-		        	intersect: false,
+		        	intersect: true,
 		            mode: 'index'
 		        }
 		    }
@@ -43,7 +54,7 @@ function buildChart(chartId, labels, fullData, showVolume) {
 	if(showVolume) {
 		chartOptions.options.scales.yAxes.push({
 					        	position: "right",
-					            "id": "y-axis-volume",
+					            id: "y-axis-volume",
 					        	ticks: { 
 					        		beginAtZero: false
 					        	}
@@ -153,16 +164,39 @@ function buildPieChart(chartId, labels, data) {
  */
 function drawChart(chartId, coin, frequency, limit, showVolume) {
 
+	var dateMode;
+	
 	$('#chartContainer').show();
 
 	var url = 'https://min-api.cryptocompare.com/data/';
 	
 	if(frequency == 'DAY') {
 		url += 'histoday';
+		if(limit <= 1) {
+			dateMode = 'HOUR';
+		} else if(limit <= 30) {
+			dateMode = 'DAY_MONTH';
+		} else {
+			dateMode = 'MONTH_YEAR';
+		}
 	} else if(frequency == 'HOUR') {
 		url += 'histohour';
+		if(limit <= 1 * 24) {
+			dateMode = 'HOUR';
+		} else if(limit <= 30 * 24) {
+			dateMode = 'DAY_MONTH';
+		} else {
+			dateMode = 'MONTH_YEAR';
+		}
 	} else if(frequency == 'MINUTE') {
 		url += 'histominute';
+		if(limit <= 1 * 24 * 60) {
+			dateMode = 'HOUR';
+		} else if(limit <= 30 * 24 * 60) {
+			dateMode = 'DAY_MONTH';
+		} else {
+			dateMode = 'MONTH_YEAR';
+		}
 	}
 	
 	url += '?fsym=' + coin;
@@ -186,15 +220,9 @@ function drawChart(chartId, coin, frequency, limit, showVolume) {
 				};
 		data.coin = coin;
 		
+		
 		results.Data.forEach(function(elem) {
-			var label = '';
-			if(frequency == 'DAY') {
-				label = (new Date(elem.time * 1000)).formatDate(false); 
-			} else {
-				label = (new Date(elem.time * 1000)).formatDate(true);
-			}
-			
-			labels.push(label);
+			labels.push((new Date(elem.time * 1000)).formatDate(dateMode));
 			data.price.push(elem.close);
 			data.volumeFrom.push(elem.volumefrom);
 			data.volumeTo.push(elem.volumeto);
@@ -298,26 +326,29 @@ function normalizeData(data) {
 	
 /**
  * 
- * @param includeHour
+ * @param mode (HOUR, DAY_MONTH, MONTH_YEAR)
  * @returns {String}
  */
-Date.prototype.formatDate = function(includeHour) {
+Date.prototype.formatDate = function(mode) {
   var mm = this.getMonth() + 1;
+  mm = mm>=10?mm:'0'+mm;
   var dd = this.getDate();
+  dd = dd>=10?dd:'0'+dd;
   var hh = this.getHours();
+  hh = hh>=10?hh:'0'+hh;
   var MM = this.getMinutes();
-  var yy = this.getFullYear();
+  MM = MM>=10?MM:'0'+MM;
+  var yy = this.getFullYear() % 100;
+  yy = yy>=10?yy:'0'+yy;
 
-  var res = (dd>9 ? '' : '0') + dd 
-          + '/'
-          + (mm>9 ? '' : '0') + mm
-          + '/';         
-  
-  if(includeHour) {
-	  res += yy % 100;
-	  res += ' ' + (hh>9 ? '' : '0') + hh + ':' + (MM>9 ? '' : '0') + MM;
+  if(mode == 'HOUR') {
+	  res = hh + ':' + MM;
+  } else if(mode == 'DAY_MONTH') {
+	  res = dd + '/' + mm;
+  } else if(mode == 'MONTH_YEAR') {
+	  res = mm + '/' + yy;
   } else {
-	  res += yy;
+	  res = 'NO_DATE_MODE';
   }
   
   return res;
@@ -556,4 +587,5 @@ function activateChartError(type) {
 	$('#chartContainer').hide(0);
 
 }
+
 
