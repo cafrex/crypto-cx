@@ -42,7 +42,7 @@ function buildChart(chartId, labels, fullData, showVolume) {
 		            }]
 		        },
 		        legend: {
-		            display: true
+		            display: false
 		        },
 		        tooltips: {
 		        	intersect: true,
