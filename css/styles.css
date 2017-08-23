@@ -11,7 +11,12 @@ h1 {
 }
 
 .mainContainer {
-	margin-top: 50px;
+	margin-top: 70px;
+}
+
+.no-padding-lr {
+	padding-left: 5px !important;
+	padding-right: 5px !important;
 }
 
 .buttonRefreshContainer {
@@ -263,11 +268,9 @@ h1 {
 }
 
 .btn-refresh {
-	background-color: #336699;
-	border-color: #336699;
 	cursor: pointer;
-	width: 100%;
-	box-shadow: none;
+	height: 30px;
+	width: 30px;
 }
 
 .btn-refresh:hover {
