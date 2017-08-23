@@ -91,7 +91,6 @@ h1 {
 
 .buttonFrequency {
 	float: left;
-	width: 50px;
 	padding: 5px;
 	margin-right: 3px;
 	text-align: center;
@@ -121,14 +120,14 @@ h1 {
 	border: solid 1px #336699;
 	color: #336699;
 	padding: 5px;
-	font-size: 20pt;
-	font-weight: normal;
-	min-width: 150px;
+	font-size: 12pt;
+	font-weight: bold;
+	min-width: 100px;
 	text-align: center;
 }
 
 .variationPrice {
-	margin-left: 30px;
+	margin-left: 15px;
 	float: left;
 	border: solid 1px #336699;
 	padding: 5px;
@@ -137,12 +136,12 @@ h1 {
 
 .variationPrice_value {
 	float: left;
-	font-size: 15pt;
-	font-weight: normal;
+	font-size: 10pt;
+	font-weight: bold;
 }
 
 .variationPercent {
-	margin-left: 30px;
+	margin-left: 15px;
 	float: left;
 	border: solid 1px #336699;
 	padding: 5px;
@@ -151,17 +150,16 @@ h1 {
 
 .variationPercent_value {
 	float: left;
-	font-size: 15pt;
-	font-weight: normal;
+	font-size: 10pt;
+	font-weight: bold;
 }
 
 .upDownArrow {
 	float: right;
-	margin-right: 10px;
 	margin-left: 5px;
 	font-family: Arial;
 	font-weight: bold;
-	font-size: 20pt;
+	font-size: 12pt;
 }
 
 .valueDown {
@@ -266,14 +264,6 @@ h1 {
 	width: 30px;
 }
 
-.btn-refresh:hover {
-	background-color: #5386b9;
-}
-
-.btn-refresh:focus {
-	box-shadow: none;
-}
-
 #buttonRefreshTimer {
 	display: inline;
 	background: transparent;
@@ -319,13 +309,13 @@ h1 {
 	margin-top: 5px;
 	cursor: pointer;
 	padding: 5px;
-	background: #86a8e0;
+	background: #aeaeae;
 	color: #ffffff;
 	font-weight: bold;
 }
 
 #userMovementsToggleButton:hover {
-	background: #aeaeae;
+	background: #86a8e0;
 }
 
 #userMovements {
@@ -351,7 +341,7 @@ h1 {
 }
 
 .userAccountMovementsTableContainer {
-	font-size: 10pt;
+	font-size: 9pt;
 }
 
 .userAccountMovementsTableContainer table {
