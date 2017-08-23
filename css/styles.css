@@ -334,14 +334,12 @@ h1 {
 
 .userAccountMovementsTableContainer table th {
 	color: #fff;
+	text-align: center !important;
+	font-weight: bold;
 }
 
 .userAccountMovementsTableContainer table th,td {
 	padding: 3px;
-}
-
-.userAccountMovementsTableContainer table th {
-	font-weight: bold;
 }
 
 .userAccountMovementsTableContainer table td:nth-child(1) {
