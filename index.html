@@ -93,6 +93,10 @@ $(document).ready(function() {
 		repaintScreen(coinSelected, frequencySelected, showVolumeSelected);
 	});
 	
+	$('#userMovementsToggleButton').on('click', function() {
+		toggleUserMovements();
+	});
+	
 });
 
 </script>
@@ -134,45 +138,52 @@ $(document).ready(function() {
 					<span class="title">Beneficio</span>
 					<span id="userProfitability_profit" class="value">---</span>
 				</div>
-				<div class="userProfitability_input">
-					<span class="title">Invertido</span>
-					<span id="userProfitability_input" class="value">---</span>
+			</div>
+			<div class="userMovementsContainer">
+				<div id="userMovementsToggleButton">
+					Ver movimientos
 				</div>
-				<div class="userProfitability_output">
-					<span class="title">Retirado</span>
-					<span id="userProfitability_output" class="value">---</span>
-				</div>
-				<div class="userProfitability_currentInput">
-					<span class="title">Invertido actual</span>
-					<span id="userProfitability_currentInput" class="value">---</span>
-				</div>
-				
-				<div class="container">
-					<div class="row">
-						<div class="col-6">
-							<div class="userAccountMovementsTableContainer">
-							    <table id="userAccountMovements_inputs" class="inputs">
-							    	<caption>Ingresos</caption>
-							    	<tbody>
-							    		<tr>
-							    			<th>Fecha</th>
-							    			<th>Cantidad</th>
-							    		</tr>
-							    	</tbody>
-							    </table>
+				<div id="userMovements">
+					<div class="userProfitability_input">
+						<span class="title">Invertido</span>
+						<span id="userProfitability_input" class="value">---</span>
+					</div>
+					<div class="userProfitability_output">
+						<span class="title">Retirado</span>
+						<span id="userProfitability_output" class="value">---</span>
+					</div>
+					<div class="userProfitability_currentInput">
+						<span class="title">Invertido actual</span>
+						<span id="userProfitability_currentInput" class="value">---</span>
+					</div>
+					
+					<div class="container">
+						<div class="row">
+							<div class="col-6">
+								<div class="userAccountMovementsTableContainer">
+								    <table id="userAccountMovements_inputs" class="inputs">
+								    	<caption>Ingresos</caption>
+								    	<tbody>
+								    		<tr>
+								    			<th>Fecha</th>
+								    			<th>Cantidad</th>
+								    		</tr>
+								    	</tbody>
+								    </table>
+								</div>
 							</div>
-						</div>
-						<div class="col-6">
-							<div class="userAccountMovementsTableContainer">
-							    <table id="userAccountMovements_outputs" class="outputs">
-							    	<caption>Retiradas</caption>
-							    	<tbody>
-							    		<tr>
-							    			<th>Fecha</th>
-							    			<th>Cantidad</th>
-							    		</tr>
-							    	</tbody>
-							    </table>
+							<div class="col-6">
+								<div class="userAccountMovementsTableContainer">
+								    <table id="userAccountMovements_outputs" class="outputs">
+								    	<caption>Retiradas</caption>
+								    	<tbody>
+								    		<tr>
+								    			<th>Fecha</th>
+								    			<th>Cantidad</th>
+								    		</tr>
+								    	</tbody>
+								    </table>
+								</div>
 							</div>
 						</div>
 					</div>
