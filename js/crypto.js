@@ -588,4 +588,13 @@ function activateChartError(type) {
 
 }
 
+function toggleUserMovements() {
+	$('#userMovements').toggle(500);
+	if($('#userMovements').is(":visible")) {
+		$('#userMovementsToggleButton').html('Ocultar movimientos');
+	} else {
+		$('#userMovementsToggleButton').html('Ver movimientos');
+	}
+}
+
 
