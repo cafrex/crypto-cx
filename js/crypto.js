@@ -588,13 +588,30 @@ function activateChartError(type) {
 
 }
 
+/**
+ * 
+ */
 function toggleUserMovements() {
-	$('#userMovements').toggle(500);
-	if($('#userMovements').is(":visible")) {
-		$('#userMovementsToggleButton').html('Ocultar movimientos');
-	} else {
-		$('#userMovementsToggleButton').html('Ver movimientos');
-	}
+	$('#userMovements').toggle(500, function() {
+		if($(this).is(":visible")) {
+			$('#userMovementsToggleButton').html('Ocultar movimientos');
+		} else {
+			$('#userMovementsToggleButton').html('Mostrar movimientos');
+		}
+	});
+}
+
+/**
+ * 
+ */
+function togglePricesChart() {
+	$('#chartPricesContainer').toggle(0, function() {
+		if($(this).is(":visible")) {
+			$('#chartPricesToggleButton').html('Ocultar gráfica');
+		} else {
+			$('#chartPricesToggleButton').html('Mostrar gráfica');
+		}
+	});
 }
 
 
