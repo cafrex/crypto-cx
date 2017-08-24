@@ -97,6 +97,10 @@ $(document).ready(function() {
 		toggleUserMovements();
 	});
 	
+	$('#chartPricesToggleButton').on('click', function() {
+		togglePricesChart();
+	});
+	
 });
 
 </script>
@@ -141,7 +145,7 @@ $(document).ready(function() {
 			</div>
 			<div class="userMovementsContainer">
 				<div id="userMovementsToggleButton">
-					Ver movimientos
+					Mostrar movimientos
 				</div>
 				<div id="userMovements">
 					<div class="userProfitability_input">
@@ -264,9 +268,12 @@ $(document).ready(function() {
 			</div> <!-- /userDataContainer -->     
 		</div>
 		<div class="col-md-8 col-sm-12">
-			<div class="chartDataContainer container no-padding-lr">
+			<div id="chartPricesToggleButton">
+				Mostrar gráfica
+			</div>
+			<div id="chartPricesContainer" class="chartDataContainer container no-padding-lr">
 				<div class="row">
-					<div class="col-md-7 col-sm-12">
+					<div class="col-12">
 						<div class="coinsContainer">
 							<div id="buttonCoin_BTC" class="buttonCoin">
 								<img src="img/btc.png" class="icon"/>
@@ -314,13 +321,11 @@ $(document).ready(function() {
 							<div id="currentPrice" class="currentPrice">---</div>
 							
 							<div id="variationPrice" class="variationPrice">
-								<div id="variationPrice_value" class="variationPrice_value">---</div>
-								<div id="variationPrice_upDownArrow" class="upDownArrow"></div>
+								<div id="variationPrice_value">---</div>
 							</div>
 							
 							<div id="variationPercent" class="variationPercent">
-								<div id="variationPercent_value" class="variationPercent_value">---</div>
-								<div id="variationPercent_upDownArrow" class="upDownArrow"></div>
+								<div id="variationPercent_value">---</div>
 							</div>
 						</div>
 					</div>
@@ -332,6 +337,7 @@ $(document).ready(function() {
 					</div>
 				</div>
 			</div> <!-- /chartDataContainer -->
+
 		</div>
 		
 	</div>
