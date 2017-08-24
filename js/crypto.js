@@ -466,7 +466,10 @@ function selectCoinButton(buttonId) {
  * @param frequency
  * @param showVolume
  */
-function repaintScreen(coin, frequency, showVolume){
+function repaintScreen(coin, frequency, showVolume) {
+	
+	clearScreenData();
+	
 	frequencySelected = frequency;
 	coinSelected = coin;
 	showVolumeSelected = showVolume;
@@ -614,4 +617,9 @@ function togglePricesChart() {
 	});
 }
 
-
+/**
+ * 
+ */
+function clearScreenData() {
+	$('.updatableData').html('---');
+}
