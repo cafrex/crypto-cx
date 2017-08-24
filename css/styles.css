@@ -24,7 +24,11 @@ h1 {
 }
 
 .chartDataContainer {
-	margin-top: 20px;
+	margin-top: 15px;
+}
+
+#chartPricesContainer {
+	display: none;	
 }
 
 .userDataContainer {
@@ -122,22 +126,19 @@ h1 {
 	padding: 5px;
 	font-size: 12pt;
 	font-weight: bold;
-	min-width: 100px;
 	text-align: center;
+	min-width: 100px;
 }
 
 .variationPrice {
 	margin-left: 15px;
+	text-align: center;
 	float: left;
+	font-size: 12pt;
+	font-weight: bold;
 	border: solid 1px #336699;
 	padding: 5px;
 	min-width: 100px;
-}
-
-.variationPrice_value {
-	float: left;
-	font-size: 10pt;
-	font-weight: bold;
 }
 
 .variationPercent {
@@ -145,21 +146,10 @@ h1 {
 	float: left;
 	border: solid 1px #336699;
 	padding: 5px;
-	min-width: 100px;
-}
-
-.variationPercent_value {
-	float: left;
-	font-size: 10pt;
-	font-weight: bold;
-}
-
-.upDownArrow {
-	float: right;
-	margin-left: 5px;
-	font-family: Arial;
-	font-weight: bold;
 	font-size: 12pt;
+	font-weight: bold;
+	text-align: center;
+	min-width: 100px;
 }
 
 .valueDown {
@@ -315,6 +305,20 @@ h1 {
 }
 
 #userMovementsToggleButton:hover {
+	background: #86a8e0;
+}
+
+#chartPricesToggleButton {
+	margin-top: 15px;
+	cursor: pointer;
+	padding: 5px;
+	background: #aeaeae;
+	color: #ffffff;
+	font-weight: bold;
+	font-size: 10pt;
+}
+
+#chartPricesToggleButton:hover {
 	background: #86a8e0;
 }
 
