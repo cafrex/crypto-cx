@@ -6,6 +6,11 @@ h1 {
 	color: #336699;
 }
 
+p {
+	font-size: 9pt;
+	color: #336699;
+}
+
 .bg-blue {
 	background-color: #336699;
 }
@@ -419,7 +424,3 @@ footer {
 	font-size: 10pt;
 }
 
-.disclaimer {
-	font-size: 9pt;
-	color: #336699;
-}
