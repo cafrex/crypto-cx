@@ -704,4 +704,6 @@ function togglePricesChart() {
  */
 function clearScreenData() {
 	$('.updatableData').html('---');
+	$('.valueUp').removeClass('valueUp');
+	$('.valueDown').removeClass('valueDown');
 }
