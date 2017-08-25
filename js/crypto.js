@@ -246,53 +246,40 @@ function drawUserData(userCoinData, userMovements) {
 	var coinData = {
 			'BTC': {
 				'currentPriceEUR': 0,
-				'currentPriceUSD': 0,
 				'variationPriceEUR': 0,
 				'variationPercent': 0
 			},
 			'ETH': {
 				'currentPriceEUR': 0,
-				'currentPriceUSD': 0,
 				'variationPriceEUR': 0,
 				'variationPercent': 0
 			},
 			'LTC': {
 				'currentPriceEUR': 0,
-				'currentPriceUSD': 0,
 				'variationPriceEUR': 0,
 				'variationPercent': 0
 			},
 			'XRP': {
 				'currentPriceEUR': 0,
-				'currentPriceUSD': 0,
 				'variationPriceEUR': 0,
 				'variationPercent': 0
 			}
 		};
-	
-	/*
-	var urlBTC = 'https://min-api.cryptocompare.com/data/coinsnapshot?fsym=BTC&tsym=EUR';
-	var urlETH = 'https://min-api.cryptocompare.com/data/coinsnapshot?fsym=ETH&tsym=EUR';
-	var urlLTC = 'https://min-api.cryptocompare.com/data/coinsnapshot?fsym=LTC&tsym=EUR';
-	var urlXRP = 'https://min-api.cryptocompare.com/data/coinsnapshot?fsym=XRP&tsym=EUR';
-	*/
-	
+
 	var urlBTC = 'https://www.cryptocompare.com/api/data/coinsnapshot?fsym=BTC&tsym=EUR';
 	var urlETH = 'https://www.cryptocompare.com/api/data/coinsnapshot?fsym=ETH&tsym=EUR';
 	var urlLTC = 'https://www.cryptocompare.com/api/data/coinsnapshot?fsym=LTC&tsym=EUR';
 	var urlXRP = 'https://www.cryptocompare.com/api/data/coinsnapshot?fsym=XRP&tsym=EUR';
-
+	
 	$.ajax({
 		url: urlBTC,
 		dataType: 'json'
 	}).done(function (results) {
-		
-		var currentPrice = results.Data.AggregatedData.PRICE;
+		var currentPrice = parseFloat(results.Data.AggregatedData.PRICE);
 		var firstPrice = results.Data.AggregatedData.OPEN24HOUR;
 		var variationPrice = currentPrice - firstPrice;
 		var variationPercent = variationPrice / firstPrice;
 		coinData.BTC.currentPriceEUR = currentPrice;
-		coinData.BTC.currentPriceUSD = 0;
 		coinData.BTC.variationPriceEUR = variationPrice;
 		coinData.BTC.variationPercent = variationPercent;
 		
@@ -300,13 +287,11 @@ function drawUserData(userCoinData, userMovements) {
 			url: urlETH,
 			dataType: 'json'
 		}).done(function (results) {
-			
-			var currentPrice = results.Data.AggregatedData.PRICE;
+			var currentPrice = parseFloat(results.Data.AggregatedData.PRICE);
 			var firstPrice = results.Data.AggregatedData.OPEN24HOUR;
 			var variationPrice = currentPrice - firstPrice;
 			var variationPercent = variationPrice / firstPrice;
 			coinData.ETH.currentPriceEUR = currentPrice;
-			coinData.ETH.currentPriceUSD = 0;
 			coinData.ETH.variationPriceEUR = variationPrice;
 			coinData.ETH.variationPercent = variationPercent;
 			
@@ -314,13 +299,11 @@ function drawUserData(userCoinData, userMovements) {
 				url: urlLTC,
 				dataType: 'json'
 			}).done(function (results) {
-				
-				var currentPrice = results.Data.AggregatedData.PRICE;
+				var currentPrice = parseFloat(results.Data.AggregatedData.PRICE);
 				var firstPrice = results.Data.AggregatedData.OPEN24HOUR;
 				var variationPrice = currentPrice - firstPrice;
 				var variationPercent = variationPrice / firstPrice;
 				coinData.LTC.currentPriceEUR = currentPrice;
-				coinData.LTC.currentPriceUSD = 0;
 				coinData.LTC.variationPriceEUR = variationPrice;
 				coinData.LTC.variationPercent = variationPercent;
 				
@@ -328,13 +311,11 @@ function drawUserData(userCoinData, userMovements) {
 					url: urlXRP,
 					dataType: 'json'
 				}).done(function (results) {
-
-					var currentPrice = results.Data.AggregatedData.PRICE;
+					var currentPrice = parseFloat(results.Data.AggregatedData.PRICE);
 					var firstPrice = results.Data.AggregatedData.OPEN24HOUR;
 					var variationPrice = currentPrice - firstPrice;
 					var variationPercent = variationPrice / firstPrice;
 					coinData.XRP.currentPriceEUR = currentPrice;
-					coinData.XRP.currentPriceUSD = 0;
 					coinData.XRP.variationPriceEUR = variationPrice;
 					coinData.XRP.variationPercent = variationPercent;
 					
@@ -435,10 +416,10 @@ function updatePricesChartValues(frequency, data) {
 	$('#variationPrice').removeClass('valueUp').removeClass('valueDown');
 	$('#variationPercent').removeClass('valueUp').removeClass('valueDown');
 	
-	if(variationPrice > 0) {
+	if(variationPrice >= 0) {
 		$('#variationPrice').addClass('valueUp');
 		$('#variationPercent').addClass('valueUp');
-	} else if(variationPrice < 0) {
+	} else {
 		$('#variationPrice').addClass('valueDown');
 		$('#variationPercent').addClass('valueDown');
 	}
@@ -451,7 +432,6 @@ function updatePricesChartValues(frequency, data) {
  */
 function updateUserValues(coinData, userCoinBalance) {
 	var divisaEUR = 'EUR';
-	var divisaUSD = 'USD';
 	var locale = 'es-ES';
 
 	var fracDigitsCoin = 8;
@@ -459,26 +439,72 @@ function updateUserValues(coinData, userCoinBalance) {
 	$('#currentVolumeEur_value').html(userCoinBalance.EUR.toLocaleString(locale, {style: 'currency', currency: divisaEUR}));
 	
 	$('#currentPrice_BTC_EUR').html(coinData.BTC.currentPriceEUR.toLocaleString(locale, {style: 'currency', currency: divisaEUR}));
-	$('#currentPrice_BTC_USD').html(coinData.BTC.currentPriceUSD.toLocaleString(locale, {style: 'currency', currency: divisaUSD}));
 	$('#currentVolumeEur_BTC_value').html((userCoinBalance.BTC * coinData.BTC.currentPriceEUR).toLocaleString(locale, {style: 'currency', currency: divisaEUR}));
 	$('#currentVolumeCoin_BTC_value').html(userCoinBalance.BTC.toLocaleString(locale, {style: 'decimal', minimumFractionDigits: fracDigitsCoin}));
 	$('#variationPrice_BTC_EUR').html(coinData.BTC.variationPriceEUR.toLocaleString(locale, {style: 'currency', currency: divisaEUR}));
 	$('#variationPercent_BTC').html(coinData.BTC.variationPercent.toLocaleString(locale, {style: 'percent', minimumFractionDigits: 2}));
 	
+	$('#variationPrice_BTC_EUR').removeClass('valueUp').removeClass('valueDown');
+	$('#variationPercent_BTC').removeClass('valueUp').removeClass('valueDown');
+	
+	if(coinData.BTC.variationPriceEUR >= 0) {
+		$('#variationPrice_BTC_EUR').addClass('valueUp');
+		$('#variationPercent_BTC').addClass('valueUp');
+	} else {
+		$('#variationPrice_BTC_EUR').addClass('valueDown');
+		$('#variationPercent_BTC').addClass('valueDown');
+	}
+	
 	$('#currentPrice_ETH_EUR').html(coinData.ETH.currentPriceEUR.toLocaleString(locale, {style: 'currency', currency: divisaEUR}));
-	$('#currentPrice_ETH_USD').html(coinData.ETH.currentPriceUSD.toLocaleString(locale, {style: 'currency', currency: divisaUSD}));
 	$('#currentVolumeEur_ETH_value').html((userCoinBalance.ETH * coinData.ETH.currentPriceEUR).toLocaleString(locale, {style: 'currency', currency: divisaEUR}));
 	$('#currentVolumeCoin_ETH_value').html(userCoinBalance.ETH.toLocaleString(locale, {style: 'decimal', minimumFractionDigits: fracDigitsCoin}));
+	$('#variationPrice_ETH_EUR').html(coinData.ETH.variationPriceEUR.toLocaleString(locale, {style: 'currency', currency: divisaEUR}));
+	$('#variationPercent_ETH').html(coinData.ETH.variationPercent.toLocaleString(locale, {style: 'percent', minimumFractionDigits: 2}));
+	
+	$('#variationPrice_ETH_EUR').removeClass('valueUp').removeClass('valueDown');
+	$('#variationPercent_ETH').removeClass('valueUp').removeClass('valueDown');
+	
+	if(coinData.ETH.variationPriceEUR >= 0) {
+		$('#variationPrice_ETH_EUR').addClass('valueUp');
+		$('#variationPercent_ETH').addClass('valueUp');
+	} else {
+		$('#variationPrice_ETH_EUR').addClass('valueDown');
+		$('#variationPercent_ETH').addClass('valueDown');
+	}
 
 	$('#currentPrice_LTC_EUR').html(coinData.LTC.currentPriceEUR.toLocaleString(locale, {style: 'currency', currency: divisaEUR}));
-	$('#currentPrice_LTC_USD').html(coinData.LTC.currentPriceUSD.toLocaleString(locale, {style: 'currency', currency: divisaUSD}));
 	$('#currentVolumeEur_LTC_value').html((userCoinBalance.LTC * coinData.LTC.currentPriceEUR).toLocaleString(locale, {style: 'currency', currency: divisaEUR}));
 	$('#currentVolumeCoin_LTC_value').html(userCoinBalance.LTC.toLocaleString(locale, {style: 'decimal', minimumFractionDigits: fracDigitsCoin}));
+	$('#variationPrice_LTC_EUR').html(coinData.LTC.variationPriceEUR.toLocaleString(locale, {style: 'currency', currency: divisaEUR}));
+	$('#variationPercent_LTC').html(coinData.LTC.variationPercent.toLocaleString(locale, {style: 'percent', minimumFractionDigits: 2}));
+	
+	$('#variationPrice_LTC_EUR').removeClass('valueUp').removeClass('valueDown');
+	$('#variationPercent_LTC').removeClass('valueUp').removeClass('valueDown');
+	
+	if(coinData.LTC.variationPriceEUR >= 0) {
+		$('#variationPrice_LTC_EUR').addClass('valueUp');
+		$('#variationPercent_LTC').addClass('valueUp');
+	} else {
+		$('#variationPrice_LTC_EUR').addClass('valueDown');
+		$('#variationPercent_LTC').addClass('valueDown');
+	}
 	
 	$('#currentPrice_XRP_EUR').html(coinData.XRP.currentPriceEUR.toLocaleString(locale, {style: 'currency', currency: divisaEUR, minimumFractionDigits: 4}));
-	$('#currentPrice_XRP_USD').html(coinData.XRP.currentPriceUSD.toLocaleString(locale, {style: 'currency', currency: divisaUSD, minimumFractionDigits: 4}));
 	$('#currentVolumeEur_XRP_value').html((userCoinBalance.XRP * coinData.XRP.currentPriceEUR).toLocaleString(locale, {style: 'currency', currency: divisaEUR}));
 	$('#currentVolumeCoin_XRP_value').html(userCoinBalance.XRP.toLocaleString(locale, {style: 'decimal', minimumFractionDigits: fracDigitsCoin}));
+	$('#variationPrice_XRP_EUR').html(coinData.XRP.variationPriceEUR.toLocaleString(locale, {style: 'currency', currency: divisaEUR}));
+	$('#variationPercent_XRP').html(coinData.XRP.variationPercent.toLocaleString(locale, {style: 'percent', minimumFractionDigits: 2}));
+	
+	$('#variationPrice_XRP_EUR').removeClass('valueUp').removeClass('valueDown');
+	$('#variationPercent_XRP').removeClass('valueUp').removeClass('valueDown');
+	
+	if(coinData.XRP.variationPriceEUR >= 0) {
+		$('#variationPrice_XRP_EUR').addClass('valueUp');
+		$('#variationPercent_XRP').addClass('valueUp');
+	} else {
+		$('#variationPrice_XRP_EUR').addClass('valueDown');
+		$('#variationPercent_XRP').addClass('valueDown');
+	}
 	
 	var currentVolumeTotalEur = userCoinBalance.EUR	
 									+ (userCoinBalance.BTC * coinData.BTC.currentPriceEUR)
@@ -666,7 +692,6 @@ function togglePricesChart() {
 	$('#chartPricesContainer').toggle(0, function() {
 		if($(this).is(":visible")) {
 			$('#chartPricesToggleButton').html('Ocultar gráfica');
-			location.href = "#chartPricesToggleButton";
 			repaintScreen(coinSelected, frequencySelected);
 		} else {
 			$('#chartPricesToggleButton').html('Mostrar gráfica');
