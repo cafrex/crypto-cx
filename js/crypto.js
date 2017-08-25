@@ -11,9 +11,9 @@ var pieCoinChart;
  * @param fullData
  * @param showVolume
  */
-function buildChart(chartId, labels, fullData, showVolume) {
+function buildPricesChart(chartId, labels, fullData, showVolume) {
 
-	var labelBlanks = "    ";
+	var labelBlanks = "  ";
 	
 	var chartOptions = {
 			type: 'line',
@@ -162,7 +162,7 @@ function buildPieChart(chartId, labels, data) {
  * @param limit
  * @param showVolume
  */
-function drawChart(chartId, coin, frequency, limit, showVolume) {
+function drawPricesChart(chartId, coin, frequency, limit, showVolume) {
 
 	var dateMode;
 	
@@ -228,9 +228,9 @@ function drawChart(chartId, coin, frequency, limit, showVolume) {
 			data.volumeTo.push(elem.volumeto);
 		});
 		
-		buildChart(chartId, labels, data, showVolume);
+		buildPricesChart(chartId, labels, data, showVolume);
+		updatePricesChartValues(frequency, data.price);
 		
-		updateChartValues(frequency, data.price);
 	}).fail(function () {
 		activateChartError('NO_DATA');
 	}
@@ -244,44 +244,99 @@ function drawChart(chartId, coin, frequency, limit, showVolume) {
 function drawUserData(userCoinData, userMovements) {
 	
 	var coinData = {
-			'BTC': 0,
-			'ETH': 0,
-			'LTC': 0,
-			'XRP': 0
-	};
+			'BTC': {
+				'currentPriceEUR': 0,
+				'currentPriceUSD': 0,
+				'variationPriceEUR': 0,
+				'variationPercent': 0
+			},
+			'ETH': {
+				'currentPriceEUR': 0,
+				'currentPriceUSD': 0,
+				'variationPriceEUR': 0,
+				'variationPercent': 0
+			},
+			'LTC': {
+				'currentPriceEUR': 0,
+				'currentPriceUSD': 0,
+				'variationPriceEUR': 0,
+				'variationPercent': 0
+			},
+			'XRP': {
+				'currentPriceEUR': 0,
+				'currentPriceUSD': 0,
+				'variationPriceEUR': 0,
+				'variationPercent': 0
+			}
+		};
 	
-	var urlBTC = 'https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=EUR,USD';
-	var urlETH = 'https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=EUR,USD';
-	var urlLTC = 'https://min-api.cryptocompare.com/data/price?fsym=LTC&tsyms=EUR,USD';
-	var urlXRP = 'https://min-api.cryptocompare.com/data/price?fsym=XRP&tsyms=EUR,USD';
+	/*
+	var urlBTC = 'https://min-api.cryptocompare.com/data/coinsnapshot?fsym=BTC&tsym=EUR';
+	var urlETH = 'https://min-api.cryptocompare.com/data/coinsnapshot?fsym=ETH&tsym=EUR';
+	var urlLTC = 'https://min-api.cryptocompare.com/data/coinsnapshot?fsym=LTC&tsym=EUR';
+	var urlXRP = 'https://min-api.cryptocompare.com/data/coinsnapshot?fsym=XRP&tsym=EUR';
+	*/
 	
+	var urlBTC = 'https://www.cryptocompare.com/api/data/coinsnapshot?fsym=BTC&tsym=EUR';
+	var urlETH = 'https://www.cryptocompare.com/api/data/coinsnapshot?fsym=ETH&tsym=EUR';
+	var urlLTC = 'https://www.cryptocompare.com/api/data/coinsnapshot?fsym=LTC&tsym=EUR';
+	var urlXRP = 'https://www.cryptocompare.com/api/data/coinsnapshot?fsym=XRP&tsym=EUR';
+
 	$.ajax({
 		url: urlBTC,
 		dataType: 'json'
 	}).done(function (results) {
-		coinData.BTC_EUR = results.EUR;
-		coinData.BTC_USD = results.USD;
+		
+		var currentPrice = results.Data.AggregatedData.PRICE;
+		var firstPrice = results.Data.AggregatedData.OPEN24HOUR;
+		var variationPrice = currentPrice - firstPrice;
+		var variationPercent = variationPrice / firstPrice;
+		coinData.BTC.currentPriceEUR = currentPrice;
+		coinData.BTC.currentPriceUSD = 0;
+		coinData.BTC.variationPriceEUR = variationPrice;
+		coinData.BTC.variationPercent = variationPercent;
 		
 		$.ajax({
 			url: urlETH,
 			dataType: 'json'
 		}).done(function (results) {
-			coinData.ETH_EUR = results.EUR;
-			coinData.ETH_USD = results.USD;
+			
+			var currentPrice = results.Data.AggregatedData.PRICE;
+			var firstPrice = results.Data.AggregatedData.OPEN24HOUR;
+			var variationPrice = currentPrice - firstPrice;
+			var variationPercent = variationPrice / firstPrice;
+			coinData.ETH.currentPriceEUR = currentPrice;
+			coinData.ETH.currentPriceUSD = 0;
+			coinData.ETH.variationPriceEUR = variationPrice;
+			coinData.ETH.variationPercent = variationPercent;
 			
 			$.ajax({
 				url: urlLTC,
 				dataType: 'json'
 			}).done(function (results) {
-				coinData.LTC_EUR = results.EUR;
-				coinData.LTC_USD = results.USD;
+				
+				var currentPrice = results.Data.AggregatedData.PRICE;
+				var firstPrice = results.Data.AggregatedData.OPEN24HOUR;
+				var variationPrice = currentPrice - firstPrice;
+				var variationPercent = variationPrice / firstPrice;
+				coinData.LTC.currentPriceEUR = currentPrice;
+				coinData.LTC.currentPriceUSD = 0;
+				coinData.LTC.variationPriceEUR = variationPrice;
+				coinData.LTC.variationPercent = variationPercent;
 				
 				$.ajax({
 					url: urlXRP,
 					dataType: 'json'
 				}).done(function (results) {
-					coinData.XRP_EUR = results.EUR;
-					coinData.XRP_USD = results.USD;
+
+					var currentPrice = results.Data.AggregatedData.PRICE;
+					var firstPrice = results.Data.AggregatedData.OPEN24HOUR;
+					var variationPrice = currentPrice - firstPrice;
+					var variationPercent = variationPrice / firstPrice;
+					coinData.XRP.currentPriceEUR = currentPrice;
+					coinData.XRP.currentPriceUSD = 0;
+					coinData.XRP.variationPriceEUR = variationPrice;
+					coinData.XRP.variationPercent = variationPercent;
 					
 					updateUserValues(coinData, userCoinData);
 					updateUserProfitability(userMovements, coinData, userCoinBalance);
@@ -359,7 +414,7 @@ Date.prototype.formatDate = function(mode) {
  * @param frequency
  * @param data
  */
-function updateChartValues(frequency, data) {
+function updatePricesChartValues(frequency, data) {
 	var divisa = 'EUR';
 	var locale = 'es-ES';
 	
@@ -381,13 +436,9 @@ function updateChartValues(frequency, data) {
 	$('#variationPercent').removeClass('valueUp').removeClass('valueDown');
 	
 	if(variationPrice > 0) {
-		$('#variationPrice_upDownArrow').html("^");
-		$('#variationPercent_upDownArrow').html("^");
 		$('#variationPrice').addClass('valueUp');
 		$('#variationPercent').addClass('valueUp');
 	} else if(variationPrice < 0) {
-		$('#variationPrice_upDownArrow').html("v");
-		$('#variationPercent_upDownArrow').html("v");
 		$('#variationPrice').addClass('valueDown');
 		$('#variationPercent').addClass('valueDown');
 	}
@@ -407,31 +458,33 @@ function updateUserValues(coinData, userCoinBalance) {
 
 	$('#currentVolumeEur_value').html(userCoinBalance.EUR.toLocaleString(locale, {style: 'currency', currency: divisaEUR}));
 	
-	$('#currentPrice_BTC_EUR').html(coinData.BTC_EUR.toLocaleString(locale, {style: 'currency', currency: divisaEUR}));
-	$('#currentPrice_BTC_USD').html(coinData.BTC_USD.toLocaleString(locale, {style: 'currency', currency: divisaUSD}));
-	$('#currentVolumeEur_BTC_value').html((userCoinBalance.BTC * coinData.BTC_EUR).toLocaleString(locale, {style: 'currency', currency: divisaEUR}));
+	$('#currentPrice_BTC_EUR').html(coinData.BTC.currentPriceEUR.toLocaleString(locale, {style: 'currency', currency: divisaEUR}));
+	$('#currentPrice_BTC_USD').html(coinData.BTC.currentPriceUSD.toLocaleString(locale, {style: 'currency', currency: divisaUSD}));
+	$('#currentVolumeEur_BTC_value').html((userCoinBalance.BTC * coinData.BTC.currentPriceEUR).toLocaleString(locale, {style: 'currency', currency: divisaEUR}));
 	$('#currentVolumeCoin_BTC_value').html(userCoinBalance.BTC.toLocaleString(locale, {style: 'decimal', minimumFractionDigits: fracDigitsCoin}));
+	$('#variationPrice_BTC_EUR').html(coinData.BTC.variationPriceEUR.toLocaleString(locale, {style: 'currency', currency: divisaEUR}));
+	$('#variationPercent_BTC').html(coinData.BTC.variationPercent.toLocaleString(locale, {style: 'percent', minimumFractionDigits: 2}));
 	
-	$('#currentPrice_ETH_EUR').html(coinData.ETH_EUR.toLocaleString(locale, {style: 'currency', currency: divisaEUR}));
-	$('#currentPrice_ETH_USD').html(coinData.ETH_USD.toLocaleString(locale, {style: 'currency', currency: divisaUSD}));
-	$('#currentVolumeEur_ETH_value').html((userCoinBalance.ETH * coinData.ETH_EUR).toLocaleString(locale, {style: 'currency', currency: divisaEUR}));
+	$('#currentPrice_ETH_EUR').html(coinData.ETH.currentPriceEUR.toLocaleString(locale, {style: 'currency', currency: divisaEUR}));
+	$('#currentPrice_ETH_USD').html(coinData.ETH.currentPriceUSD.toLocaleString(locale, {style: 'currency', currency: divisaUSD}));
+	$('#currentVolumeEur_ETH_value').html((userCoinBalance.ETH * coinData.ETH.currentPriceEUR).toLocaleString(locale, {style: 'currency', currency: divisaEUR}));
 	$('#currentVolumeCoin_ETH_value').html(userCoinBalance.ETH.toLocaleString(locale, {style: 'decimal', minimumFractionDigits: fracDigitsCoin}));
 
-	$('#currentPrice_LTC_EUR').html(coinData.LTC_EUR.toLocaleString(locale, {style: 'currency', currency: divisaEUR}));
-	$('#currentPrice_LTC_USD').html(coinData.LTC_USD.toLocaleString(locale, {style: 'currency', currency: divisaUSD}));
-	$('#currentVolumeEur_LTC_value').html((userCoinBalance.LTC * coinData.LTC_EUR).toLocaleString(locale, {style: 'currency', currency: divisaEUR}));
+	$('#currentPrice_LTC_EUR').html(coinData.LTC.currentPriceEUR.toLocaleString(locale, {style: 'currency', currency: divisaEUR}));
+	$('#currentPrice_LTC_USD').html(coinData.LTC.currentPriceUSD.toLocaleString(locale, {style: 'currency', currency: divisaUSD}));
+	$('#currentVolumeEur_LTC_value').html((userCoinBalance.LTC * coinData.LTC.currentPriceEUR).toLocaleString(locale, {style: 'currency', currency: divisaEUR}));
 	$('#currentVolumeCoin_LTC_value').html(userCoinBalance.LTC.toLocaleString(locale, {style: 'decimal', minimumFractionDigits: fracDigitsCoin}));
 	
-	$('#currentPrice_XRP_EUR').html(coinData.XRP_EUR.toLocaleString(locale, {style: 'currency', currency: divisaEUR, minimumFractionDigits: 4}));
-	$('#currentPrice_XRP_USD').html(coinData.XRP_USD.toLocaleString(locale, {style: 'currency', currency: divisaUSD, minimumFractionDigits: 4}));
-	$('#currentVolumeEur_XRP_value').html((userCoinBalance.XRP * coinData.XRP_EUR).toLocaleString(locale, {style: 'currency', currency: divisaEUR}));
+	$('#currentPrice_XRP_EUR').html(coinData.XRP.currentPriceEUR.toLocaleString(locale, {style: 'currency', currency: divisaEUR, minimumFractionDigits: 4}));
+	$('#currentPrice_XRP_USD').html(coinData.XRP.currentPriceUSD.toLocaleString(locale, {style: 'currency', currency: divisaUSD, minimumFractionDigits: 4}));
+	$('#currentVolumeEur_XRP_value').html((userCoinBalance.XRP * coinData.XRP.currentPriceEUR).toLocaleString(locale, {style: 'currency', currency: divisaEUR}));
 	$('#currentVolumeCoin_XRP_value').html(userCoinBalance.XRP.toLocaleString(locale, {style: 'decimal', minimumFractionDigits: fracDigitsCoin}));
 	
 	var currentVolumeTotalEur = userCoinBalance.EUR	
-									+(userCoinBalance.BTC * coinData.BTC_EUR)
-									+ (userCoinBalance.ETH * coinData.ETH_EUR)
-									+ (userCoinBalance.LTC * coinData.LTC_EUR)
-									+ (userCoinBalance.XRP * coinData.XRP_EUR);
+									+ (userCoinBalance.BTC * coinData.BTC.currentPriceEUR)
+									+ (userCoinBalance.ETH * coinData.ETH.currentPriceEUR)
+									+ (userCoinBalance.LTC * coinData.LTC.currentPriceEUR)
+									+ (userCoinBalance.XRP * coinData.XRP.currentPriceEUR);
 	
 	$('#currentVolumeTotalEur_value').html(currentVolumeTotalEur.toLocaleString(locale, {style: 'currency', currency: divisaEUR}));
 }
@@ -477,32 +530,34 @@ function repaintScreen(coin, frequency, showVolume) {
 	selectCoinButton('buttonCoin_' + coinSelected);
 	selectFrequencyButton('buttonFrequency_' + frequencySelected);
 	
-	if(frequencySelected == '1H') {
-		drawChart('chart', coinSelected, 'MINUTE', 60, showVolume);
-	} else if(frequencySelected == '24H') {
-		drawChart('chart', coinSelected, 'MINUTE', 24 * 60, showVolume);
-	} else if(frequencySelected == '1D') {
-		//calcular el numero de minutos transcurridos del dia
-		var now = new Date();
-		var beginOfDay = new Date(now.getTime());
-		beginOfDay.setHours(0);
-		beginOfDay.setMinutes(0);
-		beginOfDay.setSeconds(0);
-		beginOfDay.setMilliseconds(0);
-		
-		var diffMillis = now.getTime() - beginOfDay.getTime();
-		
-		drawChart('chart', coinSelected, 'MINUTE', (diffMillis / 1000 / 60).toFixed(0), showVolume);
-	} else if(frequencySelected == '1S') {
-		drawChart('chart', coinSelected, 'HOUR', 7 * 24, showVolume);
-	} else if(frequencySelected == '1M') {
-		drawChart('chart', coinSelected, 'HOUR', 30 * 24, showVolume);
-	} else if(frequencySelected == '3M') {
-		drawChart('chart', coinSelected, 'DAY', 90, showVolume);
-	} else if(frequencySelected == '6M') {	
-		drawChart('chart', coinSelected, 'DAY', 180, showVolume);
-	} else if(frequencySelected == '1A') {	
-		drawChart('chart', coinSelected, 'DAY', 365, showVolume);
+	if($('#chartPricesContainer').is(':visible')) {
+		if(frequencySelected == '1H') {
+			drawPricesChart('chart', coinSelected, 'MINUTE', 60, showVolume);
+		} else if(frequencySelected == '24H') {
+			drawPricesChart('chart', coinSelected, 'MINUTE', 24 * 60, showVolume);
+		} else if(frequencySelected == '1D') {
+			//calcular el numero de minutos transcurridos del dia
+			var now = new Date();
+			var beginOfDay = new Date(now.getTime());
+			beginOfDay.setHours(0);
+			beginOfDay.setMinutes(0);
+			beginOfDay.setSeconds(0);
+			beginOfDay.setMilliseconds(0);
+			
+			var diffMillis = now.getTime() - beginOfDay.getTime();
+			
+			drawPricesChart('chart', coinSelected, 'MINUTE', (diffMillis / 1000 / 60).toFixed(0), showVolume);
+		} else if(frequencySelected == '1S') {
+			drawPricesChart('chart', coinSelected, 'HOUR', 7 * 24, showVolume);
+		} else if(frequencySelected == '1M') {
+			drawPricesChart('chart', coinSelected, 'HOUR', 30 * 24, showVolume);
+		} else if(frequencySelected == '3M') {
+			drawPricesChart('chart', coinSelected, 'DAY', 90, showVolume);
+		} else if(frequencySelected == '6M') {	
+			drawPricesChart('chart', coinSelected, 'DAY', 180, showVolume);
+		} else if(frequencySelected == '1A') {	
+			drawPricesChart('chart', coinSelected, 'DAY', 365, showVolume);
+		}
 	}
 	
 	drawUserData(userCoinBalance, userAccountMovements);
@@ -560,10 +615,10 @@ function updateUserProfitability(movements, coinData, userCoinBalance) {
 	currentInput = input - output;
 	
 	var currentVolumeTotalEur = userCoinBalance.EUR	
-								+ (userCoinBalance.BTC * coinData.BTC_EUR)
-								+ (userCoinBalance.ETH * coinData.ETH_EUR)
-								+ (userCoinBalance.LTC * coinData.LTC_EUR)
-								+ (userCoinBalance.XRP * coinData.XRP_EUR);
+								+ (userCoinBalance.BTC * coinData.BTC.currentPriceEUR)
+								+ (userCoinBalance.ETH * coinData.ETH.currentPriceEUR)
+								+ (userCoinBalance.LTC * coinData.LTC.currentPriceEUR)
+								+ (userCoinBalance.XRP * coinData.XRP.currentPriceEUR);
 	profit = currentVolumeTotalEur - currentInput;
 	
 	$('#userProfitability_input').html(input.toLocaleString(locale, {style: 'currency', currency: divisa})); 
@@ -611,6 +666,8 @@ function togglePricesChart() {
 	$('#chartPricesContainer').toggle(0, function() {
 		if($(this).is(":visible")) {
 			$('#chartPricesToggleButton').html('Ocultar gráfica');
+			location.href = "#chartPricesToggleButton";
+			repaintScreen(coinSelected, frequencySelected);
 		} else {
 			$('#chartPricesToggleButton').html('Mostrar gráfica');
 		}
