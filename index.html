@@ -197,47 +197,27 @@ $(document).ready(function() {
 	</div>
 	
 	<div class="row">
-		<div class="col-md-4 col-sm-12">
+		<div class="col-md-5 col-sm-12">
 			<div class="userDataContainer">
 				<p>Diferencia en las últimas 24 horas</p>
 				<div class="currentVolumeCoin sectionContainer">
-					<div class="container">
-						<div class="row">
-							<div class="col-4">
-								<img src="img/btc.png" class="iconCoin"/>
-								<span class="coin">BTC</span>
-							</div>
-							<div class="col-4">
-								<span id="currentVolumeEur_BTC_value" class="valueEur updatableData">---</span>
-							</div>
-							<div class="col-4">
-								<span id="currentVolumeCoin_BTC_value" class="valueCoin updatableData">---</span>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-6">
-								<span id="currentPrice_BTC_EUR" class="price updatableData">---</span>
-							</div>
-							<div class="col-6">
-								<span id="currentPrice_BTC_USD" class="price updatableData">---</span>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-6">
-								<span id="variationPrice_BTC_EUR" class="price updatableData">---</span>
-							</div>
-							<div class="col-6">
-								<span id="variationPercent_BTC" class="price updatableData">---</span>
-							</div>
-						</div>
+					<div class="title">
+						<img src="img/btc.png" class="iconCoin"/>
+						<span class="coin">BTC</span>
+						<span id="currentPrice_BTC_EUR" class="price updatableData">---</span>
+						<span id="variationPrice_BTC_EUR" class="variationPrice updatableData">---</span>
+						<span id="variationPercent_BTC" class="variationPercent updatableData">---</span>
 					</div>
+					<div id="currentVolumeEur_BTC_value" class="valueEur updatableData">---</div>
+					<div id="currentVolumeCoin_BTC_value" class="valueCoin updatableData">---</div>
 				</div>
 				<div class="currentVolumeCoin sectionContainer">
 					<div class="title">
 						<img src="img/eth.png" class="iconCoin"/>
 						<span class="coin">ETH</span>
 						<span id="currentPrice_ETH_EUR" class="price updatableData">---</span>
-						<span id="currentPrice_ETH_USD" class="price updatableData">---</span>
+						<span id="variationPrice_ETH_EUR" class="variationPrice updatableData">---</span>
+						<span id="variationPercent_ETH" class="variationPercent updatableData">---</span>
 					</div>
 					<div id="currentVolumeEur_ETH_value" class="valueEur updatableData">---</div>
 					<div id="currentVolumeCoin_ETH_value" class="valueCoin updatableData">---</div>
@@ -247,7 +227,8 @@ $(document).ready(function() {
 						<img src="img/ltc.png" class="iconCoin"/>
 						<span class="coin">LTC</span>
 						<span id="currentPrice_LTC_EUR" class="price updatableData">---</span>
-						<span id="currentPrice_LTC_USD" class="price updatableData">---</span>
+						<span id="variationPrice_LTC_EUR" class="variationPrice updatableData">---</span>
+						<span id="variationPercent_LTC" class="variationPercent updatableData">---</span>
 					</div>
 					<div id="currentVolumeEur_LTC_value" class="valueEur updatableData">---</div>
 					<div id="currentVolumeCoin_LTC_value" class="valueCoin updatableData">---</div>
@@ -257,7 +238,8 @@ $(document).ready(function() {
 						<img src="img/xrp.png" class="iconCoin"/>
 						<span class="coin">XRP</span>
 						<span id="currentPrice_XRP_EUR" class="price updatableData">---</span>
-						<span id="currentPrice_XRP_USD" class="price updatableData">---</span>
+						<span id="variationPrice_XRP_EUR" class="variationPrice updatableData">---</span>
+						<span id="variationPercent_XRP" class="variationPercent updatableData">---</span>
 					</div>
 					<div id="currentVolumeEur_XRP_value" class="valueEur updatableData">---</div>
 					<div id="currentVolumeCoin_XRP_value" class="valueCoin updatableData">---</div>
@@ -268,7 +250,7 @@ $(document).ready(function() {
 				</div>
 			</div> <!-- /userDataContainer -->     
 		</div>
-		<div class="col-md-8 col-sm-12">
+		<div class="col-md-7 col-sm-12">
 			<div id="chartPricesToggleButton">
 				Mostrar gráfica
 			</div>
@@ -321,11 +303,11 @@ $(document).ready(function() {
 						<div class="pricesDataContainer">
 							<div id="currentPrice" class="currentPrice updatableData">---</div>
 							
-							<div id="variationPrice" class="variationPrice">
+							<div id="variationPrice" class="variationPriceChart">
 								<div id="variationPrice_value" class="updatableData">---</div>
 							</div>
 							
-							<div id="variationPercent" class="variationPercent">
+							<div id="variationPercent" class="variationPercentChart">
 								<div id="variationPercent_value" class="updatableData">---</div>
 							</div>
 						</div>
