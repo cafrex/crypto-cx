@@ -32,9 +32,27 @@ p {
 	margin-top: 15px;
 }
 
-#chartPricesContainer {
-	display: none;	
+
+@media all and (min-width:768px) {
+	#chartPricesContainer {
+    	display: block;	
+	}
+	
+	#chartPricesToggleButton {
+		display: none;
+	}	
 }
+
+@media all and (max-width:768px) {
+	#chartPricesContainer {
+    	display: none;	
+	}
+	
+	#chartPricesToggleButton {
+		display: block;
+	}	
+}
+
 
 .userDataContainer {
 	margin-top: 20px;
@@ -136,6 +154,24 @@ p {
 }
 
 .variationPrice {
+	text-align: center;
+	font-size: 10pt;
+	font-weight: bold;
+	min-width: 100px;
+	background: #f4f5f7;
+	padding: 5px;
+}
+
+.variationPercent {
+	text-align: center;
+	font-size: 10pt;
+	font-weight: bold;
+	min-width: 100px;
+	background: #f4f5f7;
+	padding: 5px;
+}
+
+.variationPriceChart {
 	margin-left: 15px;
 	text-align: center;
 	float: left;
@@ -146,7 +182,7 @@ p {
 	min-width: 100px;
 }
 
-.variationPercent {
+.variationPercentChart {
 	margin-left: 15px;
 	float: left;
 	border: solid 1px #336699;
@@ -188,13 +224,12 @@ p {
 } 
 
 .currentVolumeCoin .coin {
-	font-size: 15pt;
+	font-size: 12pt;
 }
 
 .currentVolumeCoin .valueEur {
 	font-size: 15pt;
 	color: #224568;
-	margin-bottom: 5px;
 }
 
 .currentVolumeCoin .valueCoin {
@@ -240,7 +275,8 @@ p {
 .iconCoin {
 	width: 30px;
 	display: inline;
-	vertical-align: middle;
+	vertical-align: top;
+	overflow: hidden;
 }
 
 .currentVolumeCoin .title .coin {
