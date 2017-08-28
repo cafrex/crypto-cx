@@ -295,6 +295,12 @@ p {
 	width: 30px;
 }
 
+#refreshMark {
+	font-size: 10pt;
+	font-weight: bold;
+	color: #fff;
+}
+
 #buttonRefreshTimer {
 	display: inline;
 	background: transparent;
@@ -467,3 +473,4 @@ footer {
 .variationCoin {
 	white-space: nowrap;
 }
+
