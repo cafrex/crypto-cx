@@ -460,3 +460,6 @@ footer {
 	font-size: 10pt;
 }
 
+.updatableData {
+	white-space: nowrap;
+}
