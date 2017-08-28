@@ -564,6 +564,7 @@ function repaintScreen(coin, frequency, showVolume) {
 	selectFrequencyButton('buttonFrequency_' + frequencySelected);
 	
 	if($('#chartPricesContainer').is(':visible')) {
+		pricesChartVisible = true;
 		if(frequencySelected == '1H') {
 			drawPricesChart('chart', coinSelected, 'MINUTE', 60, showVolume);
 		} else if(frequencySelected == '24H') {
