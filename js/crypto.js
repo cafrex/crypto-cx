@@ -4,6 +4,7 @@ var showVolumeSelected;
 var coinChart;
 var pieCoinChart;
 var pricesChartVisible = false;
+var endDataLoad;
 
 /**
  * 
@@ -322,6 +323,8 @@ function drawUserData(userCoinData, userMovements) {
 					
 					updateUserValues(coinData, userCoinData);
 					updateUserProfitability(userMovements, coinData, userCoinBalance);
+					
+					endDataLoad = true;
 					});
 				
 				});
@@ -548,6 +551,9 @@ function selectCoinButton(buttonId) {
  */
 function repaintScreen(coin, frequency, showVolume) {
 	
+	endDataLoad = false;
+	toggleRefreshMark();
+	
 	clearScreenData();
 	
 	frequencySelected = frequency;
@@ -714,25 +720,34 @@ function clearScreenData() {
 /**
  *  control de redimensionado de pantalla
  */
-var rtime;
-var timeout = false;
-var delta = 200;
 $(window).resize(function() {
-    rtime = new Date();
-    if (timeout === false) {
-        timeout = true;
-        setTimeout(resizeend, delta);
-    }
-});
-
-function resizeend() {
-    if (new Date() - rtime < delta) {
-        setTimeout(resizeend, delta);
-    } else {
-        timeout = false;
-        if(!pricesChartVisible) {
+	var resizeId;
+	var delta = 200;
+    clearTimeout(resizeId);
+    resizeId = setTimeout(function() {
+    	if(!pricesChartVisible) {
         	pricesChartVisible = true;
         	repaintScreen(coinSelected, frequencySelected);
         }
-    }
+    }, delta);
+});
+
+
+/**
+ *
+ */
+function toggleRefreshMark() {
+	var refreshId;
+	var delta = 100;
+    clearTimeout(refreshId);
+    refreshId = setTimeout(function() {
+		if(!endDataLoad) {
+			$('#buttonRefresh').hide(0);
+			$('#refreshMark').show(0);
+			toggleRefreshMark();
+	    } else {
+	    	$('#refreshMark').hide(0);
+	    	$('#buttonRefresh').show(0);
+	    }
+    }, delta);
 }
