@@ -3,6 +3,7 @@ var frequencySelected;
 var showVolumeSelected;
 var coinChart;
 var pieCoinChart;
+var pricesChartVisible = false;
 
 /**
  * 
@@ -492,8 +493,8 @@ function updateUserValues(coinData, userCoinBalance) {
 	$('#currentPrice_XRP_EUR').html(coinData.XRP.currentPriceEUR.toLocaleString(locale, {style: 'currency', currency: divisaEUR, minimumFractionDigits: 4}));
 	$('#currentVolumeEur_XRP_value').html((userCoinBalance.XRP * coinData.XRP.currentPriceEUR).toLocaleString(locale, {style: 'currency', currency: divisaEUR}));
 	$('#currentVolumeCoin_XRP_value').html(userCoinBalance.XRP.toLocaleString(locale, {style: 'decimal', minimumFractionDigits: fracDigitsCoin}));
-	$('#variationPrice_XRP_EUR').html(coinData.XRP.variationPriceEUR.toLocaleString(locale, {style: 'currency', currency: divisaEUR}));
-	$('#variationPercent_XRP').html(coinData.XRP.variationPercent.toLocaleString(locale, {style: 'percent', minimumFractionDigits: 2}));
+	$('#variationPrice_XRP_EUR').html(coinData.XRP.variationPriceEUR.toLocaleString(locale, {style: 'currency', currency: divisaEUR, minimumFractionDigits: 4}));
+	$('#variationPercent_XRP').html(coinData.XRP.variationPercent.toLocaleString(locale, {style: 'percent', minimumFractionDigits: 4}));
 	
 	$('#variationPrice_XRP_EUR').removeClass('valueUp').removeClass('valueDown');
 	$('#variationPercent_XRP').removeClass('valueUp').removeClass('valueDown');
@@ -693,8 +694,10 @@ function togglePricesChart() {
 		if($(this).is(":visible")) {
 			$('#chartPricesToggleButton').html('Ocultar gráfica');
 			repaintScreen(coinSelected, frequencySelected);
+			pricesChartVisible = true;
 		} else {
 			$('#chartPricesToggleButton').html('Mostrar gráfica');
+			pricesChartVisible = false;
 		}
 	});
 }
@@ -706,4 +709,30 @@ function clearScreenData() {
 	$('.updatableData').html('---');
 	$('.valueUp').removeClass('valueUp');
 	$('.valueDown').removeClass('valueDown');
+}
+
+/**
+ *  control de redimensionado de pantalla
+ */
+var rtime;
+var timeout = false;
+var delta = 200;
+$(window).resize(function() {
+    rtime = new Date();
+    if (timeout === false) {
+        timeout = true;
+        setTimeout(resizeend, delta);
+    }
+});
+
+function resizeend() {
+    if (new Date() - rtime < delta) {
+        setTimeout(resizeend, delta);
+    } else {
+        timeout = false;
+        if(!pricesChartVisible) {
+        	pricesChartVisible = true;
+        	repaintScreen(coinSelected, frequencySelected);
+        }
+    }
 }
