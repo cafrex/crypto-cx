@@ -3,7 +3,7 @@ var frequencySelected;
 var showVolumeSelected;
 var coinChart;
 var pieCoinChart;
-var pricesChartVisible = false;
+var pricesChartUpdated = false;
 var endDataLoad;
 
 /**
@@ -700,11 +700,13 @@ function togglePricesChart() {
 	$('#chartPricesContainer').toggle(0, function() {
 		if($(this).is(":visible")) {
 			$('#chartPricesToggleButton').html('Ocultar gráfica');
-			repaintScreen(coinSelected, frequencySelected);
-			pricesChartVisible = true;
+			if(!pricesChartUpdated) {
+				repaintScreen(coinSelected, frequencySelected);
+				pricesChartUpdated = true;
+			}
 		} else {
 			$('#chartPricesToggleButton').html('Mostrar gráfica');
-			pricesChartVisible = false;
+			pricesChartUpdated = false;
 		}
 	});
 }
@@ -726,10 +728,14 @@ $(window).resize(function() {
 	var delta = 200;
     clearTimeout(resizeId);
     resizeId = setTimeout(function() {
-    	if(!pricesChartVisible) {
-        	pricesChartVisible = true;
-        	repaintScreen(coinSelected, frequencySelected);
-        }
+    	$('#chartPricesContainer').css('display', '');
+    	if($('#chartPricesContainer').is(':visible')) {
+    		if(!pricesChartUpdated) {
+    			$('#chartPricesContainer').css('display', 'block');
+	    		repaintScreen(coinSelected, frequencySelected);
+	    		pricesChartUpdated = true;
+	    	}
+    	}
     }, delta);
 });
 
