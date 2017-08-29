@@ -3,7 +3,7 @@
  */
 var userCoinBalance = {
 		'EUR': 14000.27,
-		'BTC': 0.00519816,
+		'BTC': 0.00009816,
 		'ETH': 35.31997380,
 		'LTC': 0.00004317,
 		'XRP': 3102.75
@@ -21,3 +21,4 @@ var userAccountMovements = { 'inputs':
 		                          {'date': '07/04/2017', 'amount': 1000.36},
 		                          {'date': '09/07/2017', 'amount': 408}]
 							};
+
