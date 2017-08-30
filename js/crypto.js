@@ -2,6 +2,7 @@ var coinSelected;
 var frequencySelected;
 var coinChart;
 var defaultCurrency = 'EUR';
+var defaultValueUnloadData = '---';
 
 /**
  * 
@@ -157,24 +158,24 @@ function drawUserData(userCoinData, userMovements) {
 	
 	var coinData = {
 			'BTC': {
-				'currentPriceEUR': 0,
-				'variationPriceEUR': 0,
-				'variationPercent': 0
+				'currentPriceEUR': defaultValueUnloadData,
+				'variationPriceEUR': defaultValueUnloadData,
+				'variationPercent': defaultValueUnloadData
 			},
 			'ETH': {
-				'currentPriceEUR': 0,
-				'variationPriceEUR': 0,
-				'variationPercent': 0
+				'currentPriceEUR': defaultValueUnloadData,
+				'variationPriceEUR': defaultValueUnloadData,
+				'variationPercent': defaultValueUnloadData
 			},
 			'LTC': {
-				'currentPriceEUR': 0,
-				'variationPriceEUR': 0,
-				'variationPercent': 0
+				'currentPriceEUR': defaultValueUnloadData,
+				'variationPriceEUR': defaultValueUnloadData,
+				'variationPercent': defaultValueUnloadData
 			},
 			'XRP': {
-				'currentPriceEUR': 0,
-				'variationPriceEUR': 0,
-				'variationPercent': 0
+				'currentPriceEUR': defaultValueUnloadData,
+				'variationPriceEUR': defaultValueUnloadData,
+				'variationPercent': defaultValueUnloadData
 			}
 		};
 	
@@ -629,7 +630,7 @@ function toggleUserMovements() {
  * 
  */
 function clearScreenData() {
-	$('.updatableData').html('---');
+	$('.updatableData').html(defaultValueUnloadData);
 	$('.valueUp').removeClass('valueUp');
 	$('.valueDown').removeClass('valueDown');
 }
@@ -642,7 +643,7 @@ function toggleRefreshMark() {
 	var delta = 100;
 	clearTimeout(refreshId);
 	refreshId = setTimeout(function() {
-		var endDataLoad = ($(".updatableData:contains('---')").length == 0) ;
+		var endDataLoad = ($(".updatableData:contains('" + defaultValueUnloadData + "')").length == 0) ;
 		if(!endDataLoad) {
 			console.log("!endDataload");
 			$('#buttonRefresh').hide(0);
