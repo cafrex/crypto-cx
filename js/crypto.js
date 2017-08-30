@@ -2,6 +2,7 @@ var coinSelected;
 var frequencySelected;
 var coinChart;
 var defaultCurrency = 'EUR';
+var defaultLocale = 'es-ES';
 var defaultValueUnloadData = '---';
 
 /**
@@ -336,7 +337,7 @@ Date.prototype.formatDate = function(mode) {
  */
 function updatePricesChartValues(frequency, data) {
 	var divisa = defaultCurrency;
-	var locale = 'es-ES';
+	var locale = defaultLocale;
 	
 	var currentPrice = data[data.length-1];
 	var firstPrice = data[0];
@@ -371,80 +372,90 @@ function updatePricesChartValues(frequency, data) {
  */
 function updateUserValues(coinData, userCoinBalance) {
 	var divisa = defaultCurrency;
-	var locale = 'es-ES';
+	var locale = defaultLocale;
 
 	var fracDigitsCoin = 8;
 
-	$('#currentVolumeEur_value').html(userCoinBalance.EUR.toLocaleString(locale, {style: 'currency', currency: divisa}));
-	
-	$('#currentPrice_BTC_EUR').html(coinData.BTC.currentPriceEUR.toLocaleString(locale, {style: 'currency', currency: divisa}));
-	$('#currentVolumeEur_BTC_value').html((userCoinBalance.BTC * coinData.BTC.currentPriceEUR).toLocaleString(locale, {style: 'currency', currency: divisa}));
-	$('#currentVolumeCoin_BTC_value').html(userCoinBalance.BTC.toLocaleString(locale, {style: 'decimal', minimumFractionDigits: fracDigitsCoin}));
-	$('#variationPrice_BTC_EUR').html(coinData.BTC.variationPriceEUR.toLocaleString(locale, {style: 'currency', currency: divisa}));
-	$('#variationPercent_BTC').html(coinData.BTC.variationPercent.toLocaleString(locale, {style: 'percent', minimumFractionDigits: 2}));
-	
-	$('#variationPrice_BTC_EUR').removeClass('valueUp').removeClass('valueDown');
-	$('#variationPercent_BTC').removeClass('valueUp').removeClass('valueDown');
-	
-	if(coinData.BTC.variationPriceEUR >= 0) {
-		$('#variationPrice_BTC_EUR').addClass('valueUp');
-		$('#variationPercent_BTC').addClass('valueUp');
-	} else {
-		$('#variationPrice_BTC_EUR').addClass('valueDown');
-		$('#variationPercent_BTC').addClass('valueDown');
+	if(userCoinBalance.EUR != defaultValueUnloadData) {
+		$('#currentVolumeEur_value').html(userCoinBalance.EUR.toLocaleString(locale, {style: 'currency', currency: divisa}));
+	}
+		
+	if(coinData.BTC.currentPriceEUR != defaultValueUnloadData) {
+		$('#currentPrice_BTC_EUR').html(coinData.BTC.currentPriceEUR.toLocaleString(locale, {style: 'currency', currency: divisa}));
+		$('#currentVolumeEur_BTC_value').html((userCoinBalance.BTC * coinData.BTC.currentPriceEUR).toLocaleString(locale, {style: 'currency', currency: divisa}));
+		$('#currentVolumeCoin_BTC_value').html(userCoinBalance.BTC.toLocaleString(locale, {style: 'decimal', minimumFractionDigits: fracDigitsCoin}));
+		$('#variationPrice_BTC_EUR').html(coinData.BTC.variationPriceEUR.toLocaleString(locale, {style: 'currency', currency: divisa}));
+		$('#variationPercent_BTC').html(coinData.BTC.variationPercent.toLocaleString(locale, {style: 'percent', minimumFractionDigits: 2}));
+		
+		$('#variationPrice_BTC_EUR').removeClass('valueUp').removeClass('valueDown');
+		$('#variationPercent_BTC').removeClass('valueUp').removeClass('valueDown');
+		
+		if(coinData.BTC.variationPriceEUR >= 0) {
+			$('#variationPrice_BTC_EUR').addClass('valueUp');
+			$('#variationPercent_BTC').addClass('valueUp');
+		} else {
+			$('#variationPrice_BTC_EUR').addClass('valueDown');
+			$('#variationPercent_BTC').addClass('valueDown');
+		}
 	}
 	
-	$('#currentPrice_ETH_EUR').html(coinData.ETH.currentPriceEUR.toLocaleString(locale, {style: 'currency', currency: divisa}));
-	$('#currentVolumeEur_ETH_value').html((userCoinBalance.ETH * coinData.ETH.currentPriceEUR).toLocaleString(locale, {style: 'currency', currency: divisa}));
-	$('#currentVolumeCoin_ETH_value').html(userCoinBalance.ETH.toLocaleString(locale, {style: 'decimal', minimumFractionDigits: fracDigitsCoin}));
-	$('#variationPrice_ETH_EUR').html(coinData.ETH.variationPriceEUR.toLocaleString(locale, {style: 'currency', currency: divisa}));
-	$('#variationPercent_ETH').html(coinData.ETH.variationPercent.toLocaleString(locale, {style: 'percent', minimumFractionDigits: 2}));
-	
-	$('#variationPrice_ETH_EUR').removeClass('valueUp').removeClass('valueDown');
-	$('#variationPercent_ETH').removeClass('valueUp').removeClass('valueDown');
-	
-	if(coinData.ETH.variationPriceEUR >= 0) {
-		$('#variationPrice_ETH_EUR').addClass('valueUp');
-		$('#variationPercent_ETH').addClass('valueUp');
-	} else {
-		$('#variationPrice_ETH_EUR').addClass('valueDown');
-		$('#variationPercent_ETH').addClass('valueDown');
-	}
-
-	$('#currentPrice_LTC_EUR').html(coinData.LTC.currentPriceEUR.toLocaleString(locale, {style: 'currency', currency: divisa}));
-	$('#currentVolumeEur_LTC_value').html((userCoinBalance.LTC * coinData.LTC.currentPriceEUR).toLocaleString(locale, {style: 'currency', currency: divisa}));
-	$('#currentVolumeCoin_LTC_value').html(userCoinBalance.LTC.toLocaleString(locale, {style: 'decimal', minimumFractionDigits: fracDigitsCoin}));
-	$('#variationPrice_LTC_EUR').html(coinData.LTC.variationPriceEUR.toLocaleString(locale, {style: 'currency', currency: divisa}));
-	$('#variationPercent_LTC').html(coinData.LTC.variationPercent.toLocaleString(locale, {style: 'percent', minimumFractionDigits: 2}));
-	
-	$('#variationPrice_LTC_EUR').removeClass('valueUp').removeClass('valueDown');
-	$('#variationPercent_LTC').removeClass('valueUp').removeClass('valueDown');
-	
-	if(coinData.LTC.variationPriceEUR >= 0) {
-		$('#variationPrice_LTC_EUR').addClass('valueUp');
-		$('#variationPercent_LTC').addClass('valueUp');
-	} else {
-		$('#variationPrice_LTC_EUR').addClass('valueDown');
-		$('#variationPercent_LTC').addClass('valueDown');
+	if(coinData.ETH.currentPriceEUR != defaultValueUnloadData) {
+		$('#currentPrice_ETH_EUR').html(coinData.ETH.currentPriceEUR.toLocaleString(locale, {style: 'currency', currency: divisa}));
+		$('#currentVolumeEur_ETH_value').html((userCoinBalance.ETH * coinData.ETH.currentPriceEUR).toLocaleString(locale, {style: 'currency', currency: divisa}));
+		$('#currentVolumeCoin_ETH_value').html(userCoinBalance.ETH.toLocaleString(locale, {style: 'decimal', minimumFractionDigits: fracDigitsCoin}));
+		$('#variationPrice_ETH_EUR').html(coinData.ETH.variationPriceEUR.toLocaleString(locale, {style: 'currency', currency: divisa}));
+		$('#variationPercent_ETH').html(coinData.ETH.variationPercent.toLocaleString(locale, {style: 'percent', minimumFractionDigits: 2}));
+		
+		$('#variationPrice_ETH_EUR').removeClass('valueUp').removeClass('valueDown');
+		$('#variationPercent_ETH').removeClass('valueUp').removeClass('valueDown');
+		
+		if(coinData.ETH.variationPriceEUR >= 0) {
+			$('#variationPrice_ETH_EUR').addClass('valueUp');
+			$('#variationPercent_ETH').addClass('valueUp');
+		} else {
+			$('#variationPrice_ETH_EUR').addClass('valueDown');
+			$('#variationPercent_ETH').addClass('valueDown');
+		}
 	}
 	
-	$('#currentPrice_XRP_EUR').html(coinData.XRP.currentPriceEUR.toLocaleString(locale, {style: 'currency', currency: divisa, minimumFractionDigits: 4}));
-	$('#currentVolumeEur_XRP_value').html((userCoinBalance.XRP * coinData.XRP.currentPriceEUR).toLocaleString(locale, {style: 'currency', currency: divisa}));
-	$('#currentVolumeCoin_XRP_value').html(userCoinBalance.XRP.toLocaleString(locale, {style: 'decimal', minimumFractionDigits: fracDigitsCoin}));
-	$('#variationPrice_XRP_EUR').html(coinData.XRP.variationPriceEUR.toLocaleString(locale, {style: 'currency', currency: divisa, minimumFractionDigits: 4}));
-	$('#variationPercent_XRP').html(coinData.XRP.variationPercent.toLocaleString(locale, {style: 'percent', minimumFractionDigits: 4}));
-	
-	$('#variationPrice_XRP_EUR').removeClass('valueUp').removeClass('valueDown');
-	$('#variationPercent_XRP').removeClass('valueUp').removeClass('valueDown');
-	
-	if(coinData.XRP.variationPriceEUR >= 0) {
-		$('#variationPrice_XRP_EUR').addClass('valueUp');
-		$('#variationPercent_XRP').addClass('valueUp');
-	} else {
-		$('#variationPrice_XRP_EUR').addClass('valueDown');
-		$('#variationPercent_XRP').addClass('valueDown');
+	if(coinData.LTC.currentPriceEUR != defaultValueUnloadData) {
+		$('#currentPrice_LTC_EUR').html(coinData.LTC.currentPriceEUR.toLocaleString(locale, {style: 'currency', currency: divisa}));
+		$('#currentVolumeEur_LTC_value').html((userCoinBalance.LTC * coinData.LTC.currentPriceEUR).toLocaleString(locale, {style: 'currency', currency: divisa}));
+		$('#currentVolumeCoin_LTC_value').html(userCoinBalance.LTC.toLocaleString(locale, {style: 'decimal', minimumFractionDigits: fracDigitsCoin}));
+		$('#variationPrice_LTC_EUR').html(coinData.LTC.variationPriceEUR.toLocaleString(locale, {style: 'currency', currency: divisa}));
+		$('#variationPercent_LTC').html(coinData.LTC.variationPercent.toLocaleString(locale, {style: 'percent', minimumFractionDigits: 2}));
+		
+		$('#variationPrice_LTC_EUR').removeClass('valueUp').removeClass('valueDown');
+		$('#variationPercent_LTC').removeClass('valueUp').removeClass('valueDown');
+		
+		if(coinData.LTC.variationPriceEUR >= 0) {
+			$('#variationPrice_LTC_EUR').addClass('valueUp');
+			$('#variationPercent_LTC').addClass('valueUp');
+		} else {
+			$('#variationPrice_LTC_EUR').addClass('valueDown');
+			$('#variationPercent_LTC').addClass('valueDown');
+		}
 	}
 	
+	if(coinData.XRP.currentPriceEUR != defaultValueUnloadData) {
+		$('#currentPrice_XRP_EUR').html(coinData.XRP.currentPriceEUR.toLocaleString(locale, {style: 'currency', currency: divisa, minimumFractionDigits: 4}));
+		$('#currentVolumeEur_XRP_value').html((userCoinBalance.XRP * coinData.XRP.currentPriceEUR).toLocaleString(locale, {style: 'currency', currency: divisa}));
+		$('#currentVolumeCoin_XRP_value').html(userCoinBalance.XRP.toLocaleString(locale, {style: 'decimal', minimumFractionDigits: fracDigitsCoin}));
+		$('#variationPrice_XRP_EUR').html(coinData.XRP.variationPriceEUR.toLocaleString(locale, {style: 'currency', currency: divisa, minimumFractionDigits: 4}));
+		$('#variationPercent_XRP').html(coinData.XRP.variationPercent.toLocaleString(locale, {style: 'percent', minimumFractionDigits: 4}));
+		
+		$('#variationPrice_XRP_EUR').removeClass('valueUp').removeClass('valueDown');
+		$('#variationPercent_XRP').removeClass('valueUp').removeClass('valueDown');
+		
+		if(coinData.XRP.variationPriceEUR >= 0) {
+			$('#variationPrice_XRP_EUR').addClass('valueUp');
+			$('#variationPercent_XRP').addClass('valueUp');
+		} else {
+			$('#variationPrice_XRP_EUR').addClass('valueDown');
+			$('#variationPercent_XRP').addClass('valueDown');
+		}
+	}
+		
 	var currentVolumeTotalEur = userCoinBalance.EUR	
 									+ (userCoinBalance.BTC * coinData.BTC.currentPriceEUR)
 									+ (userCoinBalance.ETH * coinData.ETH.currentPriceEUR)
@@ -536,6 +547,8 @@ function repaintScreen(coin, frequency) {
  */
 function paintUserAccountMovements(movements) {
 	
+	var locale = defaultLocale;
+	
 	$('#userAccountMovements_inputs tbody').find('tr:gt(0)').remove();
 	$('#userAccountMovements_outputs tbody').find('tr:gt(0)').remove();
 	
@@ -543,7 +556,7 @@ function paintUserAccountMovements(movements) {
 		$('#userAccountMovements_inputs tbody').append(
 						'<tr>' + 
 						'<td>' + elem.date + '</td>' + 
-						'<td>' + elem.amount.toLocaleString('es-ES', {style: 'currency', currency: defaultCurrency}) + '</td>' + 
+						'<td>' + elem.amount.toLocaleString(locale, {style: 'currency', currency: defaultCurrency}) + '</td>' + 
 						'</tr>');
 	});
 	
@@ -551,7 +564,7 @@ function paintUserAccountMovements(movements) {
 		$('#userAccountMovements_outputs tbody').append(
 						'<tr>' + 
 						'<td>' + elem.date + '</td>' + 
-						'<td>' + elem.amount.toLocaleString('es-ES', {style: 'currency', currency: defaultCurrency}) + '</td>' + 
+						'<td>' + elem.amount.toLocaleString(locale, {style: 'currency', currency: defaultCurrency}) + '</td>' + 
 						'</tr>');
 	});
 }
@@ -562,7 +575,7 @@ function paintUserAccountMovements(movements) {
  */
 function updateUserProfitability(movements, coinData, userCoinBalance) {
 	var divisa = defaultCurrency;
-	var locale = 'es-ES';
+	var locale = defaultLocale;
 	
 	var input = 0;
 	var output = 0;
