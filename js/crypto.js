@@ -126,8 +126,6 @@ function drawPricesChart(chartId, coin, frequency, limit) {
 	/* mercado */
 	//url += '&e=Coinbase';
 	
-	console.log("chart: " + url);
-	
 	$.ajax({
 		url: url,
 		dataType: 'json'
@@ -645,7 +643,6 @@ function toggleRefreshMark() {
 	refreshId = setTimeout(function() {
 		var endDataLoad = ($(".updatableData:contains('" + defaultValueUnloadData + "')").length == 0) ;
 		if(!endDataLoad) {
-			console.log("!endDataload");
 			$('#buttonRefresh').hide(0);
 			$('#refreshMark').show(0);
 			toggleRefreshMark();
