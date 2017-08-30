@@ -26,7 +26,7 @@ function buildPricesChart(chartId, labels, fullData) {
 		        	xAxes: [{
 		        		ticks: {
 		        			callback: function(value, index, values) {
-		        				return labelBlanks + value + labelBlanks;
+		        				return labelBlanks + value;
 		        			},
 		                    autoSkip: true,
 		                    maxRotation: 0,
