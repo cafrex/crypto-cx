@@ -32,28 +32,6 @@ p {
 	margin-top: 15px;
 }
 
-
-@media all and (min-width:768px) {
-	#chartPricesContainer {
-    	display: block;	
-	}
-	
-	#chartPricesToggleButton {
-		display: none;
-	}	
-}
-
-@media all and (max-width:768px) {
-	#chartPricesContainer {
-    	display: none;	
-	}
-	
-	#chartPricesToggleButton {
-		display: block;
-	}	
-}
-
-
 .userDataContainer {
 	margin-top: 20px;
 }
