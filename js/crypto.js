@@ -5,6 +5,9 @@ var defaultCurrency = 'EUR';
 var defaultLocale = 'es-ES';
 var defaultValueUnloadData = '---';
 
+var responseSuccess = "Success";
+var responseError = "Error";
+
 /**
  * 
  * @param chartId
@@ -131,21 +134,27 @@ function drawPricesChart(chartId, coin, frequency, limit) {
 		url: url,
 		dataType: 'json'
 	}).done(function (results) {
-		var labels = [];
-		var data = {'coin': coin,
-				'price': []
-				};
-		data.coin = coin;
-		results.Data.forEach(function(elem) {
-			labels.push((new Date(elem.time * 1000)).formatDate(dateMode));
-			data.price.push(elem.close);
-		});
-		
-		buildPricesChart(chartId, labels, data);
-		updatePricesChartValues(frequency, data.price);
+		if(results.Response === responseSuccess) {
+			var labels = [];
+			var data = {'coin': coin,
+					'price': []
+					};
+			data.coin = coin;
+			results.Data.forEach(function(elem) {
+				labels.push((new Date(elem.time * 1000)).formatDate(dateMode));
+				data.price.push(elem.close);
+			});
+			
+			buildPricesChart(chartId, labels, data);
+			updatePricesChartValues(frequency, data.price);
+		} else if(results.Response === responseError) {
+			activateError("DATA_ERROR", "Error recuperando datos de la gráfica de precios. " + results.Message);
+		} else {
+			activateError(null, "Error recuperando datos de la gráfica de precios. " + results.Message);
+		}
 		
 	}).fail(function () {
-		activateChartError('NO_DATA');
+		activateError('NO_DATA', "No se han recibido datos");
 	});
 }
 
@@ -183,17 +192,23 @@ function drawUserData(userCoinData, userMovements) {
 	var now = new Date().getTime();
 	var _24hSecs = ((now - (24 * 3600 * 1000)) / 1000).toFixed(0);
 	
-	var urlBTC_24h = 'https://min-api.cryptocompare.com/data/histominute?fsym=BTC&tsym=' + defaultCurrency + "&limit=1" + "&toTs=" + _24hSecs;
-	var urlBTC_now = 'https://min-api.cryptocompare.com/data/histominute?fsym=BTC&tsym=' + defaultCurrency + "&limit=1";
+	var url = "https://min-api.cryptocompare.com/data/histominute";
+	var url_fsym = "?fsym=";
+	var url_tsym = "&tsym=" + defaultCurrency;
+	var url_limit = "&limit=1";
+	var url_toTs = "&toTs=" + _24hSecs;
 	
-	var urlETH_24h = 'https://min-api.cryptocompare.com/data/histominute?fsym=ETH&tsym=' + defaultCurrency + "&limit=1" + "&toTs=" + _24hSecs;
-	var urlETH_now = 'https://min-api.cryptocompare.com/data/histominute?fsym=ETH&tsym=' + defaultCurrency + "&limit=1";
+	var urlBTC_24h = url + url_fsym + "BTC" + url_tsym + url_limit + url_toTs;
+	var urlBTC_now = url + url_fsym + "BTC" + url_tsym + url_limit;
 	
-	var urlLTC_24h = 'https://min-api.cryptocompare.com/data/histominute?fsym=LTC&tsym=' + defaultCurrency + "&limit=1" + "&toTs=" + _24hSecs;
-	var urlLTC_now = 'https://min-api.cryptocompare.com/data/histominute?fsym=LTC&tsym=' + defaultCurrency + "&limit=1";
+	var urlETH_24h = url + url_fsym + "ETH" + url_tsym + url_limit + url_toTs;
+	var urlETH_now = url + url_fsym + "ETH" + url_tsym + url_limit;
 	
-	var urlXRP_24h = 'https://min-api.cryptocompare.com/data/histominute?fsym=XRP&tsym=' + defaultCurrency + "&limit=1" + "&toTs=" + _24hSecs;
-	var urlXRP_now = 'https://min-api.cryptocompare.com/data/histominute?fsym=XRP&tsym=' + defaultCurrency + "&limit=1";
+	var urlLTC_24h = url + url_fsym + "LTC" + url_tsym + url_limit + url_toTs;
+	var urlLTC_now = url + url_fsym + "LTC" + url_tsym + url_limit;
+	
+	var urlXRP_24h = url + url_fsym + "XRP" + url_tsym + url_limit + url_toTs;
+	var urlXRP_now = url + url_fsym + "XRP" + url_tsym + url_limit;
 	
 	// ---- BTC
 	var _24hPriceBTC;
@@ -202,22 +217,34 @@ function drawUserData(userCoinData, userMovements) {
 		url: urlBTC_24h,
 		dataType: 'json'
 	}).done(function (results) {
-		_24hPriceBTC = results.Data[1].close;
+		if(results.Response === responseSuccess) {
+			_24hPriceBTC = results.Data[1].close;
+		} else if(results.Response === responseError) {
+			activateError("DATA_ERROR", "Error recuperando precio de BTC. " + results.Message);
+		} else {
+			activateError(null, "Error recuperando precio de BTC. " + results.Message);
+		}
 		
 		$.ajax({
 			url: urlBTC_now,
 			dataType: 'json'
 		}).done(function (results) {
-			_nowPriceBTC = results.Data[1].close;
-			
-			var variationPrice = _nowPriceBTC - _24hPriceBTC;
-			var variationPercent = variationPrice / _24hPriceBTC;
-			coinData.BTC.currentPriceEUR = _nowPriceBTC;
-			coinData.BTC.variationPriceEUR = variationPrice;
-			coinData.BTC.variationPercent = variationPercent;
-			
-			updateUserValues(coinData, userCoinData);
-			updateUserProfitability(userMovements, coinData, userCoinBalance);
+			if(results.Response === responseSuccess) {
+				_nowPriceBTC = results.Data[1].close;
+				
+				var variationPrice = _nowPriceBTC - _24hPriceBTC;
+				var variationPercent = variationPrice / _24hPriceBTC;
+				coinData.BTC.currentPriceEUR = _nowPriceBTC;
+				coinData.BTC.variationPriceEUR = variationPrice;
+				coinData.BTC.variationPercent = variationPercent;
+				
+				updateUserValues(coinData, userCoinData);
+				updateUserProfitability(userMovements, coinData, userCoinBalance);
+			} else if(results.Response === responseError) {
+				activateError("DATA_ERROR", "Error recuperando precio de BTC. " + results.Message);
+			} else {
+				activateError(null, "Error recuperando precio de BTC. " + results.Message);
+			}
 		});
 	});
 	
@@ -228,22 +255,34 @@ function drawUserData(userCoinData, userMovements) {
 		url: urlETH_24h,
 		dataType: 'json'
 	}).done(function (results) {
-		_24hPriceETH = results.Data[1].close;
+		if(results.Response === responseSuccess) {
+			_24hPriceETH = results.Data[1].close;
+		} else if(results.Response === responseError) {
+			activateError("DATA_ERROR", "Error recuperando precio de ETH. " + results.Message);
+		} else {
+			activateError(null, "Error recuperando precio de ETH. " + results.Message);
+		}
 		
 		$.ajax({
 			url: urlETH_now,
 			dataType: 'json'
 		}).done(function (results) {
-			_nowPriceETH = results.Data[1].close;
-			
-			var variationPrice = _nowPriceETH - _24hPriceETH;
-			var variationPercent = variationPrice / _24hPriceETH;
-			coinData.ETH.currentPriceEUR = _nowPriceETH;
-			coinData.ETH.variationPriceEUR = variationPrice;
-			coinData.ETH.variationPercent = variationPercent;
-			
-			updateUserValues(coinData, userCoinData);
-			updateUserProfitability(userMovements, coinData, userCoinBalance);
+			if(results.Response === responseSuccess) {
+				_nowPriceETH = results.Data[1].close;
+				
+				var variationPrice = _nowPriceETH - _24hPriceETH;
+				var variationPercent = variationPrice / _24hPriceETH;
+				coinData.ETH.currentPriceEUR = _nowPriceETH;
+				coinData.ETH.variationPriceEUR = variationPrice;
+				coinData.ETH.variationPercent = variationPercent;
+				
+				updateUserValues(coinData, userCoinData);
+				updateUserProfitability(userMovements, coinData, userCoinBalance);
+			} else if(results.Response === responseError) {
+				activateError("DATA_ERROR", "Error recuperando precio de ETH. " + results.Message);
+			} else {
+				activateError(null, "Error recuperando precio de ETH. " + results.Message);
+			}
 		});
 	});
 	
@@ -254,22 +293,34 @@ function drawUserData(userCoinData, userMovements) {
 		url: urlLTC_24h,
 		dataType: 'json'
 	}).done(function (results) {
-		_24hPriceLTC = results.Data[1].close;
+		if(results.Response === responseSuccess) {
+			_24hPriceLTC = results.Data[1].close;
+		} else if(results.Response === responseError) {
+			activateError("DATA_ERROR", "Error recuperando precio de LTC. " + results.Message);
+		} else {
+			activateError(null, "Error recuperando precio de LTC. " + results.Message);
+		}
 		
 		$.ajax({
 			url: urlLTC_now,
 			dataType: 'json'
 		}).done(function (results) {
-			_nowPriceLTC = results.Data[1].close;
-			
-			var variationPrice = _nowPriceLTC - _24hPriceLTC;
-			var variationPercent = variationPrice / _24hPriceLTC;
-			coinData.LTC.currentPriceEUR = _nowPriceLTC;
-			coinData.LTC.variationPriceEUR = variationPrice;
-			coinData.LTC.variationPercent = variationPercent;
-			
-			updateUserValues(coinData, userCoinData);
-			updateUserProfitability(userMovements, coinData, userCoinBalance);
+			if(results.Response === responseSuccess) {
+				_nowPriceLTC = results.Data[1].close;
+				
+				var variationPrice = _nowPriceLTC - _24hPriceLTC;
+				var variationPercent = variationPrice / _24hPriceLTC;
+				coinData.LTC.currentPriceEUR = _nowPriceLTC;
+				coinData.LTC.variationPriceEUR = variationPrice;
+				coinData.LTC.variationPercent = variationPercent;
+				
+				updateUserValues(coinData, userCoinData);
+				updateUserProfitability(userMovements, coinData, userCoinBalance);
+			} else if(results.Response === responseError) {
+				activateError("DATA_ERROR", "Error recuperando precio de LTC. " + results.Message);
+			} else {
+				activateError(null, "Error recuperando precio de LTC. " + results.Message);
+			}
 		});
 	});
 	
@@ -280,22 +331,34 @@ function drawUserData(userCoinData, userMovements) {
 		url: urlXRP_24h,
 		dataType: 'json'
 	}).done(function (results) {
-		_24hPriceXRP = results.Data[1].close;
+		if(results.Response === responseSuccess) {
+			_24hPriceXRP = results.Data[1].close;
+		} else if(results.Response === responseError) {
+			activateError("DATA_ERROR", "Error recuperando precio de XRP. " + results.Message);
+		} else {
+			activateError(null, "Error recuperando precio de XRP. " + results.Message);
+		}
 		
 		$.ajax({
 			url: urlXRP_now,
 			dataType: 'json'
 		}).done(function (results) {
-			_nowPriceXRP = results.Data[1].close;
-			
-			var variationPrice = _nowPriceXRP - _24hPriceXRP;
-			var variationPercent = variationPrice / _24hPriceXRP;
-			coinData.XRP.currentPriceEUR = _nowPriceXRP;
-			coinData.XRP.variationPriceEUR = variationPrice;
-			coinData.XRP.variationPercent = variationPercent;
-			
-			updateUserValues(coinData, userCoinData);
-			updateUserProfitability(userMovements, coinData, userCoinBalance);
+			if(results.Response === responseSuccess) {
+				_nowPriceXRP = results.Data[1].close;
+				
+				var variationPrice = _nowPriceXRP - _24hPriceXRP;
+				var variationPercent = variationPrice / _24hPriceXRP;
+				coinData.XRP.currentPriceEUR = _nowPriceXRP;
+				coinData.XRP.variationPriceEUR = variationPrice;
+				coinData.XRP.variationPercent = variationPercent;
+				
+				updateUserValues(coinData, userCoinData);
+				updateUserProfitability(userMovements, coinData, userCoinBalance);
+			} else if(results.Response === responseError) {
+				activateError("DATA_ERROR", "Error recuperando precio de XRP. " + results.Message);
+			} else {
+				activateError(null, "Error recuperando precio de XRP. " + results.Message);
+			}
 		});
 	});
 }
@@ -615,19 +678,22 @@ function updateUserProfitability(movements, coinData, userCoinBalance) {
  * 
  * @param type
  */
-function activateChartError(type) {
+function activateError(type, message) {
 
 	var content = "Error desconocido";
 
 	switch(type) {
 		case 'NO_DATA':
-			content = "No se han recibido datos";
+			content = "<p class='title'>Recepción de datos incorrecta</p>";
+			break;
+		case 'DATA_ERROR':
+			content = "<p class='title'>Recepción de datos incorrecta</p>";
+			content += "<p class='message'>Error: " + message + "</p>"; 
 			break;
 	}
 
-	$('#chartErrorContainer').html(content).show();
-	$('#chartContainer').hide(0);
-
+	$('#errorMessage').html(content);
+	$('#errorContainer').show();
 }
 
 /**
