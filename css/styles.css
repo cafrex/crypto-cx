@@ -453,3 +453,21 @@ footer {
 	white-space: nowrap;
 }
 
+#errorContainer {
+	display: none;
+}
+
+#errorMessage {
+	background: #ed9e97;
+	padding: 5px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+#errorMessage .title {
+	font-weight: bold;
+}
+
+#errorMessage .title, .message {
+	color: #a5190d;	
+}
