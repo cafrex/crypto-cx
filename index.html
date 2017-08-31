@@ -130,7 +130,11 @@ $(document).ready(function() {
 </nav>
 
 <div class="container mainContainer">
-	
+	<div id="errorContainer" class="row">
+		<div class="col-12">
+			<div id="errorMessage"></div>
+		</div>
+	</div>
 	<div class="row">
 		<div class="col-12">
 			<div class="userProfitabilityContainer">
@@ -312,7 +316,6 @@ $(document).ready(function() {
 						<div id="chartContainer" class="chart-container">
 						    <canvas id="chart"></canvas>
 						</div>
-						<div id="chartErrorContainer"></div>
 					</div>
 				</div>
 			</div> <!-- /chartDataContainer -->
