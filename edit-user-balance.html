@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+<meta name="author" content="">
+
+<link rel="icon" href="img/favicon.ico">
+
+<title>Crypto CX</title>
+
+<script src="js/vendor/jquery.min.js"></script>
+<!--<script src="js/vendor/popper.min.js"></script>-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
+<script src="js/vendor/bootstrap.min.js"></script>
+
+<script src="js/user-data.js"></script>
+<script src="js/crypto.js"></script>
+
+<link href="css/vendor/bootstrap/bootstrap.min.css" rel="stylesheet" type="text/css">
+
+<link href="css/styles.css" rel="stylesheet" type="text/css">
+
+<script>
+/**
+ * 
+ */
+$(document).ready(function() {
+	
+	$('#copyrightYear').html(new Date().getFullYear());
+	//repaintScreen(coinSelected, frequencySelected, retrieveUserCoinBalance());
+	
+	//--- chart
+	$('#buttonFrequency_1H').on('click', function() {
+		repaintScreen(coinSelected, '1H', retrieveUserCoinBalance());
+	});
+});
+
+</script>
+
+</head>
+<body>
+
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-blue"> <!-- class="bg-dark" -->
+	<a class="navbar-brand" href="index.html">Crypto CX</a>
+	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+	
+	<div class="collapse navbar-collapse" id="navbarsExampleDefault">
+    	<ul class="navbar-nav mr-auto">
+        	<li class="nav-item active sr-only">
+            	<a class="nav-link" href="#">Inicio (current)</a>
+          	</li>
+          	<li class="nav-item">
+            	<a class="nav-link" href="index.html">Dashboard</a>
+          	</li>
+        </ul>
+	</div>
+</nav>
+
+<div class="container mainContainer">
+	<div id="errorContainer" class="row">
+		<div class="col-12">
+			<div id="errorMessage"></div>
+		</div>
+	</div>
+	
+	<div class="row">
+		<div class="col-12">
+			<div class="userDataContainer">
+				<p>Balance de monedas</p>
+				<div class="currentVolumeCoin sectionContainer">
+					<form class="form-inline">
+						<div class="form-group">
+							<label for="userBalance_BTC">
+								<img src="img/btc.png" class="iconCoin"/>
+								<span class="coin">BTC</span>
+							</label>
+							<input type="number" class="form-control form-control-sm" id="userBalance_BTC">
+							<button type="submit" class="btn btn-info btn-sm">Grabar</button>
+						</div>
+					</form>
+				</div>
+				<div class="currentVolumeCoin sectionContainer">
+					<div class="title">
+						<img src="img/eth.png" class="iconCoin"/>
+						<span class="coin">ETH</span>
+						<span id="currentPrice_ETH_EUR" class="price updatableData">---</span>
+						<span class="variationCoin">
+							<span id="variationPrice_ETH_EUR" class="variationPrice updatableData">---</span>
+							<span id="variationPercent_ETH" class="variationPercent updatableData">---</span>
+						</span>
+					</div>
+					<div id="currentVolumeEur_ETH_value" class="valueEur updatableData">---</div>
+					<div id="currentVolumeCoin_ETH_value" class="valueCoin updatableData">---</div>
+				</div>
+				<div class="currentVolumeCoin sectionContainer">
+					<div class="title">
+						<img src="img/ltc.png" class="iconCoin"/>
+						<span class="coin">LTC</span>
+						<span id="currentPrice_LTC_EUR" class="price updatableData">---</span>
+						<span class="variationCoin">
+							<span id="variationPrice_LTC_EUR" class="variationPrice updatableData">---</span>
+							<span id="variationPercent_LTC" class="variationPercent updatableData">---</span>
+						</span>
+					</div>
+					<div id="currentVolumeEur_LTC_value" class="valueEur updatableData">---</div>
+					<div id="currentVolumeCoin_LTC_value" class="valueCoin updatableData">---</div>
+				</div>
+				<div class="currentVolumeCoin sectionContainer">
+					<div class="title">
+						<img src="img/xrp.png" class="iconCoin"/>
+						<span class="coin">XRP</span>
+						<span id="currentPrice_XRP_EUR" class="price updatableData">---</span>
+						<span class="variationCoin">
+							<span id="variationPrice_XRP_EUR" class="variationPrice updatableData">---</span>
+							<span id="variationPercent_XRP" class="variationPercent updatableData">---</span>
+						</span>
+					</div>
+					<div id="currentVolumeEur_XRP_value" class="valueEur updatableData">---</div>
+					<div id="currentVolumeCoin_XRP_value" class="valueCoin updatableData">---</div>
+				</div>
+				<div class="currentVolumeEur sectionContainer">
+					<div class="title">EUR</div>
+					<div id="currentVolumeEur_value" class="valueEur updatableData">---</div>
+				</div>
+			</div> <!-- /userDataContainer -->     
+		</div>
+		
+	</div>
+		
+
+	<hr class="footerLine">
+
+    <footer>
+		<p>&copy; Cafrex <span id="copyrightYear"></span></p>
+	</footer>
+
+</div> <!-- /container -->
+
+
+
+
+</body>
+</html>
+

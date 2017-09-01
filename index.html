@@ -23,7 +23,6 @@
 <link href="css/vendor/bootstrap/bootstrap.min.css" rel="stylesheet" type="text/css">
 
 <link href="css/styles.css" rel="stylesheet" type="text/css">
-<link href="css/styles-bootstrap.css" rel="stylesheet" type="text/css">
 
 <script>
 /**
@@ -33,66 +32,65 @@ $(document).ready(function() {
 	
 	coinSelected = 'ETH';
 	frequencySelected = '24H';
-	showVolumeSelected = false;
 	
-	repaintScreen(coinSelected, frequencySelected);
+	$('#copyrightYear').html(new Date().getFullYear());
 	
+	repaintDashboardScreen(coinSelected, frequencySelected, retrieveUserCoinBalance());
+	
+	//--- chart
 	$('#buttonFrequency_1H').on('click', function() {
-		repaintScreen(coinSelected, '1H', showVolumeSelected);
-		});
+		repaintDashboardScreen(coinSelected, '1H', retrieveUserCoinBalance());
+	});
 	
 	$('#buttonFrequency_24H').on('click', function() {
-		repaintScreen(coinSelected, '24H', showVolumeSelected);
-		});
+		repaintDashboardScreen(coinSelected, '24H', retrieveUserCoinBalance());
+	});
 	
 	$('#buttonFrequency_1D').on('click', function() {
-		repaintScreen(coinSelected, '1D', showVolumeSelected);
-		});
+		repaintDashboardScreen(coinSelected, '1D', retrieveUserCoinBalance());
+	});
 	
 	$('#buttonFrequency_1S').on('click', function() {
-		repaintScreen(coinSelected, '1S', showVolumeSelected);
-		});
+		repaintDashboardScreen(coinSelected, '1S', retrieveUserCoinBalance());
+	});
 	
 	$('#buttonFrequency_1M').on('click', function() {
-		repaintScreen(coinSelected, '1M', showVolumeSelected);
-		});
+		repaintDashboardScreen(coinSelected, '1M', retrieveUserCoinBalance());
+	});
 	
 	$('#buttonFrequency_3M').on('click', function() {
-		repaintScreen(coinSelected, '3M', showVolumeSelected);
-		});
+		repaintDashboardScreen(coinSelected, '3M', retrieveUserCoinBalance());
+	});
 	
 	$('#buttonFrequency_6M').on('click', function() {
-		repaintScreen(coinSelected, '6M', showVolumeSelected);
-		});
+		repaintDashboardScreen(coinSelected, '6M', retrieveUserCoinBalance());
+	});
 	
 	$('#buttonFrequency_1A').on('click', function() {
-		repaintScreen(coinSelected, '1A', showVolumeSelected);
-		});
+		repaintDashboardScreen(coinSelected, '1A', retrieveUserCoinBalance());
+	});
 	
 	$('#buttonCoin_BTC').on('click', function() {
-		repaintScreen('BTC', frequencySelected, showVolumeSelected);
-		});
+		repaintDashboardScreen('BTC', frequencySelected, retrieveUserCoinBalance());
+	});
 	
 	$('#buttonCoin_ETH').on('click', function() {
-		repaintScreen('ETH', frequencySelected, showVolumeSelected);
-		});
+		repaintDashboardScreen('ETH', frequencySelected, retrieveUserCoinBalance());
+	});
 	
 	$('#buttonCoin_LTC').on('click', function() {
-		repaintScreen('LTC', frequencySelected, showVolumeSelected);
-		});
+		repaintDashboardScreen('LTC', frequencySelected, retrieveUserCoinBalance());
+	});
 	
 	$('#buttonCoin_XRP').on('click', function() {
-		repaintScreen('XRP', frequencySelected, showVolumeSelected);
-		});
-	
-	$('#chkShowVolume').on('click', function() {
-		repaintScreen(coinSelected, frequencySelected, $(this).prop('checked'));
+		repaintDashboardScreen('XRP', frequencySelected, retrieveUserCoinBalance());
 		});
 	
 	$('#buttonRefresh').on('click', function() {
-		repaintScreen(coinSelected, frequencySelected, showVolumeSelected);
+		repaintDashboardScreen(coinSelected, frequencySelected, retrieveUserCoinBalance());
 	});
 	
+	//--- buttons
 	$('#userMovementsToggleButton').on('click', function() {
 		toggleUserMovements();
 	});
@@ -104,7 +102,6 @@ $(document).ready(function() {
 });
 
 </script>
-
 
 </head>
 <body>
@@ -123,7 +120,7 @@ $(document).ready(function() {
             	<a class="nav-link" href="#">Inicio (current)</a>
           	</li>
 			<li class="nav-item">
-            	<a class="nav-link" href="#">Link</a>
+            	<a class="nav-link" href="edit-user-balance.html">Editar balance</a>
           	</li>
         </ul>
 	</div>
@@ -328,7 +325,7 @@ $(document).ready(function() {
 	<hr class="footerLine">
 
     <footer>
-		<p>&copy; Cafrex 2017</p>
+		<p>&copy; Cafrex <span id="copyrightYear"></span></p>
 	</footer>
 
 </div> <!-- /container -->
