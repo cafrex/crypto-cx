@@ -8,10 +8,6 @@ var defaultValueUnloadData = '---';
 var responseSuccess = "Success";
 var responseError = "Error";
 
-var prop_user;
-var prop_userCoinBalance = "userCoinBalance";
-var prop_userMovements = "userMovements";
-
 /**
  * 
  * @param chartId
@@ -443,23 +439,18 @@ function updateUserValues(coinData, userCoinBalance) {
 	var locale = defaultLocale;
 
 	var fracDigitsCoin = 8;
-	
-	var ueurb = 0;
-	if(userCoinBalance != null && userCoinBalance.EUR != null && !isNaN(userCoinBalance.EUR)) {
-		ueurb = userCoinBalance.EUR;
+
+	if(!isNaN(userCoinBalance.EUR)) {
+		$('#currentVolumeEur_value').html(userCoinBalance.EUR.toLocaleString(locale, {style: 'currency', currency: divisa}));
 	}
-	$('#currentVolumeEur_value').html(ueurb.toLocaleString(locale, {style: 'currency', currency: divisa}));
 		
 	if(!isNaN(coinData.BTC.currentPriceEUR)) {
-		var ucb = 0; 
-		if(userCoinBalance != null && userCoinBalance.BTC != null) {
-			ucb = userCoinBalance.BTC;
-		}
-		$('#currentVolumeEur_BTC_value').html((ucb * coinData.BTC.currentPriceEUR).toLocaleString(locale, {style: 'currency', currency: divisa}));
-		$('#currentVolumeCoin_BTC_value').html(ucb.toLocaleString(locale, {style: 'decimal', minimumFractionDigits: fracDigitsCoin}));
 		$('#currentPrice_BTC_EUR').html(coinData.BTC.currentPriceEUR.toLocaleString(locale, {style: 'currency', currency: divisa}));
+		$('#currentVolumeEur_BTC_value').html((userCoinBalance.BTC * coinData.BTC.currentPriceEUR).toLocaleString(locale, {style: 'currency', currency: divisa}));
+		$('#currentVolumeCoin_BTC_value').html(userCoinBalance.BTC.toLocaleString(locale, {style: 'decimal', minimumFractionDigits: fracDigitsCoin}));
 		$('#variationPrice_BTC_EUR').html(coinData.BTC.variationPriceEUR.toLocaleString(locale, {style: 'currency', currency: divisa}));
 		$('#variationPercent_BTC').html(coinData.BTC.variationPercent.toLocaleString(locale, {style: 'percent', minimumFractionDigits: 2}));
+		
 		$('#variationPrice_BTC_EUR').removeClass('valueUp').removeClass('valueDown');
 		$('#variationPercent_BTC').removeClass('valueUp').removeClass('valueDown');
 		
@@ -473,15 +464,12 @@ function updateUserValues(coinData, userCoinBalance) {
 	}
 	
 	if(!isNaN(coinData.ETH.currentPriceEUR)) {
-		var ucb = 0; 
-		if(userCoinBalance != null && userCoinBalance.ETH != null) {
-			ucb = userCoinBalance.ETH;
-		}
-		$('#currentVolumeEur_ETH_value').html((ucb * coinData.ETH.currentPriceEUR).toLocaleString(locale, {style: 'currency', currency: divisa}));
-		$('#currentVolumeCoin_ETH_value').html(ucb.toLocaleString(locale, {style: 'decimal', minimumFractionDigits: fracDigitsCoin}));
 		$('#currentPrice_ETH_EUR').html(coinData.ETH.currentPriceEUR.toLocaleString(locale, {style: 'currency', currency: divisa}));
+		$('#currentVolumeEur_ETH_value').html((userCoinBalance.ETH * coinData.ETH.currentPriceEUR).toLocaleString(locale, {style: 'currency', currency: divisa}));
+		$('#currentVolumeCoin_ETH_value').html(userCoinBalance.ETH.toLocaleString(locale, {style: 'decimal', minimumFractionDigits: fracDigitsCoin}));
 		$('#variationPrice_ETH_EUR').html(coinData.ETH.variationPriceEUR.toLocaleString(locale, {style: 'currency', currency: divisa}));
 		$('#variationPercent_ETH').html(coinData.ETH.variationPercent.toLocaleString(locale, {style: 'percent', minimumFractionDigits: 2}));
+		
 		$('#variationPrice_ETH_EUR').removeClass('valueUp').removeClass('valueDown');
 		$('#variationPercent_ETH').removeClass('valueUp').removeClass('valueDown');
 		
@@ -495,15 +483,12 @@ function updateUserValues(coinData, userCoinBalance) {
 	}
 	
 	if(!isNaN(coinData.LTC.currentPriceEUR)) {
-		var ucb = 0; 
-		if(userCoinBalance != null && userCoinBalance.LTC != null) {
-			ucb = userCoinBalance.LTC;
-		}
-		$('#currentVolumeEur_LTC_value').html((ucb * coinData.LTC.currentPriceEUR).toLocaleString(locale, {style: 'currency', currency: divisa}));
-		$('#currentVolumeCoin_LTC_value').html(ucb.toLocaleString(locale, {style: 'decimal', minimumFractionDigits: fracDigitsCoin}));
 		$('#currentPrice_LTC_EUR').html(coinData.LTC.currentPriceEUR.toLocaleString(locale, {style: 'currency', currency: divisa}));
+		$('#currentVolumeEur_LTC_value').html((userCoinBalance.LTC * coinData.LTC.currentPriceEUR).toLocaleString(locale, {style: 'currency', currency: divisa}));
+		$('#currentVolumeCoin_LTC_value').html(userCoinBalance.LTC.toLocaleString(locale, {style: 'decimal', minimumFractionDigits: fracDigitsCoin}));
 		$('#variationPrice_LTC_EUR').html(coinData.LTC.variationPriceEUR.toLocaleString(locale, {style: 'currency', currency: divisa}));
 		$('#variationPercent_LTC').html(coinData.LTC.variationPercent.toLocaleString(locale, {style: 'percent', minimumFractionDigits: 2}));
+		
 		$('#variationPrice_LTC_EUR').removeClass('valueUp').removeClass('valueDown');
 		$('#variationPercent_LTC').removeClass('valueUp').removeClass('valueDown');
 		
@@ -517,15 +502,12 @@ function updateUserValues(coinData, userCoinBalance) {
 	}
 
 	if(!isNaN(coinData.XRP.currentPriceEUR)) {
-		var ucb = 0; 
-		if(userCoinBalance != null && userCoinBalance.XRP != null) {
-			ucb = userCoinBalance.XRP;
-		}
-		$('#currentVolumeEur_XRP_value').html((ucb * coinData.XRP.currentPriceEUR).toLocaleString(locale, {style: 'currency', currency: divisa}));
-		$('#currentVolumeCoin_XRP_value').html(ucb.toLocaleString(locale, {style: 'decimal', minimumFractionDigits: fracDigitsCoin}));
 		$('#currentPrice_XRP_EUR').html(coinData.XRP.currentPriceEUR.toLocaleString(locale, {style: 'currency', currency: divisa, minimumFractionDigits: 4}));
+		$('#currentVolumeEur_XRP_value').html((userCoinBalance.XRP * coinData.XRP.currentPriceEUR).toLocaleString(locale, {style: 'currency', currency: divisa}));
+		$('#currentVolumeCoin_XRP_value').html(userCoinBalance.XRP.toLocaleString(locale, {style: 'decimal', minimumFractionDigits: fracDigitsCoin}));
 		$('#variationPrice_XRP_EUR').html(coinData.XRP.variationPriceEUR.toLocaleString(locale, {style: 'currency', currency: divisa, minimumFractionDigits: 4}));
 		$('#variationPercent_XRP').html(coinData.XRP.variationPercent.toLocaleString(locale, {style: 'percent', minimumFractionDigits: 4}));
+		
 		$('#variationPrice_XRP_EUR').removeClass('valueUp').removeClass('valueDown');
 		$('#variationPercent_XRP').removeClass('valueUp').removeClass('valueDown');
 		
@@ -537,30 +519,12 @@ function updateUserValues(coinData, userCoinBalance) {
 			$('#variationPercent_XRP').addClass('valueDown');
 		}
 	}
-	
-	var currentVolumeTotalEur = 0;
-	if(userCoinBalance != null) {
-		if(userCoinBalance.EUR != null) {
-			currentVolumeTotalEur += userCoinBalance.EUR; 
-		}	
 		
-		if(userCoinBalance.BTC != null) {
-			currentVolumeTotalEur += userCoinBalance.BTC * coinData.BTC.currentPriceEUR;
-		}
-		
-		if(userCoinBalance.ETH != null) {
-			currentVolumeTotalEur += userCoinBalance.ETH * coinData.ETH.currentPriceEUR;
-		}
-		
-		if(userCoinBalance.LTC != null) {
-			currentVolumeTotalEur += userCoinBalance.LTC * coinData.LTC.currentPriceEUR;
-		}
-		
-		if(userCoinBalance.XRP != null) {
-			currentVolumeTotalEur += userCoinBalance.XRP * coinData.XRP.currentPriceEUR;
-		}
-	}
-	
+	var currentVolumeTotalEur = userCoinBalance.EUR	
+									+ (userCoinBalance.BTC * coinData.BTC.currentPriceEUR)
+									+ (userCoinBalance.ETH * coinData.ETH.currentPriceEUR)
+									+ (userCoinBalance.LTC * coinData.LTC.currentPriceEUR)
+									+ (userCoinBalance.XRP * coinData.XRP.currentPriceEUR);
 	if(!isNaN(currentVolumeTotalEur)) {
 		$('#currentVolumeTotalEur_value').html(currentVolumeTotalEur.toLocaleString(locale, {style: 'currency', currency: divisa}));
 	}
@@ -595,7 +559,7 @@ function selectCoinButton(buttonId) {
  * @param coin
  * @param frequency
  */
-function repaintDashboardScreen(coin, frequency, userCoinBalance) {
+function repaintScreen(coin, frequency, userCoinBalance) {
 	
 	clearScreenData();
 	
@@ -638,9 +602,8 @@ function repaintDashboardScreen(coin, frequency, userCoinBalance) {
 		}
 	}
 	
-	var uam = retrieveUserAccountMovements();
-	drawUserData(userCoinBalance, uam);
-	paintUserAccountMovements(uam);
+	drawUserData(userCoinBalance, userAccountMovements);
+	paintUserAccountMovements(userAccountMovements);
 }
 
 /**
@@ -696,29 +659,12 @@ function updateUserProfitability(movements, coinData, userCoinBalance) {
 	
 	currentInput = input - output;
 	
-	var currentVolumeTotalEur = 0;
-	if(userCoinBalance != null) {
-		if(userCoinBalance.EUR != null) {
-			currentVolumeTotalEur += userCoinBalance.EUR; 
-		}	
-		
-		if(userCoinBalance.BTC != null) {
-			currentVolumeTotalEur += userCoinBalance.BTC * coinData.BTC.currentPriceEUR;
-		}
-		
-		if(userCoinBalance.ETH != null) {
-			currentVolumeTotalEur += userCoinBalance.ETH * coinData.ETH.currentPriceEUR;
-		}
-		
-		if(userCoinBalance.LTC != null) {
-			currentVolumeTotalEur += userCoinBalance.LTC * coinData.LTC.currentPriceEUR;
-		}
-		
-		if(userCoinBalance.XRP != null) {
-			currentVolumeTotalEur += userCoinBalance.XRP * coinData.XRP.currentPriceEUR;
-		}
-		profit = currentVolumeTotalEur - currentInput;
-	}
+	var currentVolumeTotalEur = userCoinBalance.EUR	
+								+ (userCoinBalance.BTC * coinData.BTC.currentPriceEUR)
+								+ (userCoinBalance.ETH * coinData.ETH.currentPriceEUR)
+								+ (userCoinBalance.LTC * coinData.LTC.currentPriceEUR)
+								+ (userCoinBalance.XRP * coinData.XRP.currentPriceEUR);
+	profit = currentVolumeTotalEur - currentInput;
 	
 	$('#userProfitability_input').html(input.toLocaleString(locale, {style: 'currency', currency: divisa})); 
 	$('#userProfitability_output').html(output.toLocaleString(locale, {style: 'currency', currency: divisa}));
@@ -743,9 +689,6 @@ function activateError(type, message) {
 		case 'DATA_ERROR':
 			content = "<p class='title'>Recepción de datos incorrecta</p>";
 			content += "<p class='message'>Error: " + message + "</p>"; 
-			break;
-		case 'STORAGE_ERROR':
-			content = "<p class='title'>" + message + "</p>";
 			break;
 	}
 
@@ -797,61 +740,7 @@ function toggleRefreshMark() {
 
 /**
  * 
- * @returns {Boolean}
- */
-function checkLocalStorage() {
-	var ok = true;
-	if (typeof(Storage) === "undefined") {
-		ok = false;
-		activateError("STORAGE_ERROR", "Error accediendo al almacenamiento local.");
-	}
-	return ok;
-}
-
-/**
- * 
- * @param coin
- * @param balance
- */
-function updateUserCoinBalance(coin, balance) {
-	checkLocalStorage();
-	
-	var ucbJson;
-	var ucb = localStorage.getItem(prop_userCoinBalance + "_" + prop_user);
-	if(ucb === null) {
-		ucbJson = {}; 
-	} else {
-		ucbJson = JSON.parse(ucb);
-	}
-	ucbJson[coin] = balance;
-	localStorage.setItem(prop_userCoinBalance + "_" + prop_user, JSON.stringify(ucbJson));
-}
-
-/**
- * 
  */
 function retrieveUserCoinBalance() {
-	checkLocalStorage();
-	var ucbJson = {};
-	var ucb = localStorage.getItem(prop_userCoinBalance + "_" + prop_user);
-	if(ucb != null) {
-		ucbJson = JSON.parse(ucb);
-	}
-	return ucbJson;
-}
-
-/**
- * 
- */
-function clearUserCoinBalance() {
-	checkLocalStorage();
-	localStorage.removeItem(prop_userCoinBalance + "_" + prop_user, null);
-}
-
-/**
- * 
- * @returns
- */
-function retrieveUserAccountMovements() {
-	return userAccountMovementsStatic;
+	return userCoinBalanceStatic;
 }
