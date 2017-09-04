@@ -900,7 +900,7 @@ function retrieveUserAccountMovements() {
  * 
  */
 function drawEditableUserCoinBalance() {
-	var locale = defaultLocale;
+	var locale = 'en-US';
 	var ucb = retrieveUserCoinBalance();
 	
 	var value;
@@ -946,35 +946,14 @@ function drawEditableUserCoinBalance() {
 
 /**
  * 
- * @param value
- * @returns
- */
-function fixNumberLocaleFormatEditable(value) {
-	var res = value;
-	res = res.replaceAll(",", ".");
-	return res;
-}
-
-/**
- * 
  */
 function storeEditedUserCoinBalance() {
+	storeUserCoinBalance('EUR', $('#userBalance_EUR').val());
+	storeUserCoinBalance('BTC', $('#userBalance_BTC').val());
+	storeUserCoinBalance('ETH', $('#userBalance_ETH').val());
+	storeUserCoinBalance('LTC', $('#userBalance_LTC').val());
+	storeUserCoinBalance('XRP', $('#userBalance_XRP').val());
 
-	var ucb_EUR = fixNumberLocaleFormatEditable($('#userBalance_EUR').val());
-	storeUserCoinBalance('EUR', ucb_EUR);
-	
-	var ucb_BTC = fixNumberLocaleFormatEditable($('#userBalance_BTC').val());
-	storeUserCoinBalance('BTC', ucb_BTC);
-	
-	var ucb_ETH = fixNumberLocaleFormatEditable($('#userBalance_ETH').val());
-	storeUserCoinBalance('ETH', ucb_ETH);
-	
-	var ucb_LTC = fixNumberLocaleFormatEditable($('#userBalance_LTC').val());
-	storeUserCoinBalance('LTC', ucb_LTC);
-	
-	var ucb_XRP = fixNumberLocaleFormatEditable($('#userBalance_XRP').val());
-	storeUserCoinBalance('XRP', ucb_XRP);
-	
 	drawEditableUserCoinBalance();
 	
 	activateSuccessMessage("Datos grabados correctamente");
