@@ -1,7 +1,7 @@
 /**
  * User data
  */
-var userCoinBalance = {
+var userCoinBalanceStatic = {
 		'EUR': 20568.37,
 		'BTC': 0.00009816,
 		'ETH': 14.61795127,
@@ -9,7 +9,7 @@ var userCoinBalance = {
 		'XRP': 3102.75
 };
 
-var userAccountMovements = { 'inputs': 
+var userAccountMovementsStatic = { 'inputs': 
 								[{'date': '08/09/2017', 'amount': 2000},
 		                         {'date': '16/03/2017', 'amount': 2929},
 		                         {'date': '02/05/2017', 'amount': 5000}
