@@ -4,6 +4,7 @@ var coinChart;
 var defaultCurrency = 'EUR';
 var defaultLocale = 'es-ES';
 var defaultValueUnloadData = '---';
+var defaultFracDigitsCoin = 8;
 
 var responseSuccess = "Success";
 var responseError = "Error";
@@ -11,6 +12,47 @@ var responseError = "Error";
 var prop_user;
 var prop_userCoinBalance = "userCoinBalance";
 var prop_userMovements = "userMovements";
+
+/**
+ * 
+ * @param mode (HOUR, DAY_MONTH, MONTH_YEAR)
+ * @returns {String}
+ */
+Date.prototype.formatDate = function(mode) {
+  var mm = this.getMonth() + 1;
+  mm = mm>=10?mm:'0'+mm;
+  var dd = this.getDate();
+  dd = dd>=10?dd:'0'+dd;
+  var hh = this.getHours();
+  hh = hh>=10?hh:'0'+hh;
+  var MM = this.getMinutes();
+  MM = MM>=10?MM:'0'+MM;
+  var yy = this.getFullYear() % 100;
+  yy = yy>=10?yy:'0'+yy;
+
+  if(mode == 'HOUR') {
+	  res = hh + ':' + MM;
+  } else if(mode == 'DAY_MONTH') {
+	  res = dd + '/' + mm;
+  } else if(mode == 'MONTH_YEAR') {
+	  res = mm + '/' + yy;
+  } else {
+	  res = 'NO_DATE_MODE';
+  }
+  
+  return res;
+};
+
+/**
+ * 
+ * @param search
+ * @param replacement
+ * @returns
+ */
+String.prototype.replaceAll = function(search, replacement) {
+    var target = this;
+    return target.replace(new RegExp(search, 'g'), replacement);
+};
 
 /**
  * 
@@ -152,13 +194,13 @@ function drawPricesChart(chartId, coin, frequency, limit) {
 			buildPricesChart(chartId, labels, data);
 			updatePricesChartValues(frequency, data.price);
 		} else if(results.Response === responseError) {
-			activateError("DATA_ERROR", "Error recuperando datos de la gráfica de precios. " + results.Message);
+			activateErrorMessage("DATA_ERROR", "Error recuperando datos de la gráfica de precios. " + results.Message);
 		} else {
-			activateError(null, "Error recuperando datos de la gráfica de precios. " + results.Message);
+			activateErrorMessage(null, "Error recuperando datos de la gráfica de precios. " + results.Message);
 		}
 		
 	}).fail(function () {
-		activateError('NO_DATA', "No se han recibido datos");
+		activateErrorMessage('NO_DATA', "No se han recibido datos");
 	});
 }
 
@@ -224,9 +266,9 @@ function drawUserData(userCoinData, userMovements) {
 		if(results.Response === responseSuccess) {
 			_24hPriceBTC = results.Data[1].close;
 		} else if(results.Response === responseError) {
-			activateError("DATA_ERROR", "Error recuperando precio de BTC. " + results.Message);
+			activateErrorMessage("DATA_ERROR", "Error recuperando precio de BTC. " + results.Message);
 		} else {
-			activateError(null, "Error recuperando precio de BTC. " + results.Message);
+			activateErrorMessage(null, "Error recuperando precio de BTC. " + results.Message);
 		}
 		
 		$.ajax({
@@ -245,9 +287,9 @@ function drawUserData(userCoinData, userMovements) {
 				updateUserValues(coinData, userCoinData);
 				updateUserProfitability(userMovements, coinData, retrieveUserCoinBalance());
 			} else if(results.Response === responseError) {
-				activateError("DATA_ERROR", "Error recuperando precio de BTC. " + results.Message);
+				activateErrorMessage("DATA_ERROR", "Error recuperando precio de BTC. " + results.Message);
 			} else {
-				activateError(null, "Error recuperando precio de BTC. " + results.Message);
+				activateErrorMessage(null, "Error recuperando precio de BTC. " + results.Message);
 			}
 		});
 	});
@@ -262,9 +304,9 @@ function drawUserData(userCoinData, userMovements) {
 		if(results.Response === responseSuccess) {
 			_24hPriceETH = results.Data[1].close;
 		} else if(results.Response === responseError) {
-			activateError("DATA_ERROR", "Error recuperando precio de ETH. " + results.Message);
+			activateErrorMessage("DATA_ERROR", "Error recuperando precio de ETH. " + results.Message);
 		} else {
-			activateError(null, "Error recuperando precio de ETH. " + results.Message);
+			activateErrorMessage(null, "Error recuperando precio de ETH. " + results.Message);
 		}
 		
 		$.ajax({
@@ -283,9 +325,9 @@ function drawUserData(userCoinData, userMovements) {
 				updateUserValues(coinData, userCoinData);
 				updateUserProfitability(userMovements, coinData, retrieveUserCoinBalance());
 			} else if(results.Response === responseError) {
-				activateError("DATA_ERROR", "Error recuperando precio de ETH. " + results.Message);
+				activateErrorMessage("DATA_ERROR", "Error recuperando precio de ETH. " + results.Message);
 			} else {
-				activateError(null, "Error recuperando precio de ETH. " + results.Message);
+				activateErrorMessage(null, "Error recuperando precio de ETH. " + results.Message);
 			}
 		});
 	});
@@ -300,9 +342,9 @@ function drawUserData(userCoinData, userMovements) {
 		if(results.Response === responseSuccess) {
 			_24hPriceLTC = results.Data[1].close;
 		} else if(results.Response === responseError) {
-			activateError("DATA_ERROR", "Error recuperando precio de LTC. " + results.Message);
+			activateErrorMessage("DATA_ERROR", "Error recuperando precio de LTC. " + results.Message);
 		} else {
-			activateError(null, "Error recuperando precio de LTC. " + results.Message);
+			activateErrorMessage(null, "Error recuperando precio de LTC. " + results.Message);
 		}
 		
 		$.ajax({
@@ -321,9 +363,9 @@ function drawUserData(userCoinData, userMovements) {
 				updateUserValues(coinData, userCoinData);
 				updateUserProfitability(userMovements, coinData, retrieveUserCoinBalance());
 			} else if(results.Response === responseError) {
-				activateError("DATA_ERROR", "Error recuperando precio de LTC. " + results.Message);
+				activateErrorMessage("DATA_ERROR", "Error recuperando precio de LTC. " + results.Message);
 			} else {
-				activateError(null, "Error recuperando precio de LTC. " + results.Message);
+				activateErrorMessage(null, "Error recuperando precio de LTC. " + results.Message);
 			}
 		});
 	});
@@ -338,9 +380,9 @@ function drawUserData(userCoinData, userMovements) {
 		if(results.Response === responseSuccess) {
 			_24hPriceXRP = results.Data[1].close;
 		} else if(results.Response === responseError) {
-			activateError("DATA_ERROR", "Error recuperando precio de XRP. " + results.Message);
+			activateErrorMessage("DATA_ERROR", "Error recuperando precio de XRP. " + results.Message);
 		} else {
-			activateError(null, "Error recuperando precio de XRP. " + results.Message);
+			activateErrorMessage(null, "Error recuperando precio de XRP. " + results.Message);
 		}
 		
 		$.ajax({
@@ -359,44 +401,13 @@ function drawUserData(userCoinData, userMovements) {
 				updateUserValues(coinData, userCoinData);
 				updateUserProfitability(userMovements, coinData, retrieveUserCoinBalance());
 			} else if(results.Response === responseError) {
-				activateError("DATA_ERROR", "Error recuperando precio de XRP. " + results.Message);
+				activateErrorMessage("DATA_ERROR", "Error recuperando precio de XRP. " + results.Message);
 			} else {
-				activateError(null, "Error recuperando precio de XRP. " + results.Message);
+				activateErrorMessage(null, "Error recuperando precio de XRP. " + results.Message);
 			}
 		});
 	});
 }
-
-
-/**
- * 
- * @param mode (HOUR, DAY_MONTH, MONTH_YEAR)
- * @returns {String}
- */
-Date.prototype.formatDate = function(mode) {
-  var mm = this.getMonth() + 1;
-  mm = mm>=10?mm:'0'+mm;
-  var dd = this.getDate();
-  dd = dd>=10?dd:'0'+dd;
-  var hh = this.getHours();
-  hh = hh>=10?hh:'0'+hh;
-  var MM = this.getMinutes();
-  MM = MM>=10?MM:'0'+MM;
-  var yy = this.getFullYear() % 100;
-  yy = yy>=10?yy:'0'+yy;
-
-  if(mode == 'HOUR') {
-	  res = hh + ':' + MM;
-  } else if(mode == 'DAY_MONTH') {
-	  res = dd + '/' + mm;
-  } else if(mode == 'MONTH_YEAR') {
-	  res = mm + '/' + yy;
-  } else {
-	  res = 'NO_DATE_MODE';
-  }
-  
-  return res;
-};
 
 /**
  * 
@@ -442,8 +453,6 @@ function updateUserValues(coinData, userCoinBalance) {
 	var divisa = defaultCurrency;
 	var locale = defaultLocale;
 
-	var fracDigitsCoin = 8;
-	
 	var ueurb = 0;
 	if(userCoinBalance != null && userCoinBalance.EUR != null && !isNaN(userCoinBalance.EUR)) {
 		ueurb = userCoinBalance.EUR;
@@ -456,7 +465,7 @@ function updateUserValues(coinData, userCoinBalance) {
 			ucb = userCoinBalance.BTC;
 		}
 		$('#currentVolumeEur_BTC_value').html((ucb * coinData.BTC.currentPriceEUR).toLocaleString(locale, {style: 'currency', currency: divisa}));
-		$('#currentVolumeCoin_BTC_value').html(ucb.toLocaleString(locale, {style: 'decimal', minimumFractionDigits: fracDigitsCoin}));
+		$('#currentVolumeCoin_BTC_value').html(ucb.toLocaleString(locale, {style: 'decimal', minimumFractionDigits: defaultFracDigitsCoin}));
 		$('#currentPrice_BTC_EUR').html(coinData.BTC.currentPriceEUR.toLocaleString(locale, {style: 'currency', currency: divisa}));
 		$('#variationPrice_BTC_EUR').html(coinData.BTC.variationPriceEUR.toLocaleString(locale, {style: 'currency', currency: divisa}));
 		$('#variationPercent_BTC').html(coinData.BTC.variationPercent.toLocaleString(locale, {style: 'percent', minimumFractionDigits: 2}));
@@ -478,7 +487,7 @@ function updateUserValues(coinData, userCoinBalance) {
 			ucb = userCoinBalance.ETH;
 		}
 		$('#currentVolumeEur_ETH_value').html((ucb * coinData.ETH.currentPriceEUR).toLocaleString(locale, {style: 'currency', currency: divisa}));
-		$('#currentVolumeCoin_ETH_value').html(ucb.toLocaleString(locale, {style: 'decimal', minimumFractionDigits: fracDigitsCoin}));
+		$('#currentVolumeCoin_ETH_value').html(ucb.toLocaleString(locale, {style: 'decimal', minimumFractionDigits: defaultFracDigitsCoin}));
 		$('#currentPrice_ETH_EUR').html(coinData.ETH.currentPriceEUR.toLocaleString(locale, {style: 'currency', currency: divisa}));
 		$('#variationPrice_ETH_EUR').html(coinData.ETH.variationPriceEUR.toLocaleString(locale, {style: 'currency', currency: divisa}));
 		$('#variationPercent_ETH').html(coinData.ETH.variationPercent.toLocaleString(locale, {style: 'percent', minimumFractionDigits: 2}));
@@ -500,7 +509,7 @@ function updateUserValues(coinData, userCoinBalance) {
 			ucb = userCoinBalance.LTC;
 		}
 		$('#currentVolumeEur_LTC_value').html((ucb * coinData.LTC.currentPriceEUR).toLocaleString(locale, {style: 'currency', currency: divisa}));
-		$('#currentVolumeCoin_LTC_value').html(ucb.toLocaleString(locale, {style: 'decimal', minimumFractionDigits: fracDigitsCoin}));
+		$('#currentVolumeCoin_LTC_value').html(ucb.toLocaleString(locale, {style: 'decimal', minimumFractionDigits: defaultFracDigitsCoin}));
 		$('#currentPrice_LTC_EUR').html(coinData.LTC.currentPriceEUR.toLocaleString(locale, {style: 'currency', currency: divisa}));
 		$('#variationPrice_LTC_EUR').html(coinData.LTC.variationPriceEUR.toLocaleString(locale, {style: 'currency', currency: divisa}));
 		$('#variationPercent_LTC').html(coinData.LTC.variationPercent.toLocaleString(locale, {style: 'percent', minimumFractionDigits: 2}));
@@ -522,7 +531,7 @@ function updateUserValues(coinData, userCoinBalance) {
 			ucb = userCoinBalance.XRP;
 		}
 		$('#currentVolumeEur_XRP_value').html((ucb * coinData.XRP.currentPriceEUR).toLocaleString(locale, {style: 'currency', currency: divisa}));
-		$('#currentVolumeCoin_XRP_value').html(ucb.toLocaleString(locale, {style: 'decimal', minimumFractionDigits: fracDigitsCoin}));
+		$('#currentVolumeCoin_XRP_value').html(ucb.toLocaleString(locale, {style: 'decimal', minimumFractionDigits: defaultFracDigitsCoin}));
 		$('#currentPrice_XRP_EUR').html(coinData.XRP.currentPriceEUR.toLocaleString(locale, {style: 'currency', currency: divisa, minimumFractionDigits: 4}));
 		$('#variationPrice_XRP_EUR').html(coinData.XRP.variationPriceEUR.toLocaleString(locale, {style: 'currency', currency: divisa, minimumFractionDigits: 4}));
 		$('#variationPercent_XRP').html(coinData.XRP.variationPercent.toLocaleString(locale, {style: 'percent', minimumFractionDigits: 4}));
@@ -732,25 +741,56 @@ function updateUserProfitability(movements, coinData, userCoinBalance) {
  * 
  * @param type
  */
-function activateError(type, message) {
+function activateErrorMessage(type, message) {
 
 	var content = "Error desconocido";
 
 	switch(type) {
 		case 'NO_DATA':
-			content = "<p class='title'>Recepción de datos incorrecta</p>";
+			$('#errorMessage_title').html("Recepción de datos incorrecta");
 			break;
 		case 'DATA_ERROR':
-			content = "<p class='title'>Recepción de datos incorrecta</p>";
-			content += "<p class='message'>Error: " + message + "</p>"; 
+			$('#errorMessage_title').html("Recepción de datos incorrecta");
+			$('#errorMessage_text').html(message);
 			break;
 		case 'STORAGE_ERROR':
-			content = "<p class='title'>" + message + "</p>";
+			$('#errorMessage_title').html("Error de almacenamiento");
+			$('#errorMessage_text').html(message);
 			break;
+		case 'NUMBER_FORMAT':
+			$('#errorMessage_title').html("Error de formato");
+			$('#errorMessage_text').html(message);
+			break;
+		default:
+			$('#errorMessage_title').html("Error desconocido");
+			$('#errorMessage_text').html(message);
 	}
 
-	$('#errorMessage').html(content);
-	$('#errorContainer').show();
+	$('#errorMessage').show();
+}
+
+/**
+ * 
+ */
+function deactivateErrorMessage() {
+	$('#errorMessage').hide(0);
+}
+
+/**
+ * 
+ * @param type
+ */
+function activateSuccessMessage(title, text) {
+	$('#successMessage_title').html(title);
+	$('#successMessage_text').html(text);
+	$('#successMessage').show();
+}
+
+/**
+ * 
+ */
+function deactivateSuccessMessage() {
+	$('#successMessage').hide(0);
 }
 
 /**
@@ -803,7 +843,7 @@ function checkLocalStorage() {
 	var ok = true;
 	if (typeof(Storage) === "undefined") {
 		ok = false;
-		activateError("STORAGE_ERROR", "Error accediendo al almacenamiento local.");
+		activateErrorMessage("STORAGE_ERROR", "Error accediendo al almacenamiento local.");
 	}
 	return ok;
 }
@@ -813,7 +853,7 @@ function checkLocalStorage() {
  * @param coin
  * @param balance
  */
-function updateUserCoinBalance(coin, balance) {
+function storeUserCoinBalance(coin, balance) {
 	checkLocalStorage();
 	
 	var ucbJson;
@@ -823,7 +863,7 @@ function updateUserCoinBalance(coin, balance) {
 	} else {
 		ucbJson = JSON.parse(ucb);
 	}
-	ucbJson[coin] = balance;
+	ucbJson[coin] = Number(balance);
 	localStorage.setItem(prop_userCoinBalance + "_" + prop_user, JSON.stringify(ucbJson));
 }
 
@@ -854,4 +894,88 @@ function clearUserCoinBalance() {
  */
 function retrieveUserAccountMovements() {
 	return userAccountMovementsStatic;
+}
+
+/**
+ * 
+ */
+function drawEditableUserCoinBalance() {
+	var locale = defaultLocale;
+	var ucb = retrieveUserCoinBalance();
+	
+	var value;
+	if(ucb.EUR != null) {
+		value = ucb.EUR; 
+	} else {
+		value = 0; 
+	}
+	$('#userBalance_EUR').val(value.toLocaleString(locale, {style: 'decimal', useGrouping: false, minimumFractionDigits: 2, maxFractionDigits: 2}));
+	
+	var value;
+	if(ucb.BTC != null) {
+		value = ucb.BTC; 
+	} else {
+		value = 0; 
+	}
+	$('#userBalance_BTC').val(value.toLocaleString(locale, {style: 'decimal', useGrouping: false, minimumFractionDigits: defaultFracDigitsCoin}));
+	
+	var value;
+	if(ucb.ETH != null) {
+		value = ucb.ETH; 
+	} else {
+		value = 0; 
+	}
+	$('#userBalance_ETH').val(value.toLocaleString(locale, {style: 'decimal', useGrouping: false, minimumFractionDigits: defaultFracDigitsCoin}));
+	
+	var value;
+	if(ucb.LTC != null) {
+		value = ucb.LTC; 
+	} else {
+		value = 0; 
+	}
+	$('#userBalance_LTC').val(value.toLocaleString(locale, {style: 'decimal', useGrouping: false, minimumFractionDigits: defaultFracDigitsCoin}));
+	
+	var value;
+	if(ucb.XRP != null) {
+		value = ucb.XRP; 
+	} else {
+		value = 0; 
+	}
+	$('#userBalance_XRP').val(value.toLocaleString(locale, {style: 'decimal', useGrouping: false, minimumFractionDigits: defaultFracDigitsCoin}));
+}
+
+/**
+ * 
+ * @param value
+ * @returns
+ */
+function fixNumberLocaleFormatEditable(value) {
+	var res = value;
+	res = res.replaceAll(",", ".");
+	return res;
+}
+
+/**
+ * 
+ */
+function storeEditedUserCoinBalance() {
+
+	var ucb_EUR = fixNumberLocaleFormatEditable($('#userBalance_EUR').val());
+	storeUserCoinBalance('EUR', ucb_EUR);
+	
+	var ucb_BTC = fixNumberLocaleFormatEditable($('#userBalance_BTC').val());
+	storeUserCoinBalance('BTC', ucb_BTC);
+	
+	var ucb_ETH = fixNumberLocaleFormatEditable($('#userBalance_ETH').val());
+	storeUserCoinBalance('ETH', ucb_ETH);
+	
+	var ucb_LTC = fixNumberLocaleFormatEditable($('#userBalance_LTC').val());
+	storeUserCoinBalance('LTC', ucb_LTC);
+	
+	var ucb_XRP = fixNumberLocaleFormatEditable($('#userBalance_XRP').val());
+	storeUserCoinBalance('XRP', ucb_XRP);
+	
+	drawEditableUserCoinBalance();
+	
+	activateSuccessMessage("Datos grabados correctamente");
 }
