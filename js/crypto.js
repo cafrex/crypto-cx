@@ -900,7 +900,7 @@ function retrieveUserAccountMovements() {
  * 
  */
 function drawEditableUserCoinBalance() {
-	var locale = 'en-US';
+	var locale = defaultLocale;
 	var ucb = retrieveUserCoinBalance();
 	
 	var value;
@@ -909,7 +909,9 @@ function drawEditableUserCoinBalance() {
 	} else {
 		value = 0; 
 	}
-	$('#userBalance_EUR').val(value.toLocaleString(locale, {style: 'decimal', useGrouping: false, minimumFractionDigits: 2, maxFractionDigits: 2}));
+	value = value.toLocaleString(locale, {style: 'decimal', useGrouping: false, minimumFractionDigits: 2, maxFractionDigits: 2});
+	//value = value.replaceAll(",", ".");
+	$('#userBalance_EUR').val(value);
 	
 	var value;
 	if(ucb.BTC != null) {
@@ -917,7 +919,9 @@ function drawEditableUserCoinBalance() {
 	} else {
 		value = 0; 
 	}
-	$('#userBalance_BTC').val(value.toLocaleString(locale, {style: 'decimal', useGrouping: false, minimumFractionDigits: defaultFracDigitsCoin}));
+	value = value.toLocaleString(locale, {style: 'decimal', useGrouping: false, minimumFractionDigits: defaultFracDigitsCoin});
+	//value = value.replaceAll(",", ".");
+	$('#userBalance_BTC').val(value);
 	
 	var value;
 	if(ucb.ETH != null) {
@@ -925,7 +929,9 @@ function drawEditableUserCoinBalance() {
 	} else {
 		value = 0; 
 	}
-	$('#userBalance_ETH').val(value.toLocaleString(locale, {style: 'decimal', useGrouping: false, minimumFractionDigits: defaultFracDigitsCoin}));
+	value = value.toLocaleString(locale, {style: 'decimal', useGrouping: false, minimumFractionDigits: defaultFracDigitsCoin});
+	//value = value.replaceAll(",", ".");
+	$('#userBalance_ETH').val(value);
 	
 	var value;
 	if(ucb.LTC != null) {
@@ -933,7 +939,9 @@ function drawEditableUserCoinBalance() {
 	} else {
 		value = 0; 
 	}
-	$('#userBalance_LTC').val(value.toLocaleString(locale, {style: 'decimal', useGrouping: false, minimumFractionDigits: defaultFracDigitsCoin}));
+	value = value.toLocaleString(locale, {style: 'decimal', useGrouping: false, minimumFractionDigits: defaultFracDigitsCoin});
+	//value = value.replaceAll(",", ".");
+	$('#userBalance_LTC').val(value);
 	
 	var value;
 	if(ucb.XRP != null) {
@@ -941,7 +949,9 @@ function drawEditableUserCoinBalance() {
 	} else {
 		value = 0; 
 	}
-	$('#userBalance_XRP').val(value.toLocaleString(locale, {style: 'decimal', useGrouping: false, minimumFractionDigits: defaultFracDigitsCoin}));
+	value = value.toLocaleString(locale, {style: 'decimal', useGrouping: false, minimumFractionDigits: defaultFracDigitsCoin});
+	//value = value.replaceAll(",", ".");
+	$('#userBalance_XRP').val(value);
 }
 
 /**
