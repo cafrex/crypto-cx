@@ -30,13 +30,35 @@
 $(document).ready(function() {
 	
 	$('#copyrightYear').html(new Date().getFullYear());
-	//repaintScreen(coinSelected, frequencySelected, retrieveUserCoinBalance());
 	
-	//--- chart
-	$('#buttonFrequency_1H').on('click', function() {
-		repaintScreen(coinSelected, '1H', retrieveUserCoinBalance());
+	drawEditableUserCoinBalance();
+	
+	//--- buttons
+	/*
+	$('#storeUserCoinBalanceButton').on('click', function() {
+		storeEditedUserCoinBalance();
 	});
+	*/
+	
+	/*
+	$('.editableData').each(function() {
+		this.addEventListener("invalid", invalidMsg);
+	});
+	*/
+	
 });
+
+function invalidMsg(event) {
+	var textbox = event.target;
+    if (textbox.value == '') {
+        textbox.setCustomValidity('Campo obligatorio');
+    } else if (textbox.validity.typeMismatch){
+        textbox.setCustomValidity('Formato incorrecto');
+    } else if (textbox.validity.rangeUnderflow){
+        textbox.setCustomValidity('El valor debe ser positivo');
+    } 
+    return true;
+}
 
 </script>
 
@@ -62,71 +84,98 @@ $(document).ready(function() {
 </nav>
 
 <div class="container mainContainer">
-	<div id="errorContainer" class="row">
-		<div class="col-12">
-			<div id="errorMessage"></div>
-		</div>
+	
+	<div id="errorMessage" class="alert alert-danger" role="alert">
+		<h4 id="errorMessage_title" class="alert-heading"></h4>
+  		<p id="errorMessage_text" class="mb-0"></p>
+	</div>
+	
+	<div id="successMessage" class="alert alert-success alert-dismissible fade show" role="alert">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Cerrar">
+	    	<span aria-hidden="true">&times;</span>
+	  	</button>
+  		<h4 id="successMessage_title" class="alert-heading"></h4>
+  		<p id="successMessage_text" class="mb-0"></p>
 	</div>
 	
 	<div class="row">
 		<div class="col-12">
 			<div class="userDataContainer">
+				
 				<p>Balance de monedas</p>
-				<div class="currentVolumeCoin sectionContainer">
-					<form class="form-inline">
-						<div class="form-group">
-							<label for="userBalance_BTC">
-								<img src="img/btc.png" class="iconCoin"/>
-								<span class="coin">BTC</span>
-							</label>
-							<input type="number" class="form-control form-control-sm" id="userBalance_BTC">
-							<button type="submit" class="btn btn-info btn-sm">Grabar</button>
+				
+				<form action="javascript:storeEditedUserCoinBalance()">
+				
+				<div class="container">
+					<div class="row">
+						<div class="col-12">
+							<div class="currentVolumeCoin">
+								<div class="container">
+									
+									<div class="form-group row">
+										<label for="userBalance_EUR" class="col-xs-3 col-form-label mr-2">
+											<img src="img/eur.png" class="iconCoin"/>
+											<span class="coin">EUR</span>
+										</label>
+										<div class="col-xs-9">
+											<input type="number" min="0" class="editableData form-control form-control-sm text-right" id="userBalance_EUR" required>
+										</div>
+									</div>
+									
+									<div class="form-group row">
+										<label for="userBalance_BTC" class="col-xs-3 col-form-label mr-2">
+											<img src="img/btc.png" class="iconCoin"/>
+											<span class="coin">BTC</span>
+										</label>
+										<div class="col-xs-9">
+											<input type="number" min="0" class="form-control form-control-sm text-right" id="userBalance_BTC" required>
+										</div>
+									</div>
+									
+									<div class="form-group row">
+										<label for="userBalance_ETH" class="col-xs-3 col-form-label mr-2">
+											<img src="img/eth.png" class="iconCoin"/>
+											<span class="coin">ETH</span>
+										</label>
+										<div class="col-xs-9">
+											<input type="number" min="0" class="form-control form-control-sm text-right" id="userBalance_ETH" required>
+										</div>
+									</div>
+									
+									<div class="form-group row">
+										<label for="userBalance_LTC" class="col-xs-3 col-form-label mr-2">
+											<img src="img/ltc.png" class="iconCoin"/>
+											<span class="coin">LTC</span>
+										</label>
+										<div class="col-xs-9">
+											<input type="number" min="0" class="form-control form-control-sm text-right" id="userBalance_LTC" required>
+										</div>
+									</div>
+									
+									<div class="form-group row">
+										<label for="userBalance_XRP" class="col-xs-3 col-form-label mr-2">
+											<img src="img/xrp.png" class="iconCoin"/>
+											<span class="coin">XRP</span>
+										</label>
+										<div class="col-xs-9">
+											<input type="number" min="0" class="form-control form-control-sm text-right" id="userBalance_XRP">
+										</div>
+									</div>
+									
+									<div class="form-group row">
+										<div class="col-12">
+											<input type="submit" id="storeUserCoinBalanceButton" class="btn btn-info btn-sm btn-block" value="Grabar">
+										</div>
+									</div>
+								</div>
+							</div>
 						</div>
-					</form>
-				</div>
-				<div class="currentVolumeCoin sectionContainer">
-					<div class="title">
-						<img src="img/eth.png" class="iconCoin"/>
-						<span class="coin">ETH</span>
-						<span id="currentPrice_ETH_EUR" class="price updatableData">---</span>
-						<span class="variationCoin">
-							<span id="variationPrice_ETH_EUR" class="variationPrice updatableData">---</span>
-							<span id="variationPercent_ETH" class="variationPercent updatableData">---</span>
-						</span>
 					</div>
-					<div id="currentVolumeEur_ETH_value" class="valueEur updatableData">---</div>
-					<div id="currentVolumeCoin_ETH_value" class="valueCoin updatableData">---</div>
+				
 				</div>
-				<div class="currentVolumeCoin sectionContainer">
-					<div class="title">
-						<img src="img/ltc.png" class="iconCoin"/>
-						<span class="coin">LTC</span>
-						<span id="currentPrice_LTC_EUR" class="price updatableData">---</span>
-						<span class="variationCoin">
-							<span id="variationPrice_LTC_EUR" class="variationPrice updatableData">---</span>
-							<span id="variationPercent_LTC" class="variationPercent updatableData">---</span>
-						</span>
-					</div>
-					<div id="currentVolumeEur_LTC_value" class="valueEur updatableData">---</div>
-					<div id="currentVolumeCoin_LTC_value" class="valueCoin updatableData">---</div>
-				</div>
-				<div class="currentVolumeCoin sectionContainer">
-					<div class="title">
-						<img src="img/xrp.png" class="iconCoin"/>
-						<span class="coin">XRP</span>
-						<span id="currentPrice_XRP_EUR" class="price updatableData">---</span>
-						<span class="variationCoin">
-							<span id="variationPrice_XRP_EUR" class="variationPrice updatableData">---</span>
-							<span id="variationPercent_XRP" class="variationPercent updatableData">---</span>
-						</span>
-					</div>
-					<div id="currentVolumeEur_XRP_value" class="valueEur updatableData">---</div>
-					<div id="currentVolumeCoin_XRP_value" class="valueCoin updatableData">---</div>
-				</div>
-				<div class="currentVolumeEur sectionContainer">
-					<div class="title">EUR</div>
-					<div id="currentVolumeEur_value" class="valueEur updatableData">---</div>
-				</div>
+				
+				</form>
+				
 			</div> <!-- /userDataContainer -->     
 		</div>
 		
