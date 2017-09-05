@@ -50,6 +50,18 @@ $(document).ready(function() {
 		repaintDashboardScreen(coinSelected, '1D', retrieveUserCoinBalance());
 	});
 	
+	$('#buttonFrequency_2D').on('click', function() {
+		repaintDashboardScreen(coinSelected, '2D', retrieveUserCoinBalance());
+	});
+	
+	$('#buttonFrequency_3D').on('click', function() {
+		repaintDashboardScreen(coinSelected, '3D', retrieveUserCoinBalance());
+	});
+	
+	$('#buttonFrequency_4D').on('click', function() {
+		repaintDashboardScreen(coinSelected, '4D', retrieveUserCoinBalance());
+	});
+	
 	$('#buttonFrequency_1S').on('click', function() {
 		repaintDashboardScreen(coinSelected, '1S', retrieveUserCoinBalance());
 	});
@@ -301,6 +313,9 @@ $(document).ready(function() {
 							<div id="buttonFrequency_1H" class="buttonFrequency">1H</div>
 							<div id="buttonFrequency_24H" class="buttonFrequency">24H</div>
 							<div id="buttonFrequency_1D" class="buttonFrequency">1D</div>
+							<div id="buttonFrequency_2D" class="buttonFrequency">2D</div>
+							<div id="buttonFrequency_3D" class="buttonFrequency">3D</div>
+							<div id="buttonFrequency_4D" class="buttonFrequency">4D</div>
 							<div id="buttonFrequency_1S" class="buttonFrequency">1S</div>
 							<div id="buttonFrequency_1M" class="buttonFrequency">1M</div>
 							<div id="buttonFrequency_3M" class="buttonFrequency">3M</div>
