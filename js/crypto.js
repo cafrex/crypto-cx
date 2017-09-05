@@ -172,7 +172,7 @@ function buildPricesChart(chartId, labels, fullData) {
 		            display: false
 		        },
 		        tooltips: {
-		        	intersect: true,
+		        	intersect: false,
 		            mode: 'index'
 		        }
 		    }
@@ -690,32 +690,72 @@ function repaintDashboardScreen(coin, frequency, userCoinBalance) {
 	
 	if($('#chartPricesContainer').is(':visible')) {
 		pricesChartVisible = true;
-		if(frequencySelected == '1H') {
-			drawPricesChart('chart', coinSelected, 'MINUTE', 60);
-		} else if(frequencySelected == '24H') {
-			drawPricesChart('chart', coinSelected, 'MINUTE', 24 * 60);
-		} else if(frequencySelected == '1D') {
-			//calculamos el numero de minutos transcurridos del dia
-			var now = new Date();
-			var beginOfDay = new Date(now.getTime());
-			beginOfDay.setHours(0);
-			beginOfDay.setMinutes(0);
-			beginOfDay.setSeconds(0);
-			beginOfDay.setMilliseconds(0);
-			
-			var diffMillis = now.getTime() - beginOfDay.getTime();
-			
-			drawPricesChart('chart', coinSelected, 'MINUTE', (diffMillis / 1000 / 60).toFixed(0));
-		} else if(frequencySelected == '1S') {
-			drawPricesChart('chart', coinSelected, 'HOUR', 7 * 24);
-		} else if(frequencySelected == '1M') {
-			drawPricesChart('chart', coinSelected, 'HOUR', 30 * 24);
-		} else if(frequencySelected == '3M') {
-			drawPricesChart('chart', coinSelected, 'DAY', 90);
-		} else if(frequencySelected == '6M') {	
-			drawPricesChart('chart', coinSelected, 'DAY', 180);
-		} else if(frequencySelected == '1A') {	
-			drawPricesChart('chart', coinSelected, 'DAY', 365);
+		switch(frequencySelected) {
+			case '1H':
+				drawPricesChart('chart', coinSelected, 'MINUTE', 60);
+				break;
+			case '24H':
+				drawPricesChart('chart', coinSelected, 'MINUTE', 24 * 60);
+				break;
+			case '1D':
+				//calculamos el numero de minutos transcurridos del dia
+				var now = new Date();
+				var beginOfDay = new Date(now.getTime());
+				beginOfDay.setHours(0);
+				beginOfDay.setMinutes(0);
+				beginOfDay.setSeconds(0);
+				beginOfDay.setMilliseconds(0);
+				var diffMillis = now.getTime() - beginOfDay.getTime();
+				drawPricesChart('chart', coinSelected, 'MINUTE', (diffMillis / 1000 / 60).toFixed(0));
+				break;
+			case '2D':
+				//calculamos el numero de minutos transcurridos en 2 dias
+				var now = new Date();
+				var beginOfDay = new Date(now.getTime());
+				beginOfDay.setHours(0);
+				beginOfDay.setMinutes(0);
+				beginOfDay.setSeconds(0);
+				beginOfDay.setMilliseconds(0);
+				var diffMillis = now.getTime() - beginOfDay.getTime() + (24 * 60 * 60 * 1000 * 1);
+				drawPricesChart('chart', coinSelected, 'HOUR', (diffMillis / 1000 / 60 / 60).toFixed(0));
+				break;
+			case '3D':
+				//calculamos el numero de minutos transcurridos en 3 dias
+				var now = new Date();
+				var beginOfDay = new Date(now.getTime());
+				beginOfDay.setHours(0);
+				beginOfDay.setMinutes(0);
+				beginOfDay.setSeconds(0);
+				beginOfDay.setMilliseconds(0);
+				var diffMillis = now.getTime() - beginOfDay.getTime() + (24 * 60 * 60 * 1000 * 2);
+				drawPricesChart('chart', coinSelected, 'HOUR', (diffMillis / 1000 / 60 / 60).toFixed(0));
+				break;
+			case '4D':
+				//calculamos el numero de minutos transcurridos en 4 dias
+				var now = new Date();
+				var beginOfDay = new Date(now.getTime());
+				beginOfDay.setHours(0);
+				beginOfDay.setMinutes(0);
+				beginOfDay.setSeconds(0);
+				beginOfDay.setMilliseconds(0);
+				var diffMillis = now.getTime() - beginOfDay.getTime() + (24 * 60 * 60 * 1000 * 3);
+				drawPricesChart('chart', coinSelected, 'HOUR', (diffMillis / 1000 / 60 / 60).toFixed(0));
+				break;
+			case '1S':
+				drawPricesChart('chart', coinSelected, 'HOUR', 7 * 24);
+				break;
+			case '1M':
+				drawPricesChart('chart', coinSelected, 'HOUR', 30 * 24);
+				break;
+			case '3M':
+				drawPricesChart('chart', coinSelected, 'DAY', 90);
+				break;
+			case '6M':
+				drawPricesChart('chart', coinSelected, 'DAY', 180);
+				break;
+			case '1A':
+				drawPricesChart('chart', coinSelected, 'DAY', 365);
+				break;
 		}
 	}
 	
@@ -863,7 +903,6 @@ function deactivateSuccessMessage() {
  * 
  */
 function deactivateMessages() {
-	alert("kk");
 	$('.alert').hide(0);
 }
 
@@ -954,6 +993,7 @@ function retrieveUserCoinBalance() {
 	
 	//solo para poder tener el nuevo formato de pantalla
 	ucbJson = userCoinBalanceStatic;
+	
 	return ucbJson;
 }
 
