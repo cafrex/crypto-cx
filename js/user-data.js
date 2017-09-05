@@ -2,9 +2,9 @@
  * User data
  */
 var userCoinBalanceStatic = {
-		'EUR': 20568.37,
+		'EUR': 25345.08,
 		'BTC': 0.00009816,
-		'ETH': 14.61795127,
+		'ETH': 0,
 		'LTC': 0.00004317,
 		'XRP': 3102.75
 };

@@ -4,7 +4,9 @@ var coinChart;
 var defaultCurrency = 'EUR';
 var defaultLocale = 'es-ES';
 var defaultValueUnloadData = '---';
+var defaultFracDigitsCurrency = 2;
 var defaultFracDigitsCoin = 8;
+var defaultFracDigitsPercent = 2;
 
 var responseSuccess = "Success";
 var responseError = "Error";
@@ -30,14 +32,90 @@ Date.prototype.formatDate = function(mode) {
   var yy = this.getFullYear() % 100;
   yy = yy>=10?yy:'0'+yy;
 
-  if(mode == 'HOUR') {
-	  res = hh + ':' + MM;
-  } else if(mode == 'DAY_MONTH') {
-	  res = dd + '/' + mm;
-  } else if(mode == 'MONTH_YEAR') {
-	  res = mm + '/' + yy;
+  switch(mode) {
+  	case 'HOUR':
+  		res = hh + ':' + MM;
+  		break;
+  	case 'DAY_MONTH':
+  		res = dd + '/' + mm;
+  		break;
+  	case 'MONTH_YEAR':
+  		res = mm + '/' + yy;
+  		break;
+  	default:
+  		res = 'NO_DATE_MODE';
+  }
+  
+  return res;
+};
+
+/**
+ * 
+ * @param mode (CURRENCY, PERCENT, COIN, EDITABLE_CURRENCY, EDITABLE_COIN)
+ * @param minFractionDigits
+ * @param maxFractionDigits
+ */
+Number.prototype.formatNumber = function(mode, minFractionDigits, maxFractionDigits) {
+  var res = 0;
+  
+  var minFd = 0;
+  if(minFractionDigits == null || minFractionDigits == "") {
+	  switch(mode) {
+	  	case 'CURRENCY':
+	  	case 'EDITABLE_CURRENCY':
+	  		minFd = defaultFracDigitsCurrency;
+  			break;
+	  	case 'COIN':
+	  	case 'EDITABLE_COIN':
+	  		minFd = defaultFracDigitsCoin;
+  			break;
+	  	case 'PERCENT':
+	  		minFd = defaultFracDigitsPercent;
+  			break;
+	  }
   } else {
-	  res = 'NO_DATE_MODE';
+	  minFd = minFractionDigits;
+  }
+  
+  var maxFd = 0;
+  if(maxFractionDigits == null || maxFractionDigits == "") {
+	  switch(mode) {
+	  	case 'CURRENCY':
+	  	case 'EDITABLE_CURRENCY':
+	  		maxFd = defaultFracDigitsCurrency;
+  			break;
+	  	case 'COIN':
+	  	case 'EDITABLE_COIN':
+	  		maxFd = defaultFracDigitsCoin;
+  			break;
+	  	case 'PERCENT':
+	  		maxFd = defaultFracDigitsPercent;
+  			break;
+	  }
+  } else {
+	  maxFd = maxFractionDigits;
+  }
+  
+  if(maxFd < minFd) {
+	  maxFd = minFd;
+  }
+  
+  switch(mode) {
+	case 'CURRENCY':
+		res = this.toLocaleString(defaultLocale, {style: 'currency', currency: defaultCurrency, minimumFractionDigits: minFd, maximumFractionDigits: maxFd});
+		break;
+	case 'PERCENT':
+		res = this.toLocaleString(defaultLocale, {style: 'percent', minimumFractionDigits: minFd, maximumFractionDigits: maxFd});
+		break;
+	case 'COIN':
+		res = this.toLocaleString(defaultLocale, {style: 'decimal', minimumFractionDigits: minFd, maximumFractionDigits: maxFd});
+		break;
+	case 'EDITABLE_CURRENCY':
+		res = this.toLocaleString('en-US', {style: 'decimal', useGrouping: false, minimumFractionDigits: minFd, maximumFractionDigits: maxFd});
+		break;
+	case 'EDITABLE_COIN':
+		res = this.toLocaleString('en-US', {style: 'decimal', useGrouping: false, minimumFractionDigits: minFd, maximumFractionDigits: maxFd});
+		break;
   }
   
   return res;
@@ -415,9 +493,6 @@ function drawUserData(userCoinData, userMovements) {
  * @param data
  */
 function updatePricesChartValues(frequency, data) {
-	var divisa = defaultCurrency;
-	var locale = defaultLocale;
-	
 	var currentPrice = data[data.length-1];
 	var firstPrice = data[0];
 	var variationPrice = currentPrice - firstPrice;
@@ -428,9 +503,9 @@ function updatePricesChartValues(frequency, data) {
 		fracDigits = 4;
 	}
 	
-	$('#currentPrice').html(currentPrice.toLocaleString(locale, {style: 'currency', currency: divisa, minimumFractionDigits: fracDigits}));
-	$('#variationPrice_value').html(variationPrice.toLocaleString(locale, {style: 'currency', currency: divisa, minimumFractionDigits: fracDigits}));
-	$('#variationPercent_value').html(variationPercent.toLocaleString(locale, {style: 'percent', minimumFractionDigits: 2}));
+	$('#currentPrice').html(currentPrice.formatNumber('CURRENCY', fracDigits));
+	$('#variationPrice_value').html(variationPrice.formatNumber('CURRENCY', fracDigits));
+	$('#variationPercent_value').html(variationPercent.formatNumber('PERCENT', fracDigits));
 	
 	$('#variationPrice').removeClass('valueUp').removeClass('valueDown');
 	$('#variationPercent').removeClass('valueUp').removeClass('valueDown');
@@ -450,28 +525,25 @@ function updatePricesChartValues(frequency, data) {
  * @param userCoinBalance
  */
 function updateUserValues(coinData, userCoinBalance) {
-	var divisa = defaultCurrency;
-	var locale = defaultLocale;
-
 	var ueurb = 0;
 	if(userCoinBalance != null && userCoinBalance.EUR != null && !isNaN(userCoinBalance.EUR)) {
 		ueurb = userCoinBalance.EUR;
 	}
-	$('#currentVolumeEur_value').html(ueurb.toLocaleString(locale, {style: 'currency', currency: divisa}));
+	$('#currentVolumeEur_value').html(ueurb.formatNumber('CURRENCY'));
 		
 	if(!isNaN(coinData.BTC.currentPriceEUR)) {
 		var ucb = 0; 
 		if(userCoinBalance != null && userCoinBalance.BTC != null) {
 			ucb = userCoinBalance.BTC;
 		}
-		$('#currentVolumeEur_BTC_value').html((ucb * coinData.BTC.currentPriceEUR).toLocaleString(locale, {style: 'currency', currency: divisa}));
-		$('#currentVolumeCoin_BTC_value').html(ucb.toLocaleString(locale, {style: 'decimal', minimumFractionDigits: defaultFracDigitsCoin}));
-		$('#currentPrice_BTC_EUR').html(coinData.BTC.currentPriceEUR.toLocaleString(locale, {style: 'currency', currency: divisa}));
-		$('#variationPrice_BTC_EUR').html(coinData.BTC.variationPriceEUR.toLocaleString(locale, {style: 'currency', currency: divisa}));
-		$('#variationPercent_BTC').html(coinData.BTC.variationPercent.toLocaleString(locale, {style: 'percent', minimumFractionDigits: 2}));
+		$('#currentVolumeEur_BTC_value').html((ucb * coinData.BTC.currentPriceEUR).formatNumber('CURRENCY'));
+		$('#currentVolumeCoin_BTC_value').html(ucb.formatNumber('COIN'));
+		$('#currentPrice_BTC_EUR').html(coinData.BTC.currentPriceEUR.formatNumber('CURRENCY'));
+		$('#variationPrice_BTC_EUR').html(coinData.BTC.variationPriceEUR.formatNumber('CURRENCY'));
+		$('#variationPercent_BTC').html(coinData.BTC.variationPercent.formatNumber('PERCENT'));
+		
 		$('#variationPrice_BTC_EUR').removeClass('valueUp').removeClass('valueDown');
 		$('#variationPercent_BTC').removeClass('valueUp').removeClass('valueDown');
-		
 		if(coinData.BTC.variationPriceEUR >= 0) {
 			$('#variationPrice_BTC_EUR').addClass('valueUp');
 			$('#variationPercent_BTC').addClass('valueUp');
@@ -486,14 +558,14 @@ function updateUserValues(coinData, userCoinBalance) {
 		if(userCoinBalance != null && userCoinBalance.ETH != null) {
 			ucb = userCoinBalance.ETH;
 		}
-		$('#currentVolumeEur_ETH_value').html((ucb * coinData.ETH.currentPriceEUR).toLocaleString(locale, {style: 'currency', currency: divisa}));
-		$('#currentVolumeCoin_ETH_value').html(ucb.toLocaleString(locale, {style: 'decimal', minimumFractionDigits: defaultFracDigitsCoin}));
-		$('#currentPrice_ETH_EUR').html(coinData.ETH.currentPriceEUR.toLocaleString(locale, {style: 'currency', currency: divisa}));
-		$('#variationPrice_ETH_EUR').html(coinData.ETH.variationPriceEUR.toLocaleString(locale, {style: 'currency', currency: divisa}));
-		$('#variationPercent_ETH').html(coinData.ETH.variationPercent.toLocaleString(locale, {style: 'percent', minimumFractionDigits: 2}));
+		$('#currentVolumeEur_ETH_value').html((ucb * coinData.ETH.currentPriceEUR).formatNumber('CURRENCY'));
+		$('#currentVolumeCoin_ETH_value').html(ucb.formatNumber('COIN'));
+		$('#currentPrice_ETH_EUR').html(coinData.ETH.currentPriceEUR.formatNumber('CURRENCY'));
+		$('#variationPrice_ETH_EUR').html(coinData.ETH.variationPriceEUR.formatNumber('CURRENCY'));
+		$('#variationPercent_ETH').html(coinData.ETH.variationPercent.formatNumber('PERCENT'));
+		
 		$('#variationPrice_ETH_EUR').removeClass('valueUp').removeClass('valueDown');
 		$('#variationPercent_ETH').removeClass('valueUp').removeClass('valueDown');
-		
 		if(coinData.ETH.variationPriceEUR >= 0) {
 			$('#variationPrice_ETH_EUR').addClass('valueUp');
 			$('#variationPercent_ETH').addClass('valueUp');
@@ -508,14 +580,14 @@ function updateUserValues(coinData, userCoinBalance) {
 		if(userCoinBalance != null && userCoinBalance.LTC != null) {
 			ucb = userCoinBalance.LTC;
 		}
-		$('#currentVolumeEur_LTC_value').html((ucb * coinData.LTC.currentPriceEUR).toLocaleString(locale, {style: 'currency', currency: divisa}));
-		$('#currentVolumeCoin_LTC_value').html(ucb.toLocaleString(locale, {style: 'decimal', minimumFractionDigits: defaultFracDigitsCoin}));
-		$('#currentPrice_LTC_EUR').html(coinData.LTC.currentPriceEUR.toLocaleString(locale, {style: 'currency', currency: divisa}));
-		$('#variationPrice_LTC_EUR').html(coinData.LTC.variationPriceEUR.toLocaleString(locale, {style: 'currency', currency: divisa}));
-		$('#variationPercent_LTC').html(coinData.LTC.variationPercent.toLocaleString(locale, {style: 'percent', minimumFractionDigits: 2}));
+		$('#currentVolumeEur_LTC_value').html((ucb * coinData.LTC.currentPriceEUR).formatNumber('CURRENCY'));
+		$('#currentVolumeCoin_LTC_value').html(ucb.formatNumber('COIN'));
+		$('#currentPrice_LTC_EUR').html(coinData.LTC.currentPriceEUR.formatNumber('CURRENCY'));
+		$('#variationPrice_LTC_EUR').html(coinData.LTC.variationPriceEUR.formatNumber('CURRENCY'));
+		$('#variationPercent_LTC').html(coinData.LTC.variationPercent.formatNumber('PERCENT'));
+		
 		$('#variationPrice_LTC_EUR').removeClass('valueUp').removeClass('valueDown');
 		$('#variationPercent_LTC').removeClass('valueUp').removeClass('valueDown');
-		
 		if(coinData.LTC.variationPriceEUR >= 0) {
 			$('#variationPrice_LTC_EUR').addClass('valueUp');
 			$('#variationPercent_LTC').addClass('valueUp');
@@ -530,14 +602,14 @@ function updateUserValues(coinData, userCoinBalance) {
 		if(userCoinBalance != null && userCoinBalance.XRP != null) {
 			ucb = userCoinBalance.XRP;
 		}
-		$('#currentVolumeEur_XRP_value').html((ucb * coinData.XRP.currentPriceEUR).toLocaleString(locale, {style: 'currency', currency: divisa}));
-		$('#currentVolumeCoin_XRP_value').html(ucb.toLocaleString(locale, {style: 'decimal', minimumFractionDigits: defaultFracDigitsCoin}));
-		$('#currentPrice_XRP_EUR').html(coinData.XRP.currentPriceEUR.toLocaleString(locale, {style: 'currency', currency: divisa, minimumFractionDigits: 4}));
-		$('#variationPrice_XRP_EUR').html(coinData.XRP.variationPriceEUR.toLocaleString(locale, {style: 'currency', currency: divisa, minimumFractionDigits: 4}));
-		$('#variationPercent_XRP').html(coinData.XRP.variationPercent.toLocaleString(locale, {style: 'percent', minimumFractionDigits: 4}));
+		$('#currentVolumeEur_XRP_value').html((ucb * coinData.XRP.currentPriceEUR).formatNumber('CURRENCY'));
+		$('#currentVolumeCoin_XRP_value').html(ucb.formatNumber('COIN'));
+		$('#currentPrice_XRP_EUR').html(coinData.XRP.currentPriceEUR.formatNumber('CURRENCY', 4));
+		$('#variationPrice_XRP_EUR').html(coinData.XRP.variationPriceEUR.formatNumber('CURRENCY', 4));
+		$('#variationPercent_XRP').html(coinData.XRP.variationPercent.formatNumber('PERCENT', 4));
+		
 		$('#variationPrice_XRP_EUR').removeClass('valueUp').removeClass('valueDown');
 		$('#variationPercent_XRP').removeClass('valueUp').removeClass('valueDown');
-		
 		if(coinData.XRP.variationPriceEUR >= 0) {
 			$('#variationPrice_XRP_EUR').addClass('valueUp');
 			$('#variationPercent_XRP').addClass('valueUp');
@@ -571,7 +643,7 @@ function updateUserValues(coinData, userCoinBalance) {
 	}
 	
 	if(!isNaN(currentVolumeTotalEur)) {
-		$('#currentVolumeTotalEur_value').html(currentVolumeTotalEur.toLocaleString(locale, {style: 'currency', currency: divisa}));
+		$('#currentVolumeTotalEur_value').html(currentVolumeTotalEur.formatNumber('CURRENCY'));
 	}
 }
 
@@ -657,9 +729,6 @@ function repaintDashboardScreen(coin, frequency, userCoinBalance) {
  * @param movements
  */
 function paintUserAccountMovements(movements) {
-	
-	var locale = defaultLocale;
-	
 	$('#userAccountMovements_inputs tbody').find('tr:gt(0)').remove();
 	$('#userAccountMovements_outputs tbody').find('tr:gt(0)').remove();
 	
@@ -667,7 +736,7 @@ function paintUserAccountMovements(movements) {
 		$('#userAccountMovements_inputs tbody').append(
 						'<tr>' + 
 						'<td>' + elem.date + '</td>' + 
-						'<td>' + elem.amount.toLocaleString(locale, {style: 'currency', currency: defaultCurrency}) + '</td>' + 
+						'<td>' + elem.amount.formatNumber('CURRENCY') + '</td>' + 
 						'</tr>');
 	});
 	
@@ -675,7 +744,7 @@ function paintUserAccountMovements(movements) {
 		$('#userAccountMovements_outputs tbody').append(
 						'<tr>' + 
 						'<td>' + elem.date + '</td>' + 
-						'<td>' + elem.amount.toLocaleString(locale, {style: 'currency', currency: defaultCurrency}) + '</td>' + 
+						'<td>' + elem.amount.formatNumber('CURRENCY') + '</td>' + 
 						'</tr>');
 	});
 }
@@ -687,9 +756,6 @@ function paintUserAccountMovements(movements) {
  * @param userCoinBalance
  */
 function updateUserProfitability(movements, coinData, userCoinBalance) {
-	var divisa = defaultCurrency;
-	var locale = defaultLocale;
-	
 	var input = 0;
 	var output = 0;
 	var currentInput = 0;
@@ -729,11 +795,11 @@ function updateUserProfitability(movements, coinData, userCoinBalance) {
 		profit = currentVolumeTotalEur - currentInput;
 	}
 	
-	$('#userProfitability_input').html(input.toLocaleString(locale, {style: 'currency', currency: divisa})); 
-	$('#userProfitability_output').html(output.toLocaleString(locale, {style: 'currency', currency: divisa}));
-	$('#userProfitability_currentInput').html(currentInput.toLocaleString(locale, {style: 'currency', currency: divisa}));
+	$('#userProfitability_input').html(input.formatNumber('CURRENCY')); 
+	$('#userProfitability_output').html(output.formatNumber('CURRENCY'));
+	$('#userProfitability_currentInput').html(currentInput.formatNumber('CURRENCY'));
 	if(!isNaN(profit)) {
-		$('#userProfitability_profit').html(profit.toLocaleString(locale, {style: 'currency', currency: divisa}));
+		$('#userProfitability_profit').html(profit.formatNumber('CURRENCY'));
 	}
 }
 
@@ -783,7 +849,7 @@ function deactivateErrorMessage() {
 function activateSuccessMessage(title, text) {
 	$('#successMessage_title').html(title);
 	$('#successMessage_text').html(text);
-	$('#successMessage').show();
+	$('#successMessage').show(0);
 }
 
 /**
@@ -791,6 +857,14 @@ function activateSuccessMessage(title, text) {
  */
 function deactivateSuccessMessage() {
 	$('#successMessage').hide(0);
+}
+
+/**
+ * 
+ */
+function deactivateMessages() {
+	alert("kk");
+	$('.alert').hide(0);
 }
 
 /**
@@ -877,6 +951,9 @@ function retrieveUserCoinBalance() {
 	if(ucb != null) {
 		ucbJson = JSON.parse(ucb);
 	}
+	
+	//solo para poder tener el nuevo formato de pantalla
+	ucbJson = userCoinBalanceStatic;
 	return ucbJson;
 }
 
@@ -900,7 +977,6 @@ function retrieveUserAccountMovements() {
  * 
  */
 function drawEditableUserCoinBalance() {
-	var locale = defaultLocale;
 	var ucb = retrieveUserCoinBalance();
 	
 	var value;
@@ -909,8 +985,7 @@ function drawEditableUserCoinBalance() {
 	} else {
 		value = 0; 
 	}
-	value = value.toLocaleString(locale, {style: 'decimal', useGrouping: false, minimumFractionDigits: 2, maxFractionDigits: 2});
-	//value = value.replaceAll(",", ".");
+	value = value.formatNumber('EDITABLE_CURRENCY');
 	$('#userBalance_EUR').val(value);
 	
 	var value;
@@ -919,8 +994,7 @@ function drawEditableUserCoinBalance() {
 	} else {
 		value = 0; 
 	}
-	value = value.toLocaleString(locale, {style: 'decimal', useGrouping: false, minimumFractionDigits: defaultFracDigitsCoin});
-	//value = value.replaceAll(",", ".");
+	value = value.formatNumber('EDITABLE_COIN');
 	$('#userBalance_BTC').val(value);
 	
 	var value;
@@ -929,8 +1003,7 @@ function drawEditableUserCoinBalance() {
 	} else {
 		value = 0; 
 	}
-	value = value.toLocaleString(locale, {style: 'decimal', useGrouping: false, minimumFractionDigits: defaultFracDigitsCoin});
-	//value = value.replaceAll(",", ".");
+	value = value.formatNumber('EDITABLE_COIN');
 	$('#userBalance_ETH').val(value);
 	
 	var value;
@@ -939,8 +1012,7 @@ function drawEditableUserCoinBalance() {
 	} else {
 		value = 0; 
 	}
-	value = value.toLocaleString(locale, {style: 'decimal', useGrouping: false, minimumFractionDigits: defaultFracDigitsCoin});
-	//value = value.replaceAll(",", ".");
+	value = value.formatNumber('EDITABLE_COIN');
 	$('#userBalance_LTC').val(value);
 	
 	var value;
@@ -949,8 +1021,7 @@ function drawEditableUserCoinBalance() {
 	} else {
 		value = 0; 
 	}
-	value = value.toLocaleString(locale, {style: 'decimal', useGrouping: false, minimumFractionDigits: defaultFracDigitsCoin});
-	//value = value.replaceAll(",", ".");
+	value = value.formatNumber('EDITABLE_COIN');
 	$('#userBalance_XRP').val(value);
 }
 
@@ -969,6 +1040,7 @@ function fixNumberLocaleFormatEditable(value) {
  * 
  */
 function storeEditedUserCoinBalance() {
+	
 	var ucb_EUR = fixNumberLocaleFormatEditable($('#userBalance_EUR').val());
 	storeUserCoinBalance('EUR', ucb_EUR);
 	
