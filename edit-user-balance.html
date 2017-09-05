@@ -34,11 +34,11 @@ $(document).ready(function() {
 	drawEditableUserCoinBalance();
 	
 	//--- buttons
-	/*
 	$('#storeUserCoinBalanceButton').on('click', function() {
-		storeEditedUserCoinBalance();
+		deactivateMessages();
+		$('#frmUserCoinBalance').submit();
+		//storeEditedUserCoinBalance();
 	});
-	*/
 	
 	/*
 	$('.editableData').each(function() {
@@ -48,6 +48,9 @@ $(document).ready(function() {
 	
 });
 
+/**
+ * 
+ */
 function invalidMsg(event) {
 	var textbox = event.target;
     if (textbox.value == '') {
@@ -104,7 +107,7 @@ function invalidMsg(event) {
 				
 				<p>Balance de monedas</p>
 				
-				<form action="javascript:storeEditedUserCoinBalance()">
+				<form id="frmUserCoinBalance" action="javascript:storeEditedUserCoinBalance()">
 				
 				<div class="container">
 					<div class="row">
@@ -164,7 +167,7 @@ function invalidMsg(event) {
 									
 									<div class="form-group row">
 										<div class="col-12">
-											<input type="submit" id="storeUserCoinBalanceButton" class="btn btn-info btn-sm btn-block" value="Grabar">
+											<button id="storeUserCoinBalanceButton" class="btn btn-info btn-sm btn-block">Grabar</button>
 										</div>
 									</div>
 								</div>
@@ -189,9 +192,6 @@ function invalidMsg(event) {
 	</footer>
 
 </div> <!-- /container -->
-
-
-
 
 </body>
 </html>
