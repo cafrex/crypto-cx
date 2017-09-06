@@ -11,6 +11,12 @@ p {
 	color: #336699;
 }
 
+p.title {
+	font-size: 11pt;
+	color: #336699;
+	font-weight: bold;
+}
+
 .bg-blue {
 	background-color: rgba(51,102,153,0.9) ;
 }
