@@ -17,9 +17,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
 <script src="js/vendor/bootstrap.min.js"></script>
 
-<script src="js/crypto-user-data.js"></script>
-<script src="js/crypto-common.js"></script>
-<script src="js/crypto-dashboard.js"></script>
+<script src="js/market-prices-comparator.js"></script>
 
 <link href="css/vendor/bootstrap/bootstrap.min.css" rel="stylesheet" type="text/css">
 
@@ -35,8 +33,6 @@ $(document).ready(function() {
 	frequencySelected = '24H';
 	
 	$('#copyrightYear').html(new Date().getFullYear());
-	
-	repaintDashboardScreen(coinSelected, frequencySelected, retrieveUserCoinBalance());
 	
 	//--- chart
 	$('#buttonFrequency_1H').on('click', function() {
@@ -132,11 +128,11 @@ $(document).ready(function() {
         	<li class="nav-item active sr-only">
             	<a class="nav-link" href="#">Inicio (current)</a>
           	</li>
+          	<li class="nav-item">
+            	<a class="nav-link" href="index.html">Dashboard</a>
+          	</li>
 			<li class="nav-item">
             	<a class="nav-link" href="edit-user-balance.html">Editar balance</a>
-          	</li>
-          	<li class="nav-item">
-            	<a class="nav-link" href="market-prices-comparator.html">Comparador precios</a>
           	</li>
         </ul>
 	</div>
@@ -225,7 +221,7 @@ $(document).ready(function() {
 	<div class="row">
 		<div class="col-md-5 col-sm-12">
 			<div class="userDataContainer">
-				<p class="title">Diferencia en las últimas 24 horas</p>
+				<p>Diferencia en las últimas 24 horas</p>
 				<div class="currentVolumeCoin sectionContainer">
 					<div class="title">
 						<img src="img/eur.png" class="iconCoin"/>
