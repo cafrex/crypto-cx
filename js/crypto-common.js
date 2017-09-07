@@ -16,7 +16,7 @@ var prop_userMovements = "userMovements";
 
 /**
  * 
- * @param mode (HOUR, DAY_MONTH, MONTH_YEAR)
+ * @param mode (FULL, HOUR, DAY_MONTH, MONTH_YEAR)
  * @returns {String}
  */
 Date.prototype.formatDate = function(mode) {
@@ -32,6 +32,9 @@ Date.prototype.formatDate = function(mode) {
   yy = yy>=10?yy:'0'+yy;
 
   switch(mode) {
+  	case 'FULL':
+  		res = dd + '/' + mm + '/' + yy + ' ' + hh + ':' + MM;
+  		break;
   	case 'HOUR':
   		res = hh + ':' + MM;
   		break;

@@ -3,17 +3,16 @@ var coinChart;
 /**
  * 
  * @param chartId
- * @param labels
  * @param fullData
  */
-function buildPricesChart(chartId, labels, fullData) {
+function buildPricesChart(chartId, fullData, dateMode) {
 
-	var labelBlanks = "  ";
+	var labelBlanks = " ";
 	
 	var chartOptions = {
 			type: 'line',
 			data: {
-	        	labels: labels,
+	        	labels: [],
 	        	datasets: []
 			},
 			options: {
@@ -21,7 +20,7 @@ function buildPricesChart(chartId, labels, fullData) {
 		        	xAxes: [{
 		        		ticks: {
 		        			callback: function(value, index, values) {
-		        				return labelBlanks + value;
+		        				return labelBlanks + new Date(value).formatDate(dateMode);
 		        			},
 		                    autoSkip: true,
 		                    maxRotation: 0,
@@ -43,18 +42,14 @@ function buildPricesChart(chartId, labels, fullData) {
 		        	intersect: false,
 		            mode: 'label',
 		            callbacks: {
-		                label: function(tooltipItem, data) {
-		                    var datasetLabel = data.datasets[tooltipItem.datasetIndex].label || 'Other';
-		                    var label = data.labels[tooltipItem.index];
-		                    return datasetLabel + ': ' + label;
-		                	//return "kk" + data.labels[tooltipItem.index];
+		            	label: function(tooltipItem, data) {
+		                    var datasetLabel = data.datasets[tooltipItem.datasetIndex].label;
+		                    return datasetLabel + ": " + tooltipItem.yLabel.formatNumber('CURRENCY');
 		                },
 		                title: function(tooltipItem, data) {
-                			return 'The tooltip title ' + tooltipItem[0].xLabel;
+                			return new Date(data.labels[tooltipItem[0].index]).formatDate('FULL');
 		                }
-
 		            }
-
 		        }
 		    }
 	    };
@@ -66,9 +61,15 @@ function buildPricesChart(chartId, labels, fullData) {
 	var ctx = document.getElementById(chartId).getContext('2d');
 	coinChart = new Chart(ctx, chartOptions);
 	
+	var prices = [];
+	fullData.prices.forEach(function(elem) {
+		coinChart.data.labels.push(elem.dateMillis);
+		prices.push(elem.price);
+	});
+	
 	coinChart.data.datasets.push({
     	label: fullData.coin,
-        data: fullData.price,
+        data: prices,
         backgroundColor: 'rgba(54, 162, 235,0.2)',
         borderColor: 'rgba(54, 162, 235,1)',
         borderWidth: '1',
@@ -140,16 +141,17 @@ function drawPricesChart(chartId, coin, frequency, limit) {
 		if(results.Response === responseSuccess) {
 			var labels = [];
 			var data = {'coin': coin,
-					'price': []
+						'prices': []
 					};
-			data.coin = coin;
 			results.Data.forEach(function(elem) {
-				labels.push((new Date(elem.time * 1000)).formatDate(dateMode));
-				data.price.push(elem.close);
+				var price = { 	'dateMillis': elem.time * 1000,
+								'price': elem.close
+							};
+				data.prices.push(price);
 			});
 			
-			buildPricesChart(chartId, labels, data);
-			updatePricesChartValues(frequency, data.price);
+			buildPricesChart(chartId, data, dateMode);
+			updatePricesChartValues(frequency, data);
 		} else if(results.Response === responseError) {
 			activateErrorMessage("DATA_ERROR", "Error recuperando datos de la gráfica de precios: " + results.Message);
 		} else {
@@ -372,8 +374,8 @@ function drawUserData(userCoinData, userMovements) {
  * @param data
  */
 function updatePricesChartValues(frequency, data) {
-	var currentPrice = data[data.length-1];
-	var firstPrice = data[0];
+	var currentPrice = data.prices[data.prices.length-1].price;
+	var firstPrice = data.prices[0].price;
 	var variationPrice = currentPrice - firstPrice;
 	var variationPercent = variationPrice / firstPrice;
 
