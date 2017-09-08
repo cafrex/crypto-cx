@@ -164,6 +164,7 @@ function activateErrorMessage(type, message) {
 	}
 
 	$('#errorMessage').show();
+	$('html').animate({scrollTop: '0px'}, 100);
 }
 
 /**
@@ -181,6 +182,7 @@ function activateSuccessMessage(title, text) {
 	$('#successMessage_title').html(title);
 	$('#successMessage_text').html(text);
 	$('#successMessage').show(0);
+	$('html').animate({scrollTop: '0px'}, 100);
 }
 
 /**
