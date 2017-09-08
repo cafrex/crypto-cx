@@ -101,15 +101,12 @@ $(document).ready(function() {
 	
 	$('#buttonRefresh').on('click', function() {
 		repaintDashboardScreen(coinSelected, frequencySelected, retrieveUserCoinBalance());
+		activateSuccessMessage("Título", "lorem ipsum si amet");
+		activateErrorMessage("NUMBER_FORMAT", "lorem ipsum si amet");
 	});
 	
-	//--- buttons
 	$('#userMovementsToggleButton').on('click', function() {
 		toggleUserMovements();
-	});
-	
-	$('#chartPricesToggleButton').on('click', function() {
-		togglePricesChart();
 	});
 	
 });
@@ -146,15 +143,12 @@ $(document).ready(function() {
 
 	<div id="errorMessage" class="alert alert-danger" role="alert">
 		<h4 id="errorMessage_title" class="alert-heading"></h4>
-  		<p id="errorMessage_text" class="mb-0"></p>
+  		<div id="errorMessage_text" class="mb-0"></div>
 	</div>
 	
-	<div id="successMessage" class="alert alert-success alert-dismissible fade show" role="alert">
-		<button type="button" class="close" data-dismiss="alert" aria-label="Cerrar">
-	    	<span aria-hidden="true">&times;</span>
-	  	</button>
+	<div id="successMessage" class="alert alert-success" role="alert">
   		<h4 id="successMessage_title" class="alert-heading"></h4>
-  		<p id="successMessage_text" class="mb-0"></p>
+  		<div id="successMessage_text" class="mb-0"></div>
 	</div>
 
 	<div class="row">
