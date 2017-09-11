@@ -18,7 +18,7 @@
 
 <script src="js/crypto-user-data.js"></script>
 <script src="js/crypto-common.js"></script>
-<script src="js/crypto-edit-user-balance.js"></script>
+<script src="js/crypto-edit-user-movements.js"></script>
 
 <link href="css/vendor/bootstrap/bootstrap.min.css" rel="stylesheet" type="text/css">
 
@@ -32,7 +32,7 @@ $(document).ready(function() {
 	
 	$('#copyrightYear').html(new Date().getFullYear());
 	
-	drawEditableUserCoinBalance();
+	drawEditableUserMovements();
 	
 	//--- buttons
 	$('#storeUserCoinBalanceButton').on('click', function() {
@@ -84,7 +84,7 @@ function invalidMsg(event) {
             	<a class="nav-link" href="index.html">Dashboard</a>
           	</li>
           	<li class="nav-item">
-            	<a class="nav-link" href="edit-user-movements.html">Editar movimientos</a>
+            	<a class="nav-link" href="edit-user-balance.html">Editar balance</a>
           	</li>
           	<li class="nav-item">
             	<a class="nav-link" href="market-prices-comparator.html">Comparador precios</a>
@@ -109,9 +109,9 @@ function invalidMsg(event) {
 		<div class="col-12">
 			<div class="userDataContainer">
 				
-				<p class="title">Balance de monedas</p>
+				<p class="title">Movimientos</p>
 				
-				<form id="frmUserCoinBalance" action="javascript:storeEditedUserCoinBalance()">
+				<form id="frmUserMovementsInputs" action="javascript:storeEditedUserMovementsInputs()">
 				
 				<div class="container">
 					<div class="row">

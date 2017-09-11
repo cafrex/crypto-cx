@@ -101,13 +101,18 @@ $(document).ready(function() {
 	
 	$('#buttonRefresh').on('click', function() {
 		repaintDashboardScreen(coinSelected, frequencySelected, retrieveUserCoinBalance());
-		activateSuccessMessage("Título", "lorem ipsum si amet");
-		activateErrorMessage("NUMBER_FORMAT", "lorem ipsum si amet");
 	});
 	
 	$('#userMovementsToggleButton').on('click', function() {
 		toggleUserMovements();
 	});
+	
+	//pruebas
+	clearUserAccountMovements();
+	storeUserAccountMovementInput('10/05/2017', 100);
+	storeUserAccountMovementInput('10/07/2017', 4100);
+	storeUserAccountMovementInput('10/03/2016', 1500);
+	storeUserAccountMovementInput('11/05/2017', 8100);
 	
 });
 
@@ -131,6 +136,9 @@ $(document).ready(function() {
           	</li>
 			<li class="nav-item">
             	<a class="nav-link" href="edit-user-balance.html">Editar balance</a>
+          	</li>
+          	<li class="nav-item">
+            	<a class="nav-link" href="edit-user-movements.html">Editar movimientos</a>
           	</li>
           	<li class="nav-item">
             	<a class="nav-link" href="market-prices-comparator.html">Comparador precios</a>
