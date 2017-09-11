@@ -159,6 +159,14 @@ function dateToMillis(date) {
 	return res.getTime();
 }
 
+function getId() {
+	var res = new Date().getTime();
+	if(lastId == null) {
+		
+	}
+	lastId = res;
+}
+
 /**
  * 
  * @param type
