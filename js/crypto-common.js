@@ -16,7 +16,7 @@ var prop_userMovements = "userMovements";
 
 /**
  * 
- * @param mode (FULL, HOUR, DAY_MONTH, MONTH_YEAR)
+ * @param mode (FULL, DAY_MONTH_YEAR, HOUR, DAY_MONTH, MONTH_YEAR)
  * @returns {String}
  */
 Date.prototype.formatDate = function(mode) {
@@ -34,6 +34,9 @@ Date.prototype.formatDate = function(mode) {
   switch(mode) {
   	case 'FULL':
   		res = dd + '/' + mm + '/' + yy + ' ' + hh + ':' + MM;
+  		break;
+  	case 'DAY_MONTH_YEAR':
+  		res = dd + '/' + mm + '/' + yy;
   		break;
   	case 'HOUR':
   		res = hh + ':' + MM;
@@ -133,6 +136,28 @@ String.prototype.replaceAll = function(search, replacement) {
     var target = this;
     return target.replace(new RegExp(search, 'g'), replacement);
 };
+
+/**
+ * 
+ */
+Array.prototype.sortMovementsByDate = function() {
+	return this.sort(function(d1, d2) {
+		return dateToMillis(d1.date) - dateToMillis(d2.date);
+	});
+}
+
+/**
+ * 
+ * @param date
+ */
+function dateToMillis(date) {
+	var day = date.substring(0, 2);
+	var month = date.substring(3, 5);
+	var year = date.substring(6, 10);
+	
+	var res = new Date(year, month, day, 0, 0, 0, 0);
+	return res.getTime();
+}
 
 /**
  * 
@@ -258,9 +283,79 @@ function clearUserCoinBalance() {
 
 /**
  * 
- * @returns
+ * @param date
+ * @param balance
  */
-function retrieveUserAccountMovements() {
-	return userAccountMovementsStatic;
+function storeUserAccountMovementInput(date, balance) {
+	checkLocalStorage();
+	
+	var ucbJson;
+	var ucb = localStorage.getItem(prop_userMovements + "_" + prop_user);
+	if(ucb === null) {
+		ucbJson = {}; 
+	} else {
+		ucbJson = JSON.parse(ucb);
+	}
+	
+	if(ucbJson.inputs == null) {
+		ucbJson.inputs = [];
+	}
+	ucbJson.inputs.push({'id': getId(), 'date': date, 'amount': Number(balance)});
+	localStorage.setItem(prop_userMovements + "_" + prop_user, JSON.stringify(ucbJson));
 }
 
+/**
+ * 
+ * @param date
+ * @param balance
+ */
+function storeUserAccountMovementOutput(date, balance) {
+	checkLocalStorage();
+	
+	var ucbJson;
+	var ucb = localStorage.getItem(prop_userMovements + "_" + prop_user);
+	if(ucb === null) {
+		ucbJson = {}; 
+	} else {
+		ucbJson = JSON.parse(ucb);
+	}
+	
+	if(ucbJson.outputs == null) {
+		ucbJson.outputs = [];
+	}
+	ucbJson.outputs.push({'id': getId(), 'date': date, 'amount': Number(balance)});
+	localStorage.setItem(prop_userMovements + "_" + prop_user, JSON.stringify(ucbJson));
+}
+
+/**
+ * 
+ */
+function retrieveUserAccountMovements() {
+	checkLocalStorage();
+	var ucbJson = {};
+	var ucb = localStorage.getItem(prop_userMovements + "_" + prop_user);
+	if(ucb != null) {
+		ucbJson = JSON.parse(ucb);
+	}
+	
+	//solo para poder tener el nuevo formato de pantalla
+	//ucbJson = userAccountMovementsStatic;
+	
+	if(ucbJson.inputs != null) {
+		ucbJson.inputs = ucbJson.inputs.sortMovementsByDate().reverse();
+	}
+	
+	if(ucbJson.outputs != null) {
+		ucbJson.outputs = ucbJson.outputs.sortMovementsByDate().reverse();
+	}
+	
+	return ucbJson;
+}
+
+/**
+ * 
+ */
+function clearUserAccountMovements() {
+	checkLocalStorage();
+	localStorage.removeItem(prop_userMovements + "_" + prop_user, null);
+}

@@ -650,21 +650,25 @@ function paintUserAccountMovements(movements) {
 	$('#userAccountMovements_inputs tbody').find('tr:gt(0)').remove();
 	$('#userAccountMovements_outputs tbody').find('tr:gt(0)').remove();
 	
-	movements.inputs.forEach(function(elem) {
-		$('#userAccountMovements_inputs tbody').append(
-						'<tr>' + 
-						'<td>' + elem.date + '</td>' + 
-						'<td>' + elem.amount.formatNumber('CURRENCY') + '</td>' + 
-						'</tr>');
-	});
+	if(movements != null && movements.inputs != null) {
+		movements.inputs.forEach(function(elem) {
+			$('#userAccountMovements_inputs tbody').append(
+							'<tr>' + 
+							'<td>' + elem.date + '</td>' + 
+							'<td>' + elem.amount.formatNumber('CURRENCY') + '</td>' + 
+							'</tr>');
+		});
+	}
 	
-	movements.outputs.forEach(function(elem) {
-		$('#userAccountMovements_outputs tbody').append(
-						'<tr>' + 
-						'<td>' + elem.date + '</td>' + 
-						'<td>' + elem.amount.formatNumber('CURRENCY') + '</td>' + 
-						'</tr>');
-	});
+	if(movements != null && movements.outputs != null) {
+		movements.outputs.forEach(function(elem) {
+			$('#userAccountMovements_outputs tbody').append(
+							'<tr>' + 
+							'<td>' + elem.date + '</td>' + 
+							'<td>' + elem.amount.formatNumber('CURRENCY') + '</td>' + 
+							'</tr>');
+		});
+	}
 }
 
 /**
@@ -679,13 +683,17 @@ function updateUserProfitability(movements, coinData, userCoinBalance) {
 	var currentInput = 0;
 	var profit = 0;
 	
-	movements.inputs.forEach(function(elem) {
-		input += elem.amount;
-	});
+	if(movements != null && movements.inputs != null) {
+		movements.inputs.forEach(function(elem) {
+			input += elem.amount;
+		});
+	}
 	
-	movements.outputs.forEach(function(elem) {
-		output += elem.amount;
-	});
+	if(movements != null && movements.outputs != null) {
+		movements.outputs.forEach(function(elem) {
+			output += elem.amount;
+		});
+	}
 	
 	currentInput = input - output;
 	
