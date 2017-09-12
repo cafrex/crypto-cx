@@ -7,6 +7,9 @@ var defaultFracDigitsCurrency = 2;
 var defaultFracDigitsCoin = 8;
 var defaultFracDigitsPercent = 2;
 
+var lastId;
+var seedId = 1;
+
 var responseSuccess = "Success";
 var responseError = "Error";
 
@@ -150,6 +153,42 @@ Array.prototype.sortMovementsByDate = function() {
  * 
  * @param date
  */
+function validateDate(date) {
+	return "Formato de fecha incorrecto";
+}
+
+/**
+ * 
+ * @param number
+ * @param minDecimalPlaces
+ * @param maxDecimalPlaces
+ */
+function validateNumber(number, minDecimalPlaces, maxDecimalPlaces) {
+	var res = null;
+	if(isNaN(number)) {
+		res = "Formato de número incorrecto";
+	} else {
+		var parts = number.toString().split(".");
+		if(minDecimalPlaces != null && minDecimalPlaces != undefined && minDecimalPlaces > 0) {
+			if(parts.length != 2 || (parts.length == 2 && parts[1].length < minDecimalPlaces)) {
+				res = "El número de decimales mínimo es " + minDecimalPlaces;
+			}
+		}
+		
+		if(maxDecimalPlaces != null && maxDecimalPlaces != undefined && maxDecimalPlaces > 0) {
+			if(parts.length == 2 && parts[1].length > maxDecimalPlaces) {
+				res = "El número de decimales máximo es " + maxDecimalPlaces;
+			}
+		}
+	}
+	
+	return res;
+}
+
+/**
+ * 
+ * @param date
+ */
 function dateToMillis(date) {
 	var day = date.substring(0, 2);
 	var month = date.substring(3, 5);
@@ -159,12 +198,25 @@ function dateToMillis(date) {
 	return res.getTime();
 }
 
+/**
+ * 
+ * @returns
+ */
 function getId() {
-	var res = new Date().getTime();
-	if(lastId == null) {
-		
+	var res = (new Date().getTime()).toString();
+	if(lastId != null && lastId == res) {
+		seedId++;
+	} else {
+		seedId = 1;
 	}
 	lastId = res;
+	
+	var seedIdAux = seedId.toString();
+	while(seedIdAux.length < 3) {
+		seedIdAux = "0" + seedIdAux;
+	}
+	res += seedIdAux;
+	return res;
 }
 
 /**
@@ -172,7 +224,8 @@ function getId() {
  * @param type
  */
 function activateErrorMessage(type, message) {
-
+	deactivateMessages();
+	
 	var content = "Error desconocido";
 
 	switch(type) {
@@ -192,7 +245,7 @@ function activateErrorMessage(type, message) {
 			$('#errorMessage_text').html(message);
 			break;
 		default:
-			$('#errorMessage_title').html("Error desconocido");
+			$('#errorMessage_title').html(type);
 			$('#errorMessage_text').html(message);
 	}
 
@@ -212,6 +265,8 @@ function deactivateErrorMessage() {
  * @param type
  */
 function activateSuccessMessage(title, text) {
+	deactivateMessages();
+	
 	$('#successMessage_title').html(title);
 	$('#successMessage_text').html(text);
 	$('#successMessage').show(0);
@@ -293,8 +348,9 @@ function clearUserCoinBalance() {
  * 
  * @param date
  * @param balance
+ * @param type (INPUT/OUTPUT)
  */
-function storeUserAccountMovementInput(date, balance) {
+function storeUserAccountMovement(date, balance, type) {
 	checkLocalStorage();
 	
 	var ucbJson;
@@ -305,33 +361,63 @@ function storeUserAccountMovementInput(date, balance) {
 		ucbJson = JSON.parse(ucb);
 	}
 	
-	if(ucbJson.inputs == null) {
-		ucbJson.inputs = [];
+	switch(type) {
+		case 'INPUT':
+			if(ucbJson.inputs == null) {
+				ucbJson.inputs = [];
+			}
+			ucbJson.inputs.push({'id': getId(), 'date': date, 'amount': Number(balance)});
+			break;
+		case 'OUTPUT':
+			if(ucbJson.outputs == null) {
+				ucbJson.outputs = [];
+			}
+			ucbJson.outputs.push({'id': getId(), 'date': date, 'amount': Number(balance)});
+			break;
 	}
-	ucbJson.inputs.push({'id': getId(), 'date': date, 'amount': Number(balance)});
+	
 	localStorage.setItem(prop_userMovements + "_" + prop_user, JSON.stringify(ucbJson));
 }
 
 /**
  * 
- * @param date
- * @param balance
+ * @param id
+ * @param type (INPUT/OUTPUT)
  */
-function storeUserAccountMovementOutput(date, balance) {
+function removeUserAccountMovement(id, type) {
 	checkLocalStorage();
 	
 	var ucbJson;
 	var ucb = localStorage.getItem(prop_userMovements + "_" + prop_user);
-	if(ucb === null) {
-		ucbJson = {}; 
-	} else {
+	if(ucb != null) {
 		ucbJson = JSON.parse(ucb);
 	}
 	
-	if(ucbJson.outputs == null) {
-		ucbJson.outputs = [];
+	switch(type) {
+		case 'INPUT':
+			if(ucbJson.inputs != null) {
+				var arrAux = [];
+				ucbJson.inputs.forEach(function(elem) {
+					if(elem.id != id) {
+						arrAux.push(elem);
+					}
+				});
+				ucbJson.inputs = arrAux;
+			}
+			break;
+		case 'OUTPUT':
+			if(ucbJson.outputs != null) {
+				var arrAux = [];
+				ucbJson.outputs.forEach(function(elem) {
+					if(elem.id != id) {
+						arrAux.push(elem);
+					}
+				});
+				ucbJson.outputs = arrAux;
+			}
+			break;
 	}
-	ucbJson.outputs.push({'id': getId(), 'date': date, 'amount': Number(balance)});
+	
 	localStorage.setItem(prop_userMovements + "_" + prop_user, JSON.stringify(ucbJson));
 }
 

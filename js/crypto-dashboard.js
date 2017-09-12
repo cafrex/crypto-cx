@@ -639,21 +639,21 @@ function repaintDashboardScreen(coin, frequency, userCoinBalance) {
 	
 	var uam = retrieveUserAccountMovements();
 	drawUserData(userCoinBalance, uam);
-	paintUserAccountMovements(uam);
+	drawUserAccountMovements(uam);
 }
 
 /**
  * 
  * @param movements
  */
-function paintUserAccountMovements(movements) {
+function drawUserAccountMovements(movements) {
 	$('#userAccountMovements_inputs tbody').find('tr:gt(0)').remove();
 	$('#userAccountMovements_outputs tbody').find('tr:gt(0)').remove();
 	
 	if(movements != null && movements.inputs != null) {
 		movements.inputs.forEach(function(elem) {
 			$('#userAccountMovements_inputs tbody').append(
-							'<tr>' + 
+							'<tr id="'+ elem.id + '">' + 
 							'<td>' + elem.date + '</td>' + 
 							'<td>' + elem.amount.formatNumber('CURRENCY') + '</td>' + 
 							'</tr>');
@@ -663,7 +663,7 @@ function paintUserAccountMovements(movements) {
 	if(movements != null && movements.outputs != null) {
 		movements.outputs.forEach(function(elem) {
 			$('#userAccountMovements_outputs tbody').append(
-							'<tr>' + 
+							'<tr id="'+ elem.id + '">' + 
 							'<td>' + elem.date + '</td>' + 
 							'<td>' + elem.amount.formatNumber('CURRENCY') + '</td>' + 
 							'</tr>');

@@ -1,87 +1,153 @@
 /**
  * 
+ * @param movements
  */
-function drawEditableUserCoinBalance() {
-	var ucb = retrieveUserCoinBalance();
+function drawEditableUserAccountMovements() {
 	
-	var value;
-	if(ucb.EUR != null) {
-		value = ucb.EUR; 
-	} else {
-		value = 0; 
-	}
-	value = value.formatNumber('EDITABLE_CURRENCY');
-	$('#userBalance_EUR').val(value);
+	var movements = retrieveUserAccountMovements();
 	
-	var value;
-	if(ucb.BTC != null) {
-		value = ucb.BTC; 
-	} else {
-		value = 0; 
-	}
-	value = value.formatNumber('EDITABLE_COIN');
-	$('#userBalance_BTC').val(value);
+	$('#userAccountMovements_inputs > tbody').find('tr:gt(2)').remove();
+	$('#userAccountMovements_outputs > tbody').find('tr:gt(2)').remove();
 	
-	var value;
-	if(ucb.ETH != null) {
-		value = ucb.ETH; 
-	} else {
-		value = 0; 
+	if(movements != null && movements.inputs != null) {
+		movements.inputs.forEach(function(elem) {
+			$('#userAccountMovements_inputs > tbody').append(
+							'<tr id="'+ elem.id + '">' + 
+							'<td>' + elem.date + '</td>' + 
+							'<td>' + elem.amount.formatNumber('CURRENCY') + '</td>' + 
+							'<td class="text-right">' + 
+							'<a href="javascript:deleteUserInputAccountMovement(\'' + elem.id + '\');" title="Borrar">' +
+							'<img src="img/delete.png">' +
+							'</a>' + 
+							'</td>' +
+							'</tr>');
+		});
 	}
-	value = value.formatNumber('EDITABLE_COIN');
-	$('#userBalance_ETH').val(value);
 	
-	var value;
-	if(ucb.LTC != null) {
-		value = ucb.LTC; 
-	} else {
-		value = 0; 
+	if(movements != null && movements.outputs != null) {
+		movements.outputs.forEach(function(elem) {
+			$('#userAccountMovements_outputs > tbody').append(
+							'<tr id="'+ elem.id + '">' + 
+							'<td>' + elem.date + '</td>' + 
+							'<td>' + elem.amount.formatNumber('CURRENCY') + '</td>' +
+							'<td class="text-right">' + 
+							'<a href="javascript:deleteUserOutputAccountMovement(\'' + elem.id + '\');" title="Borrar">' +
+							'<img src="img/delete.png">' +
+							'</a>' + 
+							'</td>' +
+							'</tr>');
+		});
 	}
-	value = value.formatNumber('EDITABLE_COIN');
-	$('#userBalance_LTC').val(value);
-	
-	var value;
-	if(ucb.XRP != null) {
-		value = ucb.XRP; 
-	} else {
-		value = 0; 
-	}
-	value = value.formatNumber('EDITABLE_COIN');
-	$('#userBalance_XRP').val(value);
 }
 
 /**
  * 
- * @param value
- * @returns
+ * @param id
  */
-function fixNumberLocaleFormatEditable(value) {
-	var res = value;
-	res = res.replaceAll(",", ".");
-	return res;
+function deleteUserInputAccountMovement(id) {
+	if(confirm("Se dispone a borrar un movimiento. ¿Desea continuar?")) {
+		removeUserAccountMovement(id, 'INPUT');
+		drawEditableUserAccountMovements();
+	}
 }
 
 /**
  * 
+ * @param id
  */
-function storeEditedUserCoinBalance() {
+function deleteUserOutputAccountMovement(id) {
+	if(confirm("Se dispone a borrar un movimiento. ¿Desea continuar?")) {
+		removeUserAccountMovement(id, 'OUTPUT');
+		drawEditableUserAccountMovements();
+	}
+}
+
+/**
+ * 
+ * @param type (INPUT/OUTPUT)
+ */
+function showNewEditableUserMovement(type) {
+	var divType;
+	switch(type) {
+		case 'INPUT':
+			divType = 'Input';
+			break;
+		case 'OUTPUT':
+			divType = 'Output';
+			break;
+	} 
+	$('#new' + divType + 'Movement').show();
+	$('#new' + divType + 'MovementButtons').show();
+}
+
+/**
+ * 
+ * @param type
+ */
+function storeNewEditableUserMovement(type) {
+	var date;
+	var amount;
+	switch(type) {
+		case 'INPUT':
+			date = $('#inputUserMovement_date').val();
+			amount = $('#inputUserMovement_amount').val();
+			break;
+		case 'OUTPUT':
+			date = $('#outputUserMovement_date').val();
+			amount = $('#outputUserMovement_amount').val();
+			break;
+	}
 	
-	var ucb_EUR = fixNumberLocaleFormatEditable($('#userBalance_EUR').val());
-	storeUserCoinBalance('EUR', ucb_EUR);
+	var errors = [];
+	var errorMessageDate = validateDate(date);
+	if(errorMessageDate != null) {
+		errors.push(errorMessageDate);
+	}
 	
-	var ucb_BTC = fixNumberLocaleFormatEditable($('#userBalance_BTC').val());
-	storeUserCoinBalance('BTC', ucb_BTC);
+	var errorMessageAmount = validateNumber(amount, 0, 2);
+	if(errorMessageAmount != null) {
+		errors.push(errorMessageAmount);
+	} else {
+		amount = new Number(amount);
+		if(amount <= 0) {
+			errors.push("La cantidad introducida debe ser mayor que cero");
+		}
+	}
 	
-	var ucb_ETH = fixNumberLocaleFormatEditable($('#userBalance_ETH').val());
-	storeUserCoinBalance('ETH', ucb_ETH);
+	if(errors.length == 0) {
+		storeUserAccountMovement(date, new Number(amount), type);
+		discardNewEditableUserMovement(type);
+		drawEditableUserAccountMovements();
+		activateSuccessMessage("Movimiento grabado correctamente", null);
+	} else {
+		var text = "<ul>";
+		errors.forEach(function(elem) {
+			text += "<li>" + elem + "</li>";
+		});
+		text += "</ul>";
+		activateErrorMessage("No se ha grabado el movimiento", text);
+	}
+}
+
+/**
+ * 
+ * @param type
+ */
+function discardNewEditableUserMovement(type) {
+	deactivateMessages();
 	
-	var ucb_LTC = fixNumberLocaleFormatEditable($('#userBalance_LTC').val());
-	storeUserCoinBalance('LTC', ucb_LTC);
-	
-	var ucb_XRP = fixNumberLocaleFormatEditable($('#userBalance_XRP').val());
-	storeUserCoinBalance('XRP', ucb_XRP);
-	
-	drawEditableUserCoinBalance();
-	
-	activateSuccessMessage("Datos grabados correctamente");
+	switch(type) {
+		case 'INPUT':
+			$('#newInputMovement').hide();
+			$('#newInputMovementButtons').hide();
+			$('#inputUserMovement_date').val('');
+			$('#inputUserMovement_amount').val('');
+			break;
+		case 'OUTPUT':
+			$('#newOutputMovement').hide();
+			$('#newOutputMovementButtons').hide();
+			$('#outputUserMovement_date').val('');
+			$('#outputUserMovement_amount').val('');
+			break;
+	}
 }
