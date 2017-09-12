@@ -2,6 +2,22 @@ body {
 	font-family: Verdana;
 }
 
+.mb-10 {
+	margin-bottom: 10px !important;
+}
+
+.mb-20 {
+	margin-bottom: 20px !important;
+}
+
+.mr-30 {
+	margin-right: 30px !important;
+}
+
+.btn {
+	cursor: pointer;
+}
+
 h1 {
 	color: #336699;
 }
@@ -468,5 +484,9 @@ footer {
 }
 
 #successMessage {
+	display: none;
+}
+
+#newInputMovement, #newInputMovementButtons, #newOutputMovement, #newOutputMovementButtons {
 	display: none;
 }
