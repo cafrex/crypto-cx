@@ -30,22 +30,52 @@
  */
 $(document).ready(function() {
 	
-	$('#copyrightYear').html(new Date().getFullYear());
+	//pruebas
+	clearUserAccountMovements();
+	storeUserAccountMovement("15/02/2017", 100, 'INPUT');
+	storeUserAccountMovement("14/02/2017", 150, 'INPUT');
+	storeUserAccountMovement("15/03/2017", 1000, 'INPUT');
+	storeUserAccountMovement("01/02/2017", 2100, 'INPUT');
+	storeUserAccountMovement("05/01/2017", 3100, 'INPUT');
 	
-	drawEditableUserMovements();
-	
-	//--- buttons
-	$('#storeUserCoinBalanceButton').on('click', function() {
-		deactivateMessages();
-		$('#frmUserCoinBalance').submit();
-		//storeEditedUserCoinBalance();
-	});
+	storeUserAccountMovement("01/02/2017", 1300, 'OUTPUT');
+	storeUserAccountMovement("11/02/2017", 1150, 'OUTPUT');
+	storeUserAccountMovement("15/04/2017", 1000, 'OUTPUT');
 	
 	/*
-	$('.editableData').each(function() {
-		this.addEventListener("invalid", invalidMsg);
+	var tn1 = [1, "1.23", "a", "-2.98.0980", "4,3", "2.1", 2, -2.090, 2.2323773, 0.98];
+	tn1.forEach(function(e) {
+		console.log(e + " -> " + validateNumber(e));
 	});
 	*/
+	
+	$('#copyrightYear').html(new Date().getFullYear());
+	
+	drawEditableUserAccountMovements();
+	
+	$("#newInputMovementButton").on('click', function() {
+		showNewEditableUserMovement('INPUT');
+	});
+	
+	$("#newOutputMovementButton").on('click', function() {
+		showNewEditableUserMovement('OUTPUT');
+	});
+	
+	$("#storeInputMovementButton").on('click', function() {
+		storeNewEditableUserMovement('INPUT');
+	});
+	
+	$("#discardInputMovementButton").on('click', function() {
+		discardNewEditableUserMovement('INPUT');
+	});
+	
+	$("#storeOutputMovementButton").on('click', function() {
+		storeNewEditableUserMovement('OUTPUT');
+	});
+	
+	$("#discardOutputMovementButton").on('click', function() {
+		discardNewEditableUserMovement('OUTPUT');
+	});
 	
 });
 
@@ -107,84 +137,72 @@ function invalidMsg(event) {
 	
 	<div class="row">
 		<div class="col-12">
-			<div class="userDataContainer">
-				
-				<p class="title">Movimientos</p>
-				
-				<form id="frmUserMovementsInputs" action="javascript:storeEditedUserMovementsInputs()">
-				
-				<div class="container">
-					<div class="row">
-						<div class="col-12">
-							<div class="currentVolumeCoin">
-								<div class="container">
-									
-									<div class="form-group row">
-										<label for="userBalance_EUR" class="col-xs-3 col-form-label mr-2">
-											<img src="img/eur.png" class="iconCoin"/>
-											<span class="coin">EUR</span>
-										</label>
-										<div class="col-xs-9">
-											<input type="number" class="editableData form-control form-control-sm text-right" id="userBalance_EUR">
-										</div>
-										<div id="validationMessageUserBalance_EUR" class="validationMessage"></div>
-									</div>
-									
-									<div class="form-group row">
-										<label for="userBalance_BTC" class="col-xs-3 col-form-label mr-2">
-											<img src="img/btc.png" class="iconCoin"/>
-											<span class="coin">BTC</span>
-										</label>
-										<div class="col-xs-9">
-											<input type="number" min="0" class="form-control form-control-sm text-right" id="userBalance_BTC" required>
-										</div>
-									</div>
-									
-									<div class="form-group row">
-										<label for="userBalance_ETH" class="col-xs-3 col-form-label mr-2">
-											<img src="img/eth.png" class="iconCoin"/>
-											<span class="coin">ETH</span>
-										</label>
-										<div class="col-xs-9">
-											<input type="number" min="0" class="form-control form-control-sm text-right" id="userBalance_ETH" required>
-										</div>
-									</div>
-									
-									<div class="form-group row">
-										<label for="userBalance_LTC" class="col-xs-3 col-form-label mr-2">
-											<img src="img/ltc.png" class="iconCoin"/>
-											<span class="coin">LTC</span>
-										</label>
-										<div class="col-xs-9">
-											<input type="number" min="0" class="form-control form-control-sm text-right" id="userBalance_LTC" required>
-										</div>
-									</div>
-									
-									<div class="form-group row">
-										<label for="userBalance_XRP" class="col-xs-3 col-form-label mr-2">
-											<img src="img/xrp.png" class="iconCoin"/>
-											<span class="coin">XRP</span>
-										</label>
-										<div class="col-xs-9">
-											<input type="number" min="0" class="form-control form-control-sm text-right" id="userBalance_XRP">
-										</div>
-									</div>
-									
-									<div class="form-group row">
-										<div class="col-12">
-											<button id="storeUserCoinBalanceButton" class="btn btn-info btn-sm btn-block">Grabar</button>
-										</div>
-									</div>
-								</div>
-							</div>
+			
+			<p class="title">Movimientos</p>
+			
+			<div class="container">
+				<div class="row">
+					<div class="col-xs-12 col-sm-6">
+						<button id="newInputMovementButton" class="btn btn-info btn-sm btn-block mb-10">Nuevo ingreso</button>
+						<div class="userAccountMovementsTableContainer mb-20">
+						    <table id="userAccountMovements_inputs" class="inputs">
+						    	<caption>Ingresos</caption>
+						    	<tbody>
+						    		<tr>
+						    			<th>Fecha</th>
+						    			<th>Cantidad</th>
+						    			<th>&nbsp;</th>
+						    		</tr>
+						    		<tr id="newInputMovement"> 
+										<td>
+											<input type="text" class="editableData form-control form-control-sm text-center" id="inputUserMovement_date">
+										</td> 
+										<td colspan="2">
+											<input type="text" class="editableData form-control form-control-sm text-right" id="inputUserMovement_amount">
+										</td>
+									</tr>
+									<tr id="newInputMovementButtons"> 
+										<td colspan="3">
+											<button id="storeInputMovementButton" class="btn btn-success btn-sm mr-30">Grabar</button>
+											<button id="discardInputMovementButton" class="btn btn-danger btn-sm">Cancelar</button>
+										</td> 
+									</tr>
+						    	</tbody>
+						    </table>
 						</div>
 					</div>
-				
+					<div class="col-xs-12 col-sm-6">
+						<button id="newOutputMovementButton" class="btn btn-info btn-sm btn-block mb-10">Nueva retirada</button>
+						<div class="userAccountMovementsTableContainer mb-20">
+						    <table id="userAccountMovements_outputs" class="outputs">
+						    	<caption>Retiradas</caption>
+						    	<tbody>
+						    		<tr>
+						    			<th>Fecha</th>
+						    			<th>Cantidad</th>
+						    			<th>&nbsp;</th>
+						    		</tr>
+						    		<tr id="newOutputMovement"> 
+										<td>
+											<input type="text" class="editableData form-control form-control-sm text-center" id="outputUserMovement_date">
+										</td> 
+										<td colspan="2">
+											<input type="text" class="editableData form-control form-control-sm text-right" id="outputUserMovement_amount">
+										</td>
+									</tr>
+									<tr id="newOutputMovementButtons"> 
+										<td colspan="3">
+											<button id="storeOutputMovementButton" class="btn btn-success btn-sm mr-30">Grabar</button>
+											<button id="discardOutputMovementButton" class="btn btn-danger btn-sm">Cancelar</button>
+										</td> 
+									</tr>
+						    	</tbody>
+						    </table>
+						</div>
+					</div>
 				</div>
+			</div>
 				
-				</form>
-				
-			</div> <!-- /userDataContainer -->     
 		</div>
 		
 	</div>
