@@ -17,6 +17,7 @@
 <script src="js/vendor/bootstrap.min.js"></script>
 
 <script src="js/crypto-user-data.js"></script>
+<script src="js/crypto-config.js"></script>
 <script src="js/crypto-common.js"></script>
 <script src="js/crypto-edit-user-movements.js"></script>
 
@@ -30,26 +31,7 @@
  */
 $(document).ready(function() {
 	
-	//pruebas
-	clearUserAccountMovements();
-	storeUserAccountMovement("15/02/2017", 100, 'INPUT');
-	storeUserAccountMovement("14/02/2017", 150, 'INPUT');
-	storeUserAccountMovement("15/03/2017", 1000, 'INPUT');
-	storeUserAccountMovement("01/02/2017", 2100, 'INPUT');
-	storeUserAccountMovement("05/01/2017", 3100, 'INPUT');
-	
-	storeUserAccountMovement("01/02/2017", 1300, 'OUTPUT');
-	storeUserAccountMovement("11/02/2017", 1150, 'OUTPUT');
-	storeUserAccountMovement("15/04/2017", 1000, 'OUTPUT');
-	
-	/*
-	var tn1 = [1, "1.23", "a", "-2.98.0980", "4,3", "2.1", 2, -2.090, 2.2323773, 0.98];
-	tn1.forEach(function(e) {
-		console.log(e + " -> " + validateNumber(e));
-	});
-	*/
-	
-	$('#copyrightYear').html(new Date().getFullYear());
+	selectMenu("menu_editUserMovements");
 	
 	drawEditableUserAccountMovements();
 	
@@ -110,13 +92,16 @@ function invalidMsg(event) {
         	<li class="nav-item active sr-only">
             	<a class="nav-link" href="#">Inicio (current)</a>
           	</li>
-          	<li class="nav-item">
+          	<li id="menu_dashboard" class="nav-item menuItem">
             	<a class="nav-link" href="index.html">Dashboard</a>
           	</li>
-          	<li class="nav-item">
+			<li id="menu_editUserBalance" class="nav-item menuItem">
             	<a class="nav-link" href="edit-user-balance.html">Editar balance</a>
           	</li>
-          	<li class="nav-item">
+          	<li id="menu_editUserMovements" class="nav-item menuItem">
+            	<a class="nav-link" href="edit-user-movements.html">Editar movimientos</a>
+          	</li>
+          	<li  id="menu_marketPricesComparator" class="nav-item menuItem">
             	<a class="nav-link" href="market-prices-comparator.html">Comparador precios</a>
           	</li>
         </ul>
@@ -127,12 +112,12 @@ function invalidMsg(event) {
 	
 	<div id="errorMessage" class="alert alert-danger" role="alert">
 		<h4 id="errorMessage_title" class="alert-heading"></h4>
-  		<div id="errorMessage_text" class="mb-0"></div>
+  		<div id="errorMessage_text" class="mb-0 alert-message"></div>
 	</div>
 	
 	<div id="successMessage" class="alert alert-success" role="alert">
   		<h4 id="successMessage_title" class="alert-heading"></h4>
-  		<div id="successMessage_text" class="mb-0"></div>
+  		<div id="successMessage_text" class="mb-0 alert-message"></div>
 	</div>
 	
 	<div class="row">
@@ -155,10 +140,10 @@ function invalidMsg(event) {
 						    		</tr>
 						    		<tr id="newInputMovement"> 
 										<td>
-											<input type="text" class="editableData form-control form-control-sm text-center" id="inputUserMovement_date">
+											<input type="date" class="editableData form-control form-control-sm text-center" id="inputUserMovement_date">
 										</td> 
 										<td colspan="2">
-											<input type="text" class="editableData form-control form-control-sm text-right" id="inputUserMovement_amount">
+											<input type="number" class="editableData form-control form-control-sm text-right" id="inputUserMovement_amount">
 										</td>
 									</tr>
 									<tr id="newInputMovementButtons"> 
@@ -184,10 +169,10 @@ function invalidMsg(event) {
 						    		</tr>
 						    		<tr id="newOutputMovement"> 
 										<td>
-											<input type="text" class="editableData form-control form-control-sm text-center" id="outputUserMovement_date">
+											<input type="date" class="editableData form-control form-control-sm text-center" id="outputUserMovement_date">
 										</td> 
 										<td colspan="2">
-											<input type="text" class="editableData form-control form-control-sm text-right" id="outputUserMovement_amount">
+											<input type="number" class="editableData form-control form-control-sm text-right" id="outputUserMovement_amount">
 										</td>
 									</tr>
 									<tr id="newOutputMovementButtons"> 
@@ -206,12 +191,15 @@ function invalidMsg(event) {
 		</div>
 		
 	</div>
-		
-
+	
+	<div id="devTools">
+		<a href="javascript:clearUserAccountMovements();">Limpiar movimientos</a>
+	</div>
+	
 	<hr class="footerLine">
 
     <footer>
-		<p>&copy; Cafrex <span id="copyrightYear"></span></p>
+		<p>&copy; Cafrex <span id="copyrightYear"></span> <span id="environment"></span></p>
 	</footer>
 
 </div> <!-- /container -->

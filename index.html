@@ -18,6 +18,7 @@
 <script src="js/vendor/bootstrap.min.js"></script>
 
 <script src="js/crypto-user-data.js"></script>
+<script src="js/crypto-config.js"></script>
 <script src="js/crypto-common.js"></script>
 <script src="js/crypto-dashboard.js"></script>
 
@@ -31,10 +32,10 @@
  */
 $(document).ready(function() {
 	
+	selectMenu("menu_dashboard");
+	
 	coinSelected = 'ETH';
 	frequencySelected = '24H';
-	
-	$('#copyrightYear').html(new Date().getFullYear());
 	
 	repaintDashboardScreen(coinSelected, frequencySelected, retrieveUserCoinBalance());
 	
@@ -97,7 +98,7 @@ $(document).ready(function() {
 	
 	$('#buttonCoin_XRP').on('click', function() {
 		repaintDashboardScreen('XRP', frequencySelected, retrieveUserCoinBalance());
-		});
+	});
 	
 	$('#buttonRefresh').on('click', function() {
 		repaintDashboardScreen(coinSelected, frequencySelected, retrieveUserCoinBalance());
@@ -127,13 +128,16 @@ $(document).ready(function() {
         	<li class="nav-item active sr-only">
             	<a class="nav-link" href="#">Inicio (current)</a>
           	</li>
-			<li class="nav-item">
+          	<li id="menu_dashboard" class="nav-item menuItem">
+            	<a class="nav-link" href="index.html">Dashboard</a>
+          	</li>
+			<li id="menu_editUserBalance" class="nav-item menuItem">
             	<a class="nav-link" href="edit-user-balance.html">Editar balance</a>
           	</li>
-          	<li class="nav-item">
+          	<li id="menu_editUserMovements" class="nav-item menuItem">
             	<a class="nav-link" href="edit-user-movements.html">Editar movimientos</a>
           	</li>
-          	<li class="nav-item">
+          	<li  id="menu_marketPricesComparator" class="nav-item menuItem">
             	<a class="nav-link" href="market-prices-comparator.html">Comparador precios</a>
           	</li>
         </ul>
@@ -144,12 +148,12 @@ $(document).ready(function() {
 
 	<div id="errorMessage" class="alert alert-danger" role="alert">
 		<h4 id="errorMessage_title" class="alert-heading"></h4>
-  		<div id="errorMessage_text" class="mb-0"></div>
+  		<div id="errorMessage_text" class="mb-0 alert-message"></div>
 	</div>
 	
 	<div id="successMessage" class="alert alert-success" role="alert">
   		<h4 id="successMessage_title" class="alert-heading"></h4>
-  		<div id="successMessage_text" class="mb-0"></div>
+  		<div id="successMessage_text" class="mb-0 alert-message"></div>
 	</div>
 
 	<div class="row">
@@ -351,7 +355,7 @@ $(document).ready(function() {
 	<hr class="footerLine">
 
     <footer>
-		<p>&copy; Cafrex <span id="copyrightYear"></span></p>
+		<p>&copy; Cafrex <span id="copyrightYear"></span> <span id="environment"></span></p>
 	</footer>
 
 </div> <!-- /container -->

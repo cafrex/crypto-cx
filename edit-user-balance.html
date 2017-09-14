@@ -17,6 +17,7 @@
 <script src="js/vendor/bootstrap.min.js"></script>
 
 <script src="js/crypto-user-data.js"></script>
+<script src="js/crypto-config.js"></script>
 <script src="js/crypto-common.js"></script>
 <script src="js/crypto-edit-user-balance.js"></script>
 
@@ -30,22 +31,18 @@
  */
 $(document).ready(function() {
 	
-	$('#copyrightYear').html(new Date().getFullYear());
+	selectMenu("menu_editUserBalance");
 	
 	drawEditableUserCoinBalance();
 	
 	//--- buttons
 	$('#storeUserCoinBalanceButton').on('click', function() {
-		deactivateMessages();
-		$('#frmUserCoinBalance').submit();
-		//storeEditedUserCoinBalance();
+		storeEditableUserCoinBalance();
 	});
 	
-	/*
-	$('.editableData').each(function() {
-		this.addEventListener("invalid", invalidMsg);
+	$('#discardUserCoinBalanceButton').on('click', function() {
+		discardEditableUserCoinBalance();
 	});
-	*/
 	
 });
 
@@ -80,13 +77,16 @@ function invalidMsg(event) {
         	<li class="nav-item active sr-only">
             	<a class="nav-link" href="#">Inicio (current)</a>
           	</li>
-          	<li class="nav-item">
+          	<li id="menu_dashboard" class="nav-item menuItem">
             	<a class="nav-link" href="index.html">Dashboard</a>
           	</li>
-          	<li class="nav-item">
+			<li id="menu_editUserBalance" class="nav-item menuItem">
+            	<a class="nav-link" href="edit-user-balance.html">Editar balance</a>
+          	</li>
+          	<li id="menu_editUserMovements" class="nav-item menuItem">
             	<a class="nav-link" href="edit-user-movements.html">Editar movimientos</a>
           	</li>
-          	<li class="nav-item">
+          	<li  id="menu_marketPricesComparator" class="nav-item menuItem">
             	<a class="nav-link" href="market-prices-comparator.html">Comparador precios</a>
           	</li>
         </ul>
@@ -97,12 +97,12 @@ function invalidMsg(event) {
 	
 	<div id="errorMessage" class="alert alert-danger" role="alert">
 		<h4 id="errorMessage_title" class="alert-heading"></h4>
-  		<div id="errorMessage_text" class="mb-0"></div>
+  		<div id="errorMessage_text" class="mb-0 alert-message"></div>
 	</div>
 	
 	<div id="successMessage" class="alert alert-success" role="alert">
   		<h4 id="successMessage_title" class="alert-heading"></h4>
-  		<div id="successMessage_text" class="mb-0"></div>
+  		<div id="successMessage_text" class="mb-0 alert-message"></div>
 	</div>
 	
 	<div class="row">
@@ -110,8 +110,6 @@ function invalidMsg(event) {
 			<div class="userDataContainer">
 				
 				<p class="title">Balance de monedas</p>
-				
-				<form id="frmUserCoinBalance" action="javascript:storeEditedUserCoinBalance()">
 				
 				<div class="container">
 					<div class="row">
@@ -125,7 +123,7 @@ function invalidMsg(event) {
 											<span class="coin">EUR</span>
 										</label>
 										<div class="col-xs-9">
-											<input type="number" class="editableData form-control form-control-sm text-right" id="userBalance_EUR">
+											<input type="number" class="form-control form-control-sm text-right" id="userBalance_EUR">
 										</div>
 										<div id="validationMessageUserBalance_EUR" class="validationMessage"></div>
 									</div>
@@ -136,7 +134,7 @@ function invalidMsg(event) {
 											<span class="coin">BTC</span>
 										</label>
 										<div class="col-xs-9">
-											<input type="number" min="0" class="form-control form-control-sm text-right" id="userBalance_BTC" required>
+											<input type="number" class="form-control form-control-sm text-right" id="userBalance_BTC" required>
 										</div>
 									</div>
 									
@@ -146,7 +144,7 @@ function invalidMsg(event) {
 											<span class="coin">ETH</span>
 										</label>
 										<div class="col-xs-9">
-											<input type="number" min="0" class="form-control form-control-sm text-right" id="userBalance_ETH" required>
+											<input type="number" class="form-control form-control-sm text-right" id="userBalance_ETH" required>
 										</div>
 									</div>
 									
@@ -156,7 +154,7 @@ function invalidMsg(event) {
 											<span class="coin">LTC</span>
 										</label>
 										<div class="col-xs-9">
-											<input type="number" min="0" class="form-control form-control-sm text-right" id="userBalance_LTC" required>
+											<input type="number" class="form-control form-control-sm text-right" id="userBalance_LTC" required>
 										</div>
 									</div>
 									
@@ -166,13 +164,14 @@ function invalidMsg(event) {
 											<span class="coin">XRP</span>
 										</label>
 										<div class="col-xs-9">
-											<input type="number" min="0" class="form-control form-control-sm text-right" id="userBalance_XRP">
+											<input type="number" class="form-control form-control-sm text-right" id="userBalance_XRP">
 										</div>
 									</div>
 									
 									<div class="form-group row">
 										<div class="col-12">
-											<button id="storeUserCoinBalanceButton" class="btn btn-info btn-sm btn-block">Grabar</button>
+											<button id="storeUserCoinBalanceButton" class="btn btn-success btn-sm">Grabar</button>
+											<button id="discardUserCoinBalanceButton" class="btn btn-danger btn-sm">Cancelar</button>
 										</div>
 									</div>
 								</div>
@@ -182,18 +181,19 @@ function invalidMsg(event) {
 				
 				</div>
 				
-				</form>
-				
 			</div> <!-- /userDataContainer -->     
 		</div>
 		
 	</div>
 		
+	<div id="devTools">
+		<a href="javascript:clearUserCoinBalance();">Limpiar balance</a>
+	</div>
 
 	<hr class="footerLine">
 
     <footer>
-		<p>&copy; Cafrex <span id="copyrightYear"></span></p>
+		<p>&copy; Cafrex <span id="copyrightYear"></span> <span id="environment"></span></p>
 	</footer>
 
 </div> <!-- /container -->
