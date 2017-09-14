@@ -52,36 +52,89 @@ function drawEditableUserCoinBalance() {
 
 /**
  * 
- * @param value
- * @returns
  */
-function fixNumberLocaleFormatEditable(value) {
-	var res = value;
-	res = res.replaceAll(",", ".");
-	return res;
+function storeEditableUserCoinBalance() {
+	
+	var ucb_EUR = $('#userBalance_EUR').val();
+	var ucb_BTC = $('#userBalance_BTC').val();
+	var ucb_ETH = $('#userBalance_ETH').val();
+	var ucb_LTC = $('#userBalance_LTC').val();
+	var ucb_XRP = $('#userBalance_XRP').val();
+	
+	var errors = [];
+	
+	var e_EUR = validateNumber(ucb_EUR, 0, 2); 
+	if(e_EUR != null) {
+		errors.push("Error EUR: " + e_EUR);
+	} else {
+		ucb_EUR = new Number(ucb_EUR);
+		if(ucb_EUR <= 0) {
+			errors.push("Error EUR: " + "la cantidad introducida debe ser mayor que cero");
+		}
+	}
+	
+	var e_BTC = validateNumber(ucb_BTC, 0, 8); 
+	if(e_BTC != null) {
+		errors.push("Error BTC: " + e_BTC);
+	} else {
+		ucb_BTC = new Number(ucb_BTC);
+		if(ucb_BTC <= 0) {
+			errors.push("Error BTC: " + "la cantidad introducida debe ser mayor que cero");
+		}
+	}
+	
+	var e_ETH = validateNumber(ucb_ETH, 0, 8); 
+	if(e_ETH != null) {
+		errors.push("Error ETH: " + e_ETH);
+	} else {
+		ucb_ETH = new Number(ucb_ETH);
+		if(ucb_ETH <= 0) {
+			errors.push("Error ETH: " + "la cantidad introducida debe ser mayor que cero");
+		}
+	}
+	
+	var e_LTC = validateNumber(ucb_LTC, 0, 8); 
+	if(e_LTC != null) {
+		errors.push("Error LTC: " + e_LTC);
+	} else {
+		ucb_LTC = new Number(ucb_LTC);
+		if(ucb_LTC <= 0) {
+			errors.push("Error LTC: " + "la cantidad introducida debe ser mayor que cero");
+		}
+	}
+	
+	var e_XRP = validateNumber(ucb_XRP, 0, 8); 
+	if(e_XRP != null) {
+		errors.push("Error XRP: " + e_XRP);
+	} else {
+		ucb_XRP = new Number(ucb_XRP);
+		if(ucb_XRP <= 0) {
+			errors.push("Error XRP: " + "la cantidad introducida debe ser mayor que cero");
+		}
+	}
+	
+	if(errors.length == 0) {
+		storeUserCoinBalance('EUR', ucb_EUR);
+		storeUserCoinBalance('BTC', ucb_BTC);
+		storeUserCoinBalance('ETH', ucb_ETH);
+		storeUserCoinBalance('LTC', ucb_LTC);
+		storeUserCoinBalance('XRP', ucb_XRP);
+		activateSuccessMessage("Datos grabados correctamente");
+	} else {
+		var text = "<ul>";
+		errors.forEach(function(elem) {
+			text += "<li>" + elem + "</li>";
+		});
+		text += "</ul>";
+		activateErrorMessage("No se ha grabado el balance", text);
+	}
 }
 
 /**
  * 
  */
-function storeEditedUserCoinBalance() {
-	
-	var ucb_EUR = fixNumberLocaleFormatEditable($('#userBalance_EUR').val());
-	storeUserCoinBalance('EUR', ucb_EUR);
-	
-	var ucb_BTC = fixNumberLocaleFormatEditable($('#userBalance_BTC').val());
-	storeUserCoinBalance('BTC', ucb_BTC);
-	
-	var ucb_ETH = fixNumberLocaleFormatEditable($('#userBalance_ETH').val());
-	storeUserCoinBalance('ETH', ucb_ETH);
-	
-	var ucb_LTC = fixNumberLocaleFormatEditable($('#userBalance_LTC').val());
-	storeUserCoinBalance('LTC', ucb_LTC);
-	
-	var ucb_XRP = fixNumberLocaleFormatEditable($('#userBalance_XRP').val());
-	storeUserCoinBalance('XRP', ucb_XRP);
-	
+function discardEditableUserCoinBalance() {
+	deactivateMessages();
 	drawEditableUserCoinBalance();
-	
-	activateSuccessMessage("Datos grabados correctamente");
 }
+

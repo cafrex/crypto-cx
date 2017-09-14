@@ -1,4 +1,6 @@
 var coinChart;
+var coinSelected;
+var frequencySelected;
 
 /**
  * 
@@ -24,7 +26,7 @@ function buildPricesChart(chartId, fullData, dateMode) {
 		        			},
 		                    autoSkip: true,
 		                    maxRotation: 0,
-		                    minRotation: 0
+		                    minRotation: 45
 		        		}
 		        	}],
 		            yAxes: [{

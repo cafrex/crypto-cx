@@ -1,5 +1,3 @@
-var coinSelected;
-var frequencySelected;
 var defaultCurrency = 'EUR';
 var defaultLocale = 'es-ES';
 var defaultValueUnloadData = '---';
@@ -7,19 +5,36 @@ var defaultFracDigitsCurrency = 2;
 var defaultFracDigitsCoin = 8;
 var defaultFracDigitsPercent = 2;
 
+var activeMenu = null;
+
 var lastId;
 var seedId = 1;
 
 var responseSuccess = "Success";
 var responseError = "Error";
 
-var prop_user;
+var user;
 var prop_userCoinBalance = "userCoinBalance";
 var prop_userMovements = "userMovements";
 
+$(document).ready(function() {
+	
+	menuFix();
+	
+	$('#copyrightYear').html(new Date().getFullYear());
+	
+	if(isDevEnvironment()) {
+		$('#environment').html("(dev)");
+		$("#devTools").show();
+	} else {
+		$("#devTools").hide();
+	}
+	
+});
+
 /**
  * 
- * @param mode (FULL, DAY_MONTH_YEAR, HOUR, DAY_MONTH, MONTH_YEAR)
+ * @param mode (FULL, DAY_MONTH_YEAR, DAY_MONTH_FULLYEAR, HOUR, DAY_MONTH, MONTH_YEAR)
  * @returns {String}
  */
 Date.prototype.formatDate = function(mode) {
@@ -33,6 +48,7 @@ Date.prototype.formatDate = function(mode) {
   MM = MM>=10?MM:'0'+MM;
   var yy = this.getFullYear() % 100;
   yy = yy>=10?yy:'0'+yy;
+  var yyyy = this.getFullYear();
 
   switch(mode) {
   	case 'FULL':
@@ -40,6 +56,9 @@ Date.prototype.formatDate = function(mode) {
   		break;
   	case 'DAY_MONTH_YEAR':
   		res = dd + '/' + mm + '/' + yy;
+  		break;
+  	case 'DAY_MONTH_FULLYEAR':
+  		res = dd + '/' + mm + '/' + yyyy;
   		break;
   	case 'HOUR':
   		res = hh + ':' + MM;
@@ -151,10 +170,82 @@ Array.prototype.sortMovementsByDate = function() {
 
 /**
  * 
- * @param date
+ * @returns {Boolean}
+ */
+function isDevEnvironment() {
+	return cryptoConfig.environment == "dev";
+}
+
+/**
+ * 
+ * @param idMenu
+ */
+function selectMenu(idMenu) {
+	$('#' + idMenu).addClass('active');
+	$('#' + idMenu + ' > a').prop('href', '#');
+}
+
+/*
+ * 
+ */
+function menuFix() {
+	cryptoConfig.menu.forEach(function(elem) {
+		if(elem.visible) {
+			$("#" + elem.id).show(0);
+		}
+	});
+}
+
+/**
+ * 
+ * @param date (format dd/mm/yyyy)
+ * @returns {"error": "", "date": ""}
  */
 function validateDate(date) {
-	return "Formato de fecha incorrecto";
+	
+	var res = { 'error': null,
+				'date': null
+				};
+	var ok = true;
+	var dAux = date;
+	
+	if(date == null || date == undefined) {
+		ok = false;
+	} else {
+		if(!isNaN(date)) {
+			ok = false;
+		} else {
+			var partes = date.split("/");
+			if(partes.length != 3) {
+				ok = false;
+			} else {
+				
+				dAux = new Date(partes[2], partes[1] - 1, partes[0], 0, 0, 0, 0);
+				
+				partes[0] = partes[0].length<2?"0" + partes[0]:partes[0];
+				partes[1] = partes[1].length<2?"0" + partes[1]:partes[1];
+				partes[2] = partes[2].length<4?"0" + partes[2]:partes[2];
+				
+				if(partes[0].length < 2 || partes[1].length < 2 || partes[2].length < 4) {
+					ok = false;
+				} else {
+					var d = new Date(partes[2], partes[1] - 1, partes[0], 0, 0, 0, 0);
+					
+					if(dAux.getTime() != d.getTime()) {
+						ok = false;
+					}
+				}
+			}
+		}
+	}
+	
+	if(!ok) {
+		res.error = "Formato de fecha incorrecto";
+	} else {
+		res.date = dAux.formatDate('DAY_MONTH_FULLYEAR');
+	}
+	
+	return res;
 }
 
 /**
@@ -309,14 +400,14 @@ function storeUserCoinBalance(coin, balance) {
 	checkLocalStorage();
 	
 	var ucbJson;
-	var ucb = localStorage.getItem(prop_userCoinBalance + "_" + prop_user);
+	var ucb = localStorage.getItem(prop_userCoinBalance + "_" + user);
 	if(ucb === null) {
 		ucbJson = {}; 
 	} else {
 		ucbJson = JSON.parse(ucb);
 	}
 	ucbJson[coin] = Number(balance);
-	localStorage.setItem(prop_userCoinBalance + "_" + prop_user, JSON.stringify(ucbJson));
+	localStorage.setItem(prop_userCoinBalance + "_" + user, JSON.stringify(ucbJson));
 }
 
 /**
@@ -325,13 +416,10 @@ function storeUserCoinBalance(coin, balance) {
 function retrieveUserCoinBalance() {
 	checkLocalStorage();
 	var ucbJson = {};
-	var ucb = localStorage.getItem(prop_userCoinBalance + "_" + prop_user);
+	var ucb = localStorage.getItem(prop_userCoinBalance + "_" + user);
 	if(ucb != null) {
 		ucbJson = JSON.parse(ucb);
 	}
-	
-	//solo para poder tener el nuevo formato de pantalla
-	ucbJson = userCoinBalanceStatic;
 	
 	return ucbJson;
 }
@@ -341,7 +429,7 @@ function retrieveUserCoinBalance() {
  */
 function clearUserCoinBalance() {
 	checkLocalStorage();
-	localStorage.removeItem(prop_userCoinBalance + "_" + prop_user, null);
+	localStorage.removeItem(prop_userCoinBalance + "_" + user, null);
 }
 
 /**
@@ -354,7 +442,7 @@ function storeUserAccountMovement(date, balance, type) {
 	checkLocalStorage();
 	
 	var ucbJson;
-	var ucb = localStorage.getItem(prop_userMovements + "_" + prop_user);
+	var ucb = localStorage.getItem(prop_userMovements + "_" + user);
 	if(ucb === null) {
 		ucbJson = {}; 
 	} else {
@@ -376,7 +464,7 @@ function storeUserAccountMovement(date, balance, type) {
 			break;
 	}
 	
-	localStorage.setItem(prop_userMovements + "_" + prop_user, JSON.stringify(ucbJson));
+	localStorage.setItem(prop_userMovements + "_" + user, JSON.stringify(ucbJson));
 }
 
 /**
@@ -388,7 +476,7 @@ function removeUserAccountMovement(id, type) {
 	checkLocalStorage();
 	
 	var ucbJson;
-	var ucb = localStorage.getItem(prop_userMovements + "_" + prop_user);
+	var ucb = localStorage.getItem(prop_userMovements + "_" + user);
 	if(ucb != null) {
 		ucbJson = JSON.parse(ucb);
 	}
@@ -418,7 +506,7 @@ function removeUserAccountMovement(id, type) {
 			break;
 	}
 	
-	localStorage.setItem(prop_userMovements + "_" + prop_user, JSON.stringify(ucbJson));
+	localStorage.setItem(prop_userMovements + "_" + user, JSON.stringify(ucbJson));
 }
 
 /**
@@ -427,13 +515,10 @@ function removeUserAccountMovement(id, type) {
 function retrieveUserAccountMovements() {
 	checkLocalStorage();
 	var ucbJson = {};
-	var ucb = localStorage.getItem(prop_userMovements + "_" + prop_user);
+	var ucb = localStorage.getItem(prop_userMovements + "_" + user);
 	if(ucb != null) {
 		ucbJson = JSON.parse(ucb);
 	}
-	
-	//solo para poder tener el nuevo formato de pantalla
-	//ucbJson = userAccountMovementsStatic;
 	
 	if(ucbJson.inputs != null) {
 		ucbJson.inputs = ucbJson.inputs.sortMovementsByDate().reverse();
@@ -451,5 +536,5 @@ function retrieveUserAccountMovements() {
  */
 function clearUserAccountMovements() {
 	checkLocalStorage();
-	localStorage.removeItem(prop_userMovements + "_" + prop_user, null);
+	localStorage.removeItem(prop_userMovements + "_" + user, null);
 }

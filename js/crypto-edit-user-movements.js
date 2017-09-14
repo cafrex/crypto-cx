@@ -99,9 +99,11 @@ function storeNewEditableUserMovement(type) {
 	}
 	
 	var errors = [];
-	var errorMessageDate = validateDate(date);
-	if(errorMessageDate != null) {
-		errors.push(errorMessageDate);
+	var resultValidateDate = validateDate(date);
+	if(resultValidateDate.error != null) {
+		errors.push(resultValidateDate.error);
+	} else {
+		date = resultValidateDate.date;
 	}
 	
 	var errorMessageAmount = validateNumber(amount, 0, 2);
