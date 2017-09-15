@@ -2,6 +2,10 @@ body {
 	font-family: Verdana;
 }
 
+.ml-10 {
+	margin-left: 10px !important;
+}
+
 .mb-10 {
 	margin-bottom: 10px !important;
 }
@@ -14,8 +18,16 @@ body {
 	margin-right: 30px !important;
 }
 
+.mt-30 {
+	margin-top: 30px !important;
+}
+
 .btn {
 	cursor: pointer;
+}
+
+.nav-item {
+	color: #ffffff;
 }
 
 h1 {
@@ -35,6 +47,10 @@ p.title {
 
 .bg-blue {
 	background-color: rgba(51,102,153,0.9) ;
+}
+
+.menuItem {
+	display: none;
 }
 
 .mainContainer {
@@ -60,14 +76,6 @@ p.title {
 
 .chart-container {
 	margin-top: 20px;
-}
-
-.pie-chart-container {
-	position: relative; 
-	width: 40vw;
-	margin-top: 20px;
-	margin-left: 10px;
-	margin-right: auto;
 }
 
 .coinsContainer {
@@ -139,9 +147,6 @@ p.title {
 	color: #fff;
 }
 
-.pricesDataContainer {
-}
-
 .currentPrice {
 	float: left;
 	border: solid 1px #336699;
@@ -201,22 +206,6 @@ p.title {
 	color: #07820f;
 }
 
-.currentVolumeTotalEur {
-	background: #f4f5f7;
-	color: #336699;
-	min-width: 150px;
-	text-align: center;
-	font-weight: bold;
-} 
-
-.currentVolumeTotalEur .title {
-	font-size: 13pt;
-}
-
-.currentVolumeTotalEur .value {
-	font-size: 17pt;
-}
-
 .currentVolumeCoin {
 	color: #336699;
 	text-align: center;
@@ -243,23 +232,6 @@ p.title {
 	color: #336699;
 }
 
-.currentVolumeEur {
-	color: #336699;
-	min-width: 150px;
-	text-align: center;
-	margin-top: 10px;
-}
-
-.currentVolumeEur .title {
-	font-size: 20pt;
-	margin-bottom: 5px;
-}
-
-.currentVolumeEur .valueEur {
-	font-size: 15pt;
-	color: #224568;
-}
-
 .buttonCoin .icon {
 	width: 25px;
 	height: 25px;
@@ -284,15 +256,8 @@ p.title {
 	vertical-align: middle;
 }
 
-.buttonShowVolume {
-	font-size: 10pt;
-	display: inline;
-}
-
 .btn-refresh {
-	cursor: pointer;
-	height: 30px;
-	width: 30px;
+	color: #ffffff;
 }
 
 #refreshMark {
@@ -300,17 +265,6 @@ p.title {
 	font-weight: bold;
 	color: #fff;
 	white-space: nowrap;
-}
-
-#buttonRefreshTimer {
-	display: inline;
-	background: transparent;
-	width: 40px;
-	overflow: visible;
-}
-
-#buttonRefreshTimer:hover {
-	
 }
 
 .sectionContainer {
@@ -353,20 +307,6 @@ p.title {
 }
 
 #userMovementsToggleButton:hover {
-	background: #86a8e0;
-}
-
-#chartPricesToggleButton {
-	margin-top: 15px;
-	cursor: pointer;
-	padding: 5px;
-	background: #aeaeae;
-	color: #ffffff;
-	font-weight: bold;
-	font-size: 10pt;
-}
-
-#chartPricesToggleButton:hover {
 	background: #86a8e0;
 }
 
@@ -475,8 +415,13 @@ footer {
 	white-space: nowrap;
 }
 
-.alert h4 {
-	font-size: 1.2rem;
+.alert .alert-heading {
+	font-size: 0.8rem;
+	font-weight: bold;
+}
+
+.alert .alert-message {
+	font-size: 0.8rem;
 }
 
 #errorMessage {
