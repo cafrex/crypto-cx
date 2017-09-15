@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+<meta name="author" content="">
+
+<link rel="icon" href="img/favicon.ico">
+
+<title>Crypto CX</title>
+
+<script src="js/vendor/jquery.min.js"></script>
+<!--<script src="js/vendor/popper.min.js"></script>-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
+<script src="js/vendor/bootstrap.min.js"></script>
+
+<script src="js/crypto-config.js"></script>
+<script src="js/crypto-common.js"></script>
+<script src="js/crypto-login.js"></script>
+
+<link href="css/vendor/bootstrap/bootstrap.min.css" rel="stylesheet" type="text/css">
+
+<link href="css/styles.css" rel="stylesheet" type="text/css">
+
+<script>
+/**
+ * 
+ */
+$(document).ready(function() {
+	$('#loginButton').on('click', function() {
+		login();
+	});
+});
+
+</script>
+
+</head>
+<body>
+
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-blue"> <!-- class="bg-dark" -->
+	<a class="navbar-brand" href="#">Crypto CX</a>
+</nav>
+
+<div class="container mainContainer">
+
+	<div id="errorMessage" class="alert alert-danger" role="alert">
+		<h4 id="errorMessage_title" class="alert-heading"></h4>
+  		<div id="errorMessage_text" class="mb-0 alert-message"></div>
+	</div>
+	
+	<div id="successMessage" class="alert alert-success" role="alert">
+  		<h4 id="successMessage_title" class="alert-heading"></h4>
+  		<div id="successMessage_text" class="mb-0 alert-message"></div>
+	</div>
+
+	<div class="row">
+		<div class="col-12">
+			<label for="user" class="col-xs-3 col-form-label mr-2">Usuario</label>
+			<div class="col-xs-9">
+				<input type="text" class="form-control form-control-sm text-center" id="user">
+			</div>
+			<button id="loginButton" class="btn btn-info btn-sm btn-block mt-30">Entrar</button>
+		</div>
+	</div>
+
+	<hr class="footerLine">
+
+    <footer>
+		<p>&copy; Cafrex <span id="copyrightYear"></span> <span id="environment"></span></p>
+	</footer>
+
+</div> <!-- /container -->
+
+</body>
+</html>
+

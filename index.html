@@ -20,9 +20,11 @@
 <script src="js/crypto-user-data.js"></script>
 <script src="js/crypto-config.js"></script>
 <script src="js/crypto-common.js"></script>
+<script src="js/crypto-login.js"></script>
 <script src="js/crypto-dashboard.js"></script>
 
 <link href="css/vendor/bootstrap/bootstrap.min.css" rel="stylesheet" type="text/css">
+<link href="css/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
 <link href="css/styles.css" rel="stylesheet" type="text/css">
 
@@ -117,7 +119,7 @@ $(document).ready(function() {
 
 <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-blue"> <!-- class="bg-dark" -->
 	<a class="navbar-brand" href="#">Crypto CX</a>
-	<img id="buttonRefresh" class="btn-refresh" src="img/button-refresh.png" />
+	<i id="buttonRefresh" class="fa fa-refresh fa-lg btn btn-refresh"></i>
 	<span id="refreshMark">Actualizando datos...</span>
    	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
 		<span class="navbar-toggler-icon"></span>
@@ -125,11 +127,19 @@ $(document).ready(function() {
 	
 	<div class="collapse navbar-collapse" id="navbarsExampleDefault">
     	<ul class="navbar-nav mr-auto">
+    		<li id="menu_user" class="nav-item">
+    			<i class="fa fa-user fa-lg"></i>
+    			<span id="loggedUser"></span>
+    			<a class="nav-link" href="javascript:logout()">Salir</a>
+    		</li>
         	<li class="nav-item active sr-only">
             	<a class="nav-link" href="#">Inicio (current)</a>
           	</li>
           	<li id="menu_dashboard" class="nav-item menuItem">
-            	<a class="nav-link" href="index.html">Dashboard</a>
+            	<a class="nav-link" href="index.html">
+            		<i class="fa fa-camera-retro fa-lg"></i>
+            		<span>Dashboard</span>
+            	</a>
           	</li>
 			<li id="menu_editUserBalance" class="nav-item menuItem">
             	<a class="nav-link" href="edit-user-balance.html">Editar balance</a>
@@ -359,9 +369,6 @@ $(document).ready(function() {
 	</footer>
 
 </div> <!-- /container -->
-
-
-
 
 </body>
 </html>
