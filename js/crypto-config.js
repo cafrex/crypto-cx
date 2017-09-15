@@ -1,7 +1,10 @@
 
 var cryptoConfig = {
 		environment: "dev",
-		menu: [ 
+		menu: [
+			{	id: "menu_user",
+				visible: true
+			},
 			{	id: "menu_dashboard",
 				visible: true
 			},

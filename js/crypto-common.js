@@ -13,13 +13,13 @@ var seedId = 1;
 var responseSuccess = "Success";
 var responseError = "Error";
 
-var user;
+var prop_user = "cryptoCxUser";
 var prop_userCoinBalance = "userCoinBalance";
 var prop_userMovements = "userMovements";
 
 $(document).ready(function() {
 	
-	menuFix();
+	fixMenu();
 	
 	$('#copyrightYear').html(new Date().getFullYear());
 	
@@ -161,6 +161,15 @@ String.prototype.replaceAll = function(search, replacement) {
 
 /**
  * 
+ * @param search
+ * @returns
+ */
+String.prototype.endsWith = function(search) {
+	return this.indexOf(search, this.length - search.length) !== -1;
+};
+
+/**
+ * 
  */
 Array.prototype.sortMovementsByDate = function() {
 	return this.sort(function(d1, d2) {
@@ -188,12 +197,17 @@ function selectMenu(idMenu) {
 /*
  * 
  */
-function menuFix() {
+function fixMenu() {
 	cryptoConfig.menu.forEach(function(elem) {
 		if(elem.visible) {
 			$("#" + elem.id).show(0);
 		}
 	});
+	
+	var usr = getLoggedUser();
+	if(usr != null || usr != undefined || usr != "") {
+		$("#loggedUser").html(usr);
+	}
 }
 
 /**
@@ -335,6 +349,9 @@ function activateErrorMessage(type, message) {
 			$('#errorMessage_title').html("Error de formato");
 			$('#errorMessage_text').html(message);
 			break;
+		case 'USER_NOT_LOGGED':
+			$('#errorMessage_title').html("El usuario no ha iniciado sesión");
+			break;
 		default:
 			$('#errorMessage_title').html(type);
 			$('#errorMessage_text').html(message);
@@ -380,6 +397,45 @@ function deactivateMessages() {
 
 /**
  * 
+ * @returns
+ */
+function getLoggedUser() {
+	return localStorage.getItem(prop_user);
+}
+
+/**
+ * 
+ */
+function checkUser() {
+	if(!window.document.location.pathname.endsWith("login.html")) {
+		var usr = getLoggedUser();
+		if(usr == null || usr == undefined || usr == "") {
+			window.document.location = "login.html";
+		}
+	}
+}
+
+/**
+ * 
+ * @param user
+ */
+function loginUser(user) {
+	if(checkLocalStorage()) {
+		localStorage.setItem(prop_user, user);
+	}
+}
+
+/**
+ * 
+ */
+function logoutUser() {
+	if(checkLocalStorage()) {
+		localStorage.removeItem(prop_user);
+	}
+}
+
+/**
+ * 
  * @returns {Boolean}
  */
 function checkLocalStorage() {
@@ -397,39 +453,40 @@ function checkLocalStorage() {
  * @param balance
  */
 function storeUserCoinBalance(coin, balance) {
-	checkLocalStorage();
-	
-	var ucbJson;
-	var ucb = localStorage.getItem(prop_userCoinBalance + "_" + user);
-	if(ucb === null) {
-		ucbJson = {}; 
-	} else {
-		ucbJson = JSON.parse(ucb);
+	if(checkLocalStorage()) {
+		var ucbJson;
+		var ucb = localStorage.getItem(prop_userCoinBalance + "_" + getLoggedUser());
+		if(ucb === null) {
+			ucbJson = {}; 
+		} else {
+			ucbJson = JSON.parse(ucb);
+		}
+		ucbJson[coin] = Number(balance);
+		localStorage.setItem(prop_userCoinBalance + "_" + getLoggedUser(), JSON.stringify(ucbJson));
 	}
-	ucbJson[coin] = Number(balance);
-	localStorage.setItem(prop_userCoinBalance + "_" + user, JSON.stringify(ucbJson));
 }
 
 /**
  * 
  */
 function retrieveUserCoinBalance() {
-	checkLocalStorage();
-	var ucbJson = {};
-	var ucb = localStorage.getItem(prop_userCoinBalance + "_" + user);
-	if(ucb != null) {
-		ucbJson = JSON.parse(ucb);
+	if(checkLocalStorage()) {
+		var ucbJson = {};
+		var ucb = localStorage.getItem(prop_userCoinBalance + "_" + getLoggedUser());
+		if(ucb != null) {
+			ucbJson = JSON.parse(ucb);
+		}
+		return ucbJson;
 	}
-	
-	return ucbJson;
 }
 
 /**
  * 
  */
 function clearUserCoinBalance() {
-	checkLocalStorage();
-	localStorage.removeItem(prop_userCoinBalance + "_" + user, null);
+	if(checkLocalStorage()) {
+		localStorage.removeItem(prop_userCoinBalance + "_" + getLoggedUser(), null);
+	}
 }
 
 /**
@@ -439,32 +496,32 @@ function clearUserCoinBalance() {
  * @param type (INPUT/OUTPUT)
  */
 function storeUserAccountMovement(date, balance, type) {
-	checkLocalStorage();
-	
-	var ucbJson;
-	var ucb = localStorage.getItem(prop_userMovements + "_" + user);
-	if(ucb === null) {
-		ucbJson = {}; 
-	} else {
-		ucbJson = JSON.parse(ucb);
+	if(checkLocalStorage()) {
+		var ucbJson;
+		var ucb = localStorage.getItem(prop_userMovements + "_" + getLoggedUser());
+		if(ucb === null) {
+			ucbJson = {}; 
+		} else {
+			ucbJson = JSON.parse(ucb);
+		}
+		
+		switch(type) {
+			case 'INPUT':
+				if(ucbJson.inputs == null) {
+					ucbJson.inputs = [];
+				}
+				ucbJson.inputs.push({'id': getId(), 'date': date, 'amount': Number(balance)});
+				break;
+			case 'OUTPUT':
+				if(ucbJson.outputs == null) {
+					ucbJson.outputs = [];
+				}
+				ucbJson.outputs.push({'id': getId(), 'date': date, 'amount': Number(balance)});
+				break;
+		}
+		
+		localStorage.setItem(prop_userMovements + "_" + getLoggedUser(), JSON.stringify(ucbJson));
 	}
-	
-	switch(type) {
-		case 'INPUT':
-			if(ucbJson.inputs == null) {
-				ucbJson.inputs = [];
-			}
-			ucbJson.inputs.push({'id': getId(), 'date': date, 'amount': Number(balance)});
-			break;
-		case 'OUTPUT':
-			if(ucbJson.outputs == null) {
-				ucbJson.outputs = [];
-			}
-			ucbJson.outputs.push({'id': getId(), 'date': date, 'amount': Number(balance)});
-			break;
-	}
-	
-	localStorage.setItem(prop_userMovements + "_" + user, JSON.stringify(ucbJson));
 }
 
 /**
@@ -473,68 +530,75 @@ function storeUserAccountMovement(date, balance, type) {
  * @param type (INPUT/OUTPUT)
  */
 function removeUserAccountMovement(id, type) {
-	checkLocalStorage();
-	
-	var ucbJson;
-	var ucb = localStorage.getItem(prop_userMovements + "_" + user);
-	if(ucb != null) {
-		ucbJson = JSON.parse(ucb);
+	if(checkLocalStorage()) {
+		var ucbJson;
+		var ucb = localStorage.getItem(prop_userMovements + "_" + getLoggedUser());
+		if(ucb != null) {
+			ucbJson = JSON.parse(ucb);
+		}
+		
+		switch(type) {
+			case 'INPUT':
+				if(ucbJson.inputs != null) {
+					var arrAux = [];
+					ucbJson.inputs.forEach(function(elem) {
+						if(elem.id != id) {
+							arrAux.push(elem);
+						}
+					});
+					ucbJson.inputs = arrAux;
+				}
+				break;
+			case 'OUTPUT':
+				if(ucbJson.outputs != null) {
+					var arrAux = [];
+					ucbJson.outputs.forEach(function(elem) {
+						if(elem.id != id) {
+							arrAux.push(elem);
+						}
+					});
+					ucbJson.outputs = arrAux;
+				}
+				break;
+		}
+		
+		localStorage.setItem(prop_userMovements + "_" + getLoggedUser(), JSON.stringify(ucbJson));
 	}
-	
-	switch(type) {
-		case 'INPUT':
-			if(ucbJson.inputs != null) {
-				var arrAux = [];
-				ucbJson.inputs.forEach(function(elem) {
-					if(elem.id != id) {
-						arrAux.push(elem);
-					}
-				});
-				ucbJson.inputs = arrAux;
-			}
-			break;
-		case 'OUTPUT':
-			if(ucbJson.outputs != null) {
-				var arrAux = [];
-				ucbJson.outputs.forEach(function(elem) {
-					if(elem.id != id) {
-						arrAux.push(elem);
-					}
-				});
-				ucbJson.outputs = arrAux;
-			}
-			break;
-	}
-	
-	localStorage.setItem(prop_userMovements + "_" + user, JSON.stringify(ucbJson));
 }
 
 /**
  * 
  */
 function retrieveUserAccountMovements() {
-	checkLocalStorage();
-	var ucbJson = {};
-	var ucb = localStorage.getItem(prop_userMovements + "_" + user);
-	if(ucb != null) {
-		ucbJson = JSON.parse(ucb);
+	if(checkLocalStorage()) {
+		var ucbJson = {};
+		var ucb = localStorage.getItem(prop_userMovements + "_" + getLoggedUser());
+		if(ucb != null) {
+			ucbJson = JSON.parse(ucb);
+		}
+		
+		if(ucbJson.inputs != null) {
+			ucbJson.inputs = ucbJson.inputs.sortMovementsByDate().reverse();
+		}
+		
+		if(ucbJson.outputs != null) {
+			ucbJson.outputs = ucbJson.outputs.sortMovementsByDate().reverse();
+		}
+		
+		return ucbJson;
 	}
-	
-	if(ucbJson.inputs != null) {
-		ucbJson.inputs = ucbJson.inputs.sortMovementsByDate().reverse();
-	}
-	
-	if(ucbJson.outputs != null) {
-		ucbJson.outputs = ucbJson.outputs.sortMovementsByDate().reverse();
-	}
-	
-	return ucbJson;
 }
 
 /**
  * 
  */
 function clearUserAccountMovements() {
-	checkLocalStorage();
-	localStorage.removeItem(prop_userMovements + "_" + user, null);
+	if(checkLocalStorage()) {
+		localStorage.removeItem(prop_userMovements + "_" + getLoggedUser(), null);
+	}
 }
+
+/*
+ * ejecuciones previas a la carga de la pagina
+ */
+checkUser();
