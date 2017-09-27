@@ -344,13 +344,9 @@ p.title, label {
 	margin-top: 5px;
 	cursor: pointer;
 	padding: 5px;
-	background: #aeaeae;
+	background: #86a8e0;
 	color: #ffffff;
 	font-weight: bold;
-}
-
-#userMovementsToggleButton:hover {
-	background: #86a8e0;
 }
 
 #userMovements {
