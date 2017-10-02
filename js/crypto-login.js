@@ -16,8 +16,7 @@ function login() {
 		    } else if(usr.length < 5) {
 		    	activateErrorMessage("El usuario debe tener al menos 5 caracteres");
 		    } else {
-				loginUser(usr);
-				window.document.location = "index.html";
+				login(usr);
 		    }
 		}
 	}
@@ -26,7 +25,37 @@ function login() {
 /**
  * 
  */
+function login(user) {
+	loginUser(user);
+	window.document.location = "index.html";
+}
+
+/**
+ * 
+ */
 function logout() {
 	logoutUser();
 	window.document.location = "login.html";
+}
+
+/**
+ *
+ */
+function drawUsers() {
+	
+	var users = retrieveUsers();
+	
+	$('#users > tbody').find('tr').remove();
+	
+	if(users.length > 0) {
+		users.forEach(function(elem) {
+			$('#users > tbody').append(
+							'<tr id="'+ elem + '">' + 
+							'<td class="text-center">' +
+							'<i class="fa fa-user fa-lg"></i>' +
+							'<a href="javascript:login(\'' + elem + '\');" class="ml-20">' + elem + '</a>' + 
+							'</td>' +
+							'</tr>');
+		});
+	}
 }

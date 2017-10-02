@@ -39,6 +39,14 @@
 <link href="css/styles.css" rel="stylesheet" type="text/css">
 <link href="css/styles-bs.css" rel="stylesheet" type="text/css">
 
+<script>
+$(document).ready(function() {
+	
+	drawUsers();
+	
+});
+</script>
+
 </head>
 <body>
 
@@ -50,14 +58,14 @@
 
 	<div id="errorMessage" class="alert alert-danger" role="alert">
 		<i class="fa fa-exclamation-circle fa-lg"></i>
-		<h4 id="errorMessage_title" class="alert-heading"></h4>
-  		<div id="errorMessage_text" class="mb-0 mt-10 alert-message"></div>
+		<div id="errorMessage_title" class="alert-heading"></div>
+  		<div id="errorMessage_text" class="mt-10 alert-message"></div>
 	</div>
 	
 	<div id="successMessage" class="alert alert-success" role="alert">
 		<i class="fa fa-check-circle fa-lg"></i>
-  		<h4 id="successMessage_title" class="alert-heading"></h4>
-  		<div id="successMessage_text" class="mb-0 mt-10 alert-message"></div>
+	  	<div id="successMessage_title" class="alert-heading"></div>
+	  	<div id="successMessage_text" class="mt-10 alert-message"></div>
 	</div>
 	
 	<form action="javascript:login();">
@@ -77,6 +85,17 @@
 			<div class="col-xs-0 col-md-3"></div>
 		</div>
 	</form>
+
+	<div class="row mt-30">
+		<div class="col-xs-12 col-md-4 col-lg-3">
+			<div class="editableUsersTableContainer">
+				<table id="users" class="editableTable">
+			    	<tbody>
+			    	</tbody>
+			    </table>
+		    </div>
+		</div>
+	</div>
 
 	<hr class="footerLine">
 
