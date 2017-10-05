@@ -1,7 +1,7 @@
 /**
  * 
  */
-function login() {
+function loginFromScreen() {
 	var usr = $('#user').val();
 	if(usr == null || usr == undefined) {
 		activateErrorMessage("El usuario no puede estar vacío");

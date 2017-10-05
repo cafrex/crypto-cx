@@ -510,6 +510,7 @@ function storeUserCoinBalance(coin, balance, user) {
  * @returns {json}
  */
 function retrieveUserCoinBalance(user) {
+	/*
 	if(checkLocalStorage()) {
 		var ucbJson = {};
 		var ucb = localStorage.getItem(prop_userCoinBalance + "_" + user);
@@ -518,6 +519,12 @@ function retrieveUserCoinBalance(user) {
 		}
 		return ucbJson;
 	}
+	*/
+	var res = userCoinBalanceStatic[user];
+	if(res == null) {
+		res = {};
+	}
+	return res;
 }
 
 /**
@@ -615,6 +622,7 @@ function removeUserAccountMovement(id, type, user) {
  * @returns {json}
  */
 function retrieveUserAccountMovements(user) {
+	/*
 	if(checkLocalStorage()) {
 		var ucbJson = {};
 		var ucb = localStorage.getItem(prop_userMovements + "_" + user);
@@ -632,6 +640,12 @@ function retrieveUserAccountMovements(user) {
 		
 		return ucbJson;
 	}
+	*/
+	var res = userAccountMovementsStatic[user];
+	if(res == null) {
+		res = {};
+	}
+	return res;
 }
 
 /**
@@ -702,9 +716,9 @@ function isUserAllowed(user, menu) {
  */
 function loginUser(user) {
 	if(checkLocalStorage()) {
-		user = user.toLowerCase();
-		localStorage.setItem(prop_user, user);
-		storeUser(user);
+		var usr = user.toLowerCase();
+		localStorage.setItem(prop_user, usr);
+		storeUser(usr);
 	}
 }
 
