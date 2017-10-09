@@ -50,9 +50,11 @@ function drawUsers() {
 	if(users.length > 0) {
 		users.forEach(function(elem) {
 			$('#users > tbody').append(
-							'<tr id="'+ elem + '">' + 
-							'<td class="text-center">' +
+							'<tr>' + 
+							'<td class="text-right">' +
 							'<i class="fa fa-user fa-lg"></i>' +
+							'</td>' + 
+							'<td class="text-left">' + 
 							'<a href="javascript:login(\'' + elem + '\');" class="ml-20">' + elem + '</a>' + 
 							'</td>' +
 							'</tr>');

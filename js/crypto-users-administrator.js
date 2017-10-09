@@ -12,7 +12,9 @@ function drawEditableUsers() {
 		users.forEach(function(elem) {
 			$('#editableUsers > tbody').append(
 							'<tr id="'+ elem + '">' + 
-							'<td>' + elem + '</td>' + 
+							'<td>' +
+							'<i class="fa fa-user fa-lg mr-10"></i>' + elem +
+							'</td>' + 
 							'<td class="text-right">' + 
 							'<a href="javascript:deleteUser(\'' + elem + '\');" title="Borrar">' +
 							'<i class="fa fa-trash fa-lg"></i>' +
