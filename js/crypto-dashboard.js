@@ -700,6 +700,9 @@ function updateUserProfitability(movements, coinData, userCoinBalance) {
 	}
 	
 	currentInput = input - output;
+	if(input < 0) {
+		input = 0;
+	}
 	
 	var currentVolumeTotalEur = 0;
 	if(userCoinBalance != null) {
@@ -722,7 +725,7 @@ function updateUserProfitability(movements, coinData, userCoinBalance) {
 		if(userCoinBalance.XRP != null) {
 			currentVolumeTotalEur += userCoinBalance.XRP * coinData.XRP.currentPriceEUR;
 		}
-		profit = currentVolumeTotalEur - currentInput;
+		profit = currentVolumeTotalEur - currentInput;		
 	}
 	
 	$('#userProfitability_input').html(input.formatNumber('CURRENCY')); 
