@@ -11,6 +11,10 @@ var cryptoConfig = {
 				visible: true,
 				onlyAdminVisible: false
 			},
+			{	id: "menu_editUserProfitBase",
+				visible: true,
+				onlyAdminVisible: false
+			},
 			{	id: "menu_editUserMovements",
 				visible: true,
 				onlyAdminVisible: false
