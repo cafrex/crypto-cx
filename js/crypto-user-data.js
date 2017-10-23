@@ -3,11 +3,11 @@
  */
 var userCoinBalanceStatic = {
 		'david': {
-			'EUR': 18121.99,
+			'EUR': 17069.87,
 			'BTC': 0.00009816,
 			'ETH': 15.23843381,
 			'LTC': 0.00004317,
-			'XRP': 8623.07793977
+			'XRP': 15123.08
 		},
 		'carmen': {
 			'EUR': 5.01,
