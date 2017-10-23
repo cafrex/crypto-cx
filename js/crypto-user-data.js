@@ -19,6 +19,21 @@ var userCoinBalanceStatic = {
 		
 };
 
+var userProfitBaseStatic = {
+		'david': {
+			'BTC': 0.43,
+			'ETH': 8000,
+			'LTC': 0,
+			'XRP': 2750
+		},
+		'carmen': {
+			'BTC': 0,
+			'ETH': 2000,
+			'LTC': 0,
+			'XRP': 1000
+		}
+};
+
 var userAccountMovementsStatic = {
 							'david': {
 								'inputs': 

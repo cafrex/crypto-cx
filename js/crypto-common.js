@@ -538,6 +538,18 @@ function clearUserCoinBalance(user) {
 }
 
 /**
+ *
+ * @param user
+ */
+function retrieveUserProfitBase(user) {
+	var res = userProfitBaseStatic[user];
+	if(res == null) {
+		res = {};
+	}
+	return res;
+}
+
+/**
  * 
  * @param date
  * @param balance

@@ -409,6 +409,8 @@ function updatePricesChartValues(frequency, data) {
  * @param userCoinBalance
  */
 function updateUserValues(coinData, userCoinBalance) {
+	var userProfitBase = retrieveUserProfitBase('david');
+
 	var ueurb = 0;
 	if(userCoinBalance != null && userCoinBalance.EUR != null && !isNaN(userCoinBalance.EUR)) {
 		ueurb = userCoinBalance.EUR;
@@ -435,6 +437,8 @@ function updateUserValues(coinData, userCoinBalance) {
 			$('#variationPrice_BTC_EUR').addClass('valueDown');
 			$('#variationPercent_BTC').addClass('valueDown');
 		}
+
+		$('#profitEur_BTC_value').html(userProfitBase.BTC.formatNumber('CURRENCY'));
 	}
 	
 	if(!isNaN(coinData.ETH.currentPriceEUR)) {
@@ -457,6 +461,8 @@ function updateUserValues(coinData, userCoinBalance) {
 			$('#variationPrice_ETH_EUR').addClass('valueDown');
 			$('#variationPercent_ETH').addClass('valueDown');
 		}
+
+		$('#profitEur_ETH_value').html(userProfitBase.ETH.formatNumber('CURRENCY'));
 	}
 	
 	if(!isNaN(coinData.LTC.currentPriceEUR)) {
@@ -479,6 +485,8 @@ function updateUserValues(coinData, userCoinBalance) {
 			$('#variationPrice_LTC_EUR').addClass('valueDown');
 			$('#variationPercent_LTC').addClass('valueDown');
 		}
+
+		$('#profitEur_LTC_value').html(userProfitBase.LTC.formatNumber('CURRENCY'));
 	}
 
 	if(!isNaN(coinData.XRP.currentPriceEUR)) {
@@ -501,6 +509,8 @@ function updateUserValues(coinData, userCoinBalance) {
 			$('#variationPrice_XRP_EUR').addClass('valueDown');
 			$('#variationPercent_XRP').addClass('valueDown');
 		}
+
+		$('#profitEur_XRP_value').html(userProfitBase.XRP.formatNumber('CURRENCY'));
 	}
 	
 	var currentVolumeTotalEur = 0;
