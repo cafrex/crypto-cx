@@ -710,8 +710,8 @@ function updateUserProfitability(movements, coinData, userCoinBalance) {
 	}
 	
 	currentInput = input - output;
-	if(input < 0) {
-		input = 0;
+	if(currentInput < 0) {
+		currentInput = 0;
 	}
 	
 	var currentVolumeTotalEur = 0;
