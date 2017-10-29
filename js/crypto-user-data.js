@@ -21,7 +21,7 @@ var userCoinBalanceStatic = {
 
 var userProfitBaseStatic = {
 		'david': {
-			'BTC': 0.43,
+			'BTC': 4943.38,
 			'ETH': 8000,
 			'LTC': 0,
 			'XRP': 2750

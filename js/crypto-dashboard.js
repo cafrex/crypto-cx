@@ -438,7 +438,18 @@ function updateUserValues(coinData, userCoinBalance) {
 			$('#variationPercent_BTC').addClass('valueDown');
 		}
 
-		$('#profitEur_BTC_value').html(userProfitBase.BTC.formatNumber('CURRENCY'));
+		$('#profitBaseEur_BTC_value').html(userProfitBase.BTC.formatNumber('CURRENCY'));
+		
+		var variationBasePercent = 0;
+		if(userProfitBase.BTC > 0) {
+			variationBasePercent = (ucb * coinData.BTC.currentPriceEUR / userProfitBase.BTC) - 1;
+		}
+		$('#variationBasePercent_BTC_value').html(variationBasePercent.formatNumber('PERCENT'));
+		if(variationBasePercent >= 0) {
+			$('#variationBasePercent_BTC_value').addClass('valueUp');
+		} else {
+			$('#variationBasePercent_BTC_value').addClass('valueDown');
+		}
 	}
 	
 	if(!isNaN(coinData.ETH.currentPriceEUR)) {
@@ -462,7 +473,18 @@ function updateUserValues(coinData, userCoinBalance) {
 			$('#variationPercent_ETH').addClass('valueDown');
 		}
 
-		$('#profitEur_ETH_value').html(userProfitBase.ETH.formatNumber('CURRENCY'));
+		$('#profitBaseEur_ETH_value').html(userProfitBase.ETH.formatNumber('CURRENCY'));
+
+		var variationBasePercent = 0;
+		if(userProfitBase.ETH > 0) {
+			variationBasePercent = (ucb * coinData.ETH.currentPriceEUR / userProfitBase.ETH) - 1;
+		}
+		$('#variationBasePercent_ETH_value').html(variationBasePercent.formatNumber('PERCENT'));
+		if(variationBasePercent >= 0) {
+			$('#variationBasePercent_ETH_value').addClass('valueUp');
+		} else {
+			$('#variationBasePercent_ETH_value').addClass('valueDown');
+		}
 	}
 	
 	if(!isNaN(coinData.LTC.currentPriceEUR)) {
@@ -486,7 +508,18 @@ function updateUserValues(coinData, userCoinBalance) {
 			$('#variationPercent_LTC').addClass('valueDown');
 		}
 
-		$('#profitEur_LTC_value').html(userProfitBase.LTC.formatNumber('CURRENCY'));
+		$('#profitBaseEur_LTC_value').html(userProfitBase.LTC.formatNumber('CURRENCY'));
+
+		var variationBasePercent = 0;
+		if(userProfitBase.LTC > 0) {
+			variationBasePercent = (ucb * coinData.LTC.currentPriceEUR / userProfitBase.LTC) - 100;
+		}
+		$('#variationBasePercent_LTC_value').html(variationBasePercent.formatNumber('PERCENT'));
+		if(variationBasePercent >= 0) {
+			$('#variationBasePercent_LTC_value').addClass('valueUp');
+		} else {
+			$('#variationBasePercent_LTC_value').addClass('valueDown');
+		}
 	}
 
 	if(!isNaN(coinData.XRP.currentPriceEUR)) {
@@ -510,7 +543,18 @@ function updateUserValues(coinData, userCoinBalance) {
 			$('#variationPercent_XRP').addClass('valueDown');
 		}
 
-		$('#profitEur_XRP_value').html(userProfitBase.XRP.formatNumber('CURRENCY'));
+		$('#profitBaseEur_XRP_value').html(userProfitBase.XRP.formatNumber('CURRENCY'));
+
+		var variationBasePercent = 0;
+		if(userProfitBase.XRP > 0) {
+			variationBasePercent = (ucb * coinData.XRP.currentPriceEUR / userProfitBase.XRP) - 1;
+		}
+		$('#variationBasePercent_XRP_value').html(variationBasePercent.formatNumber('PERCENT'));
+		if(variationBasePercent >= 0) {
+			$('#variationBasePercent_XRP_value').addClass('valueUp');
+		} else {
+			$('#variationBasePercent_XRP_value').addClass('valueDown');
+		}
 	}
 	
 	var currentVolumeTotalEur = 0;
@@ -735,7 +779,8 @@ function updateUserProfitability(movements, coinData, userCoinBalance) {
 		if(userCoinBalance.XRP != null) {
 			currentVolumeTotalEur += userCoinBalance.XRP * coinData.XRP.currentPriceEUR;
 		}
-		profit = currentVolumeTotalEur - currentInput;		
+		profit = output + currentVolumeTotalEur - input;
+		//profit = currentVolumeTotalEur - currentInput;		
 	}
 	
 	$('#userProfitability_input').html(input.formatNumber('CURRENCY')); 
