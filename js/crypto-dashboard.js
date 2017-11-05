@@ -409,7 +409,7 @@ function updatePricesChartValues(frequency, data) {
  * @param userCoinBalance
  */
 function updateUserValues(coinData, userCoinBalance) {
-	var userProfitBase = retrieveUserProfitBase('david');
+	var userProfitBase = retrieveUserProfitBase(getLoggedUser());
 
 	var ueurb = 0;
 	if(userCoinBalance != null && userCoinBalance.EUR != null && !isNaN(userCoinBalance.EUR)) {
