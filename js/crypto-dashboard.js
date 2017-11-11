@@ -441,14 +441,21 @@ function updateUserValues(coinData, userCoinBalance) {
 		$('#profitBaseEur_BTC_value').html(userProfitBase.BTC.formatNumber('CURRENCY'));
 		
 		var variationBasePercent = 0;
+		var variationBaseEur = 0;
 		if(userProfitBase.BTC > 0) {
 			variationBasePercent = (ucb * coinData.BTC.currentPriceEUR / userProfitBase.BTC) - 1;
+			variationBaseEur = ucb * coinData.BTC.currentPriceEUR - userProfitBase.BTC;
 		}
+		
 		$('#variationBasePercent_BTC_value').html(variationBasePercent.formatNumber('PERCENT'));
+		$('#variationBaseEur_BTC_value').html(variationBaseEur.formatNumber('CURRENCY'));
+
 		if(variationBasePercent >= 0) {
 			$('#variationBasePercent_BTC_value').addClass('valueUp');
+			$('#variationBaseEur_BTC_value').addClass('valueUp');
 		} else {
 			$('#variationBasePercent_BTC_value').addClass('valueDown');
+			$('#variationBaseEur_BTC_value').addClass('valueDown');
 		}
 	}
 	
@@ -476,14 +483,21 @@ function updateUserValues(coinData, userCoinBalance) {
 		$('#profitBaseEur_ETH_value').html(userProfitBase.ETH.formatNumber('CURRENCY'));
 
 		var variationBasePercent = 0;
+		var variationBaseEur = 0;
 		if(userProfitBase.ETH > 0) {
 			variationBasePercent = (ucb * coinData.ETH.currentPriceEUR / userProfitBase.ETH) - 1;
+			variationBaseEur = ucb * coinData.ETH.currentPriceEUR - userProfitBase.ETH;
 		}
+		
 		$('#variationBasePercent_ETH_value').html(variationBasePercent.formatNumber('PERCENT'));
+		$('#variationBaseEur_ETH_value').html(variationBaseEur.formatNumber('CURRENCY'));
+
 		if(variationBasePercent >= 0) {
 			$('#variationBasePercent_ETH_value').addClass('valueUp');
+			$('#variationBaseEur_ETH_value').addClass('valueUp');
 		} else {
 			$('#variationBasePercent_ETH_value').addClass('valueDown');
+			$('#variationBaseEur_ETH_value').addClass('valueDown');
 		}
 	}
 	
@@ -511,14 +525,21 @@ function updateUserValues(coinData, userCoinBalance) {
 		$('#profitBaseEur_LTC_value').html(userProfitBase.LTC.formatNumber('CURRENCY'));
 
 		var variationBasePercent = 0;
+		var variationBaseEur = 0;
 		if(userProfitBase.LTC > 0) {
-			variationBasePercent = (ucb * coinData.LTC.currentPriceEUR / userProfitBase.LTC) - 100;
+			variationBasePercent = (ucb * coinData.LTC.currentPriceEUR / userProfitBase.LTC) - 1;
+			variationBaseEur = ucb * coinData.LTC.currentPriceEUR - userProfitBase.LTC;
 		}
+
 		$('#variationBasePercent_LTC_value').html(variationBasePercent.formatNumber('PERCENT'));
+		$('#variationBaseEur_LTC_value').html(variationBaseEur.formatNumber('CURRENCY'));
+
 		if(variationBasePercent >= 0) {
 			$('#variationBasePercent_LTC_value').addClass('valueUp');
+			$('#variationBaseEur_LTC_value').addClass('valueUp');
 		} else {
 			$('#variationBasePercent_LTC_value').addClass('valueDown');
+			$('#variationBaseEur_LTC_value').addClass('valueDown');
 		}
 	}
 
@@ -546,14 +567,21 @@ function updateUserValues(coinData, userCoinBalance) {
 		$('#profitBaseEur_XRP_value').html(userProfitBase.XRP.formatNumber('CURRENCY'));
 
 		var variationBasePercent = 0;
+		var variationBaseEur = 0;
 		if(userProfitBase.XRP > 0) {
 			variationBasePercent = (ucb * coinData.XRP.currentPriceEUR / userProfitBase.XRP) - 1;
+			variationBaseEur = ucb * coinData.XRP.currentPriceEUR - userProfitBase.XRP;
 		}
+
 		$('#variationBasePercent_XRP_value').html(variationBasePercent.formatNumber('PERCENT'));
+		$('#variationBaseEur_XRP_value').html(variationBaseEur.formatNumber('CURRENCY'));
+
 		if(variationBasePercent >= 0) {
 			$('#variationBasePercent_XRP_value').addClass('valueUp');
+			$('#variationBaseEur_XRP_value').addClass('valueUp');
 		} else {
 			$('#variationBasePercent_XRP_value').addClass('valueDown');
+			$('#variationBaseEur_XRP_value').addClass('valueDown');
 		}
 	}
 	
