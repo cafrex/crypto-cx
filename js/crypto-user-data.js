@@ -5,7 +5,7 @@ var userCoinBalanceStatic = {
 		'david': {
 			'EUR': 14.55,
 			'BTC': 2,
-			'ETH': 21.39089823,
+			'ETH': 21.39064623,
 			'LTC': 0,
 			'XRP': 0
 		},
