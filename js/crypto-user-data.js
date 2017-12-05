@@ -3,7 +3,7 @@
  */
 var userCoinBalanceStatic = {
 		'david': {
-			'EUR': 19284.77,
+			'EUR': 19270.22,
 			'BTC': 0,
 			'ETH': 21.39064623,
 			'LTC': 0,
