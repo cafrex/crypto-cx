@@ -30,7 +30,8 @@ var cryptoConfig = {
 		],
 		defaultCoins: ["BTC",
 		               "ETH",
-		               "LTC"
+		               "LTC",
+		               "XRP"
 		               ]
 };
 

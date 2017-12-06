@@ -177,21 +177,29 @@ function drawUserData(userCoinData, userMovements) {
 			'BTC': {
 				'currentPriceEUR': defaultValueUnloadData,
 				'variationPriceEUR': defaultValueUnloadData,
+				'currentPriceUSD': defaultValueUnloadData,
+				'variationPriceUSD': defaultValueUnloadData,
 				'variationPercent': defaultValueUnloadData
 			},
 			'ETH': {
 				'currentPriceEUR': defaultValueUnloadData,
 				'variationPriceEUR': defaultValueUnloadData,
+				'currentPriceUSD': defaultValueUnloadData,
+				'variationPriceUSD': defaultValueUnloadData,
 				'variationPercent': defaultValueUnloadData
 			},
 			'LTC': {
 				'currentPriceEUR': defaultValueUnloadData,
 				'variationPriceEUR': defaultValueUnloadData,
+				'currentPriceUSD': defaultValueUnloadData,
+				'variationPriceUSD': defaultValueUnloadData,
 				'variationPercent': defaultValueUnloadData
 			},
 			'XRP': {
 				'currentPriceEUR': defaultValueUnloadData,
 				'variationPriceEUR': defaultValueUnloadData,
+				'currentPriceUSD': defaultValueUnloadData,
+				'variationPriceUSD': defaultValueUnloadData,
 				'variationPercent': defaultValueUnloadData
 			}
 		};
