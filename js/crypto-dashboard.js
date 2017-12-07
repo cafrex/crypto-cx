@@ -135,7 +135,7 @@ function drawPricesChart(chartId, coin, frequency, limit) {
 	url += '&limit=' + limit;
 	
 	/* mercado */
-	//url += '&e=Coinbase';
+	url += '&e=Bitstamp';
 	
 	$.ajax({
 		url: url,
@@ -213,18 +213,21 @@ function drawUserData(userCoinData, userMovements) {
 	var url_tsym = "&tsym=" + defaultCurrency;
 	var url_limit = "&limit=1";
 	var url_toTs = "&toTs=" + _24hSecs;
+
+	/* mercado */
+	var url_market = '&e=Bitstamp';
 	
-	var urlBTC_24h = url + url_fsym + "BTC" + url_tsym + url_limit + url_toTs;
-	var urlBTC_now = url + url_fsym + "BTC" + url_tsym + url_limit;
+	var urlBTC_24h = url + url_fsym + "BTC" + url_tsym + url_limit + url_toTs + url_market;
+	var urlBTC_now = url + url_fsym + "BTC" + url_tsym + url_limit + url_market;;
 	
-	var urlETH_24h = url + url_fsym + "ETH" + url_tsym + url_limit + url_toTs;
-	var urlETH_now = url + url_fsym + "ETH" + url_tsym + url_limit;
+	var urlETH_24h = url + url_fsym + "ETH" + url_tsym + url_limit + url_toTs + url_market;;
+	var urlETH_now = url + url_fsym + "ETH" + url_tsym + url_limit + url_market;;
 	
-	var urlLTC_24h = url + url_fsym + "LTC" + url_tsym + url_limit + url_toTs;
-	var urlLTC_now = url + url_fsym + "LTC" + url_tsym + url_limit;
+	var urlLTC_24h = url + url_fsym + "LTC" + url_tsym + url_limit + url_toTs + url_market;;
+	var urlLTC_now = url + url_fsym + "LTC" + url_tsym + url_limit + url_market;;
 	
-	var urlXRP_24h = url + url_fsym + "XRP" + url_tsym + url_limit + url_toTs;
-	var urlXRP_now = url + url_fsym + "XRP" + url_tsym + url_limit;
+	var urlXRP_24h = url + url_fsym + "XRP" + url_tsym + url_limit + url_toTs + url_market;;
+	var urlXRP_now = url + url_fsym + "XRP" + url_tsym + url_limit + url_market;;
 	
 	// ---- BTC
 	var _24hPriceBTC;
