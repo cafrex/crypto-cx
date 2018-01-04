@@ -48,7 +48,7 @@ $(document).ready(function() {
 	
 	selectMenu("menu_dashboard");
 	
-	coinSelected = 'ETH';
+	coinSelected = cryptoConfig.defaultChartCoinSelected;
 	frequencySelected = '24H';
 	
 	repaintDashboardScreen(coinSelected, frequencySelected, retrieveUserCoinBalance(getLoggedUser()));

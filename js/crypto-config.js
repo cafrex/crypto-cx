@@ -1,6 +1,7 @@
 
 var cryptoConfig = {
 		environment: "prd",
+		defaultChartCoinSelected: "XRP",
 		adminUsersList: ["david"],
 		menu: [
 			{	id: "menu_dashboard",
