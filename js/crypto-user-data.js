@@ -3,11 +3,11 @@
  */
 var userCoinBalanceStatic = {
 		'david': {
-			'EUR': 10074.97,
+			'EUR': 7999.99,
 			'BTC': 0.8,
 			'ETH': 0,
 			'LTC': 0,
-			'XRP': 3000.00000009
+			'XRP': 3033.71968928
 		},
 		'carmen': {
 			'EUR': 3192.95,
@@ -24,7 +24,7 @@ var userProfitBaseStatic = {
 			'BTC': 9974.04,
 			'ETH': 0,
 			'LTC': 0,
-			'XRP': 5978.29
+			'XRP': 6053.27
 		},
 		'carmen': {
 			'BTC': 0,
@@ -50,7 +50,8 @@ var userAccountMovementsStatic = {
 			                          {'date': '13/10/2017', 'amount': 2000},
 			                          {'date': '28/10/2017', 'amount': 2121},
 			                          {'date': '13/11/2017', 'amount': 2200},
-			                          {'date': '18/12/2017', 'amount': 802.59}
+			                          {'date': '18/12/2017', 'amount': 802.59},
+			                          {'date': '04/01/2018', 'amount': 2000}
 			                          ]
 							},
 							'carmen': {
