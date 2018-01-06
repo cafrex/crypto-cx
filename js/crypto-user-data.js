@@ -3,18 +3,22 @@
  */
 var userCoinBalanceStatic = {
 		'david': {
-			'EUR': 20163.94,
+			'EUR': 9998.68,
 			'BTC': 0,
-			'ETH': 6.21067101,
+			'ETH': 1.79856601,
 			'LTC': 0,
-			'XRP': 0.00000008
+			'XRP': 5000.00000008,
+			'XLM': 1998,
+			'ADA': 999,
+			'IOTA': 499.5
+
 		},
 		'carmen': {
-			'EUR': 4364.13,
+			'EUR': 3108.13,
 			'BTC': 0,
 			'ETH': 0,
 			'LTC': 0,
-			'XRP': 0
+			'XRP': 600.54390035
 		}
 		
 };
@@ -22,15 +26,18 @@ var userCoinBalanceStatic = {
 var userProfitBaseStatic = {
 		'david': {
 			'BTC': 0,
-			'ETH': 5000,
+			'ETH': 1445.78,
 			'LTC': 0,
-			'XRP': 0
+			'XRP': 10165.27,
+			'XLM': 1139.98,
+			'ADA': 824.91,
+			'IOTA': 1581.79
 		},
 		'carmen': {
 			'BTC': 0,
 			'ETH': 0,
 			'LTC': 0,
-			'XRP': 0
+			'XRP': 1256.01
 		}
 };
 
