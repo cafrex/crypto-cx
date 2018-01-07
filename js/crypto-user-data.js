@@ -10,7 +10,7 @@ var userCoinBalanceStatic = {
 			'XRP': 5000.00000008,
 			'XLM': 1998,
 			'ADA': 999,
-			'MIOTA': 499.5
+			'IOTA': 499.5
 
 		},
 		'carmen': {
@@ -31,7 +31,7 @@ var userProfitBaseStatic = {
 			'XRP': 10165.27,
 			'XLM': 1139.98,
 			'ADA': 824.91,
-			'MIOTA': 1581.79
+			'IOTA': 1581.79
 		},
 		'carmen': {
 			'BTC': 0,
