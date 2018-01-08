@@ -5,9 +5,9 @@ var userCoinBalanceStatic = {
 		'david': {
 			'EUR': 9998.68,
 			'BTC': 0,
-			'ETH': 1.79856601,
+			'ETH': 0.00124150,
 			'LTC': 0,
-			'XRP': 5000.00000008,
+			'XRP': 5848.15100008,
 			'XLM': 1998,
 			'ADA': 999,
 			'IOTA': 499.5
@@ -26,9 +26,9 @@ var userCoinBalanceStatic = {
 var userProfitBaseStatic = {
 		'david': {
 			'BTC': 0,
-			'ETH': 1445.78,
+			'ETH': 1.22,
 			'LTC': 0,
-			'XRP': 10165.27,
+			'XRP': 11609.83,
 			'XLM': 1139.98,
 			'ADA': 824.91,
 			'IOTA': 1581.79
