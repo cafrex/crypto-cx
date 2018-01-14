@@ -736,36 +736,6 @@ function repaintDashboardScreen(coin, frequency, userCoinBalance) {
 	
 	var uam = retrieveUserAccountMovements(getLoggedUser());
 	drawUserData(userCoinBalance, uam);
-	drawUserAccountMovements(uam);
-}
-
-/**
- * 
- * @param movements
- */
-function drawUserAccountMovements(movements) {
-	$('#userAccountMovements_inputs tbody').find('tr:gt(0)').remove();
-	$('#userAccountMovements_outputs tbody').find('tr:gt(0)').remove();
-	
-	if(movements != null && movements.inputs != null) {
-		movements.inputs.forEach(function(elem) {
-			$('#userAccountMovements_inputs tbody').append(
-							'<tr id="'+ elem.id + '">' + 
-							'<td>' + elem.date + '</td>' + 
-							'<td>' + elem.amount.formatNumber('CURRENCY') + '</td>' + 
-							'</tr>');
-		});
-	}
-	
-	if(movements != null && movements.outputs != null) {
-		movements.outputs.forEach(function(elem) {
-			$('#userAccountMovements_outputs tbody').append(
-							'<tr id="'+ elem.id + '">' + 
-							'<td>' + elem.date + '</td>' + 
-							'<td>' + elem.amount.formatNumber('CURRENCY') + '</td>' + 
-							'</tr>');
-		});
-	}
 }
 
 /**
@@ -819,30 +789,11 @@ function updateUserProfitability(movements, coinData, userCoinBalance) {
 			currentVolumeTotalEur += userCoinBalance.XRP * coinData.XRP.currentPriceEUR;
 		}
 		profit = output + currentVolumeTotalEur - input;
-		//profit = currentVolumeTotalEur - currentInput;		
 	}
 	
-	$('#userProfitability_input').html(input.formatNumber('CURRENCY')); 
-	$('#userProfitability_output').html(output.formatNumber('CURRENCY'));
-	$('#userProfitability_currentInput').html(currentInput.formatNumber('CURRENCY'));
 	if(!isNaN(profit)) {
 		$('#userProfitability_profit').html(profit.formatNumber('CURRENCY'));
 	}
-}
-
-
-
-/**
- * 
- */
-function toggleUserMovements() {
-	var obj = $('#userMovements');
-	if(obj.is(":visible")) {
-		$('#userMovementsToggleButton').html('<i class="fa fa-caret-down fa-lg"></i> Movimientos');
-	} else {
-		$('#userMovementsToggleButton').html('<i class="fa fa-caret-up fa-lg"></i> Movimientos');
-	}
-	obj.slideToggle(500);
 }
 
 /**

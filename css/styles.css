@@ -294,6 +294,13 @@ p.title, label {
 	overflow: hidden;
 }
 
+.iconCoinBig {
+	width: 100px;
+	display: inline;
+	vertical-align: top;
+	overflow: hidden;
+}
+
 .currentVolumeCoin .title .coin {
 	display: inline;
 	vertical-align: middle;
@@ -338,37 +345,6 @@ p.title, label {
 	font-size: 15pt;
 	padding: 12pt;
 	background: #cecece;
-}
-
-#userMovementsToggleButton {
-	margin-top: 5px;
-	cursor: pointer;
-	padding: 5px;
-	background: #86a8e0;
-	color: #ffffff;
-	font-weight: bold;
-}
-
-#userMovements {
-	display: none;
-}
-
-.userMovementsContainer {
-	color: #336699;
-	font-size: 10pt;
-	background: #dae3f2;
-}
-
-.userMovementsContainer div {
-	padding: 5px;
-}
-
-.userMovementsContainer .title {
-	font-weight: bold;
-}
-
-.userAccountMovementsContainer {
-	overflow: auto;
 }
 
 .userAccountMovementsTableContainer {

@@ -121,13 +121,13 @@ function invalidMsg(event) {
 			<li id="menu_editUserBalance" class="nav-item menuItem">
             	<a class="nav-link" href="edit-user-balance.html">
             		<i class="fa fa-btc fa-lg menuIcon"></i>
-            		<span>Editar balance</span>
+            		<span>Balance</span>
             	</a>
           	</li>
           	<li id="menu_editUserMovements" class="nav-item menuItem">
             	<a class="nav-link" href="edit-user-movements.html">
             		<i class="fa fa-eur fa-lg menuIcon"></i>
-            		<span>Editar movimientos</span>
+            		<span>Movimientos</span>
             	</a>
           	</li>
           	<li  id="menu_marketPricesComparator" class="nav-item menuItem">
@@ -168,8 +168,28 @@ function invalidMsg(event) {
 	</div>
 	
 	<p class="title">Movimientos</p>
-	
+
 	<div class="container">
+
+		<div class="row mb-10">
+			<div class="col-12">
+				<div class="userProfitabilityContainer">
+					<div class="userProfitability_total">
+						<span class="title">Ingresado</span>
+						<span id="userMovements_input" class="value updatableData">---</span>
+					</div>
+					<div class="userProfitability_total">
+						<span class="title">Retirado</span>
+						<span id="userMovements_withdrawal" class="value updatableData">---</span>
+					</div>
+					<div class="userProfitability_total">
+						<span class="title">Invertido</span>
+						<span id="userMovements_investment" class="value updatableData">---</span>
+					</div>
+				</div>
+			</div>
+		</div>		
+
 		<div class="row">
 			<div class="col-xs-12 col-sm-6">
 				<button id="newInputMovementButton" class="btn btn-info btn-sm btn-block mb-10">Nuevo ingreso</button>

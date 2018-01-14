@@ -1,6 +1,38 @@
 /**
  * 
  */
+function drawTotalUserAccountMovements() {
+	
+	var movements = retrieveUserAccountMovements(getLoggedUser());
+
+	var totalInput = 0;
+	var totalWithdrawal = 0;
+	var totalInvestment = 0;
+
+	if(movements != null && movements.inputs != null) {
+		movements.inputs.forEach(function(elem) {
+			totalInput += elem.amount;
+		});
+	}
+	
+	if(movements != null && movements.outputs != null) {
+		movements.outputs.forEach(function(elem) {
+			totalWithdrawal += elem.amount;
+		});
+	}
+
+	if(totalInput > totalWithdrawal) {
+		totalInvestment = totalInput - totalWithdrawal;
+	}
+
+	$('#userMovements_input').html(totalInput.formatNumber('CURRENCY'));
+	$('#userMovements_withdrawal').html(totalWithdrawal.formatNumber('CURRENCY'));
+	$('#userMovements_investment').html(totalInvestment.formatNumber('CURRENCY'));
+}
+
+/**
+ * 
+ */
 function drawEditableUserAccountMovements() {
 	
 	var movements = retrieveUserAccountMovements(getLoggedUser());
@@ -37,6 +69,8 @@ function drawEditableUserAccountMovements() {
 							'</tr>');
 		});
 	}
+
+	drawTotalUserAccountMovements();
 }
 
 /**
