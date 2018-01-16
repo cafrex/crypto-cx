@@ -3,7 +3,7 @@
  */
 var userCoinBalanceStatic = {
 		'david': {
-			'EUR': 9998.68,
+			'EUR': 7998.68,
 			'BTC': 0,
 			'ETH': 1.78026070,
 			'LTC': 0,
@@ -60,7 +60,8 @@ var userAccountMovementsStatic = {
 			                          {'date': '28/10/2017', 'amount': 2121},
 			                          {'date': '13/11/2017', 'amount': 2200},
 			                          {'date': '18/12/2017', 'amount': 802.59},
-			                          {'date': '04/01/2018', 'amount': 2000}
+			                          {'date': '04/01/2018', 'amount': 2000},
+			                          {'date': '16/01/2018', 'amount': 2000}
 			                          ]
 							},
 							'carmen': {
