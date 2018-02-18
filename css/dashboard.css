@@ -1,0 +1,18 @@
+/* dashboard */
+
+.tableCoinPairs {
+	margin-top: 20px;
+	//table-layout: fixed;
+}
+
+.tableCoinPairs thead {
+	font-size: 0.7em;
+}
+
+.tableCoinPairs tbody {
+	font-size: 0.7em;
+}
+
+.tableCoinPairs span {
+	white-space: nowrap;
+}
